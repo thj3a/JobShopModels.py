@@ -18,10 +18,12 @@ n_stages = 3
 
 # Create variables
 
-x = [[[model.addVar(vtype=GRB.BINARY, name=f"x[job:{j}, stage:{s}, machine:{k}]") for k in range(n_machines[s])] for j in range(n_jobs)] for s in range(n_stages)]
-y = [[[[model.addVar(vtype=GRB.BINARY, name=f"y[job1:{j}, job2:{h}, stage:{s}, machine:{k}]") for k in range(n_machines[s])] for h in range(n_jobs)] for j in range(n_jobs)] for s in range(n_stages)]
-startT = [[model.addVar(vtype=GRB.CONTINUOUS, name=f"startT[job:{j}, stage:{s}]") for j in range(n_jobs)] for s in range(n_stages)]
-completionT = [[model.addVar(vtype=GRB.CONTINUOUS, name=f"completionT[job:{j}, stage:{s}]") for j in range(n_jobs)] for s in range(n_stages)]
+# x = 1 if job j is assigned to machine k in stage s
+x = [[[model.addVar(vtype=GRB.BINARY, lb=0, name=f"x[job:{j}, stage:{s}, machine:{k}]") for k in range(n_machines[s])] for j in range(n_jobs)] for s in range(n_stages)]
+# y = 1 if job j precedes job h in stage s
+y = [[[[model.addVar(vtype=GRB.BINARY, lb=0, name=f"y[job1:{j}, job2:{h}, stage:{s}, machine:{k}]") for k in range(n_machines[s])] for h in range(n_jobs)] for j in range(n_jobs)] for s in range(n_stages)]
+startT = [[model.addVar(vtype=GRB.CONTINUOUS, lb=0, name=f"startT[job:{j}, stage:{s}]") for j in range(n_jobs)] for s in range(n_stages)]
+completionT = [[model.addVar(vtype=GRB.CONTINUOUS, lb=0, name=f"completionT[job:{j}, stage:{s}]") for j in range(n_jobs)] for s in range(n_stages)]
 
 # x = model.addVars(n_stages, n_jobs, 3, vtype=GRB.BINARY, name="x")
 # y = model.addVars(n_stages, n_jobs, n_jobs, 3, vtype=GRB.BINARY, name="y")
@@ -43,8 +45,9 @@ processingT = np.array([[[7, 3, 3],  [1, 5, 2],  [3, 2, 5],  [3, 5, 3],  [6, 4, 
 L = sum(processingT.flatten())*1000
 
 # constraint 4
-
-model.addConstrs(((startT[s][j] + gp.quicksum(processingT[s,j,k]*x[s][j][k] for k in range(n_machines[s]))) <= startT[s+1][j] for s in range(n_stages-1) for j in range(n_jobs)), name=f"precedence")
+for s in range(n_stages-1):
+    for j in range(n_jobs):
+        model.addConstr(((startT[s][j] + gp.quicksum(processingT[s,j,k]*x[s][j][k] for k in range(n_machines[s]))) <= startT[s+1][j]), name=f"precedence_{s}_{j}")
 
 # constraint 5
 model.addConstrs((startT[s][h] >= (completionT[s][j] - L*y[s][j][h][k]) for s in range(n_stages) for k in range(n_machines[s]) for j in range(n_jobs) for h in range(j)), name=f"overlapping")
@@ -67,8 +70,6 @@ model.addConstr(z == gp.max_([completionT[s][j] for s in range(n_stages) for j i
 
 # # ADDITIONAL constraint 3
 model.addConstrs((gp.quicksum(y[s][j][h][k] for j in range(n_jobs) for h in range(j)) <= 1 for s in range(n_stages) for k in range(n_machines[s])), name=f"y")
-#model.addConstrs((gp.quicksum(y[s][j][h][k]  for k in range(n_machines[s])) <= 1 for s in range(n_stages) for j in range(n_jobs) for h in range(j)), name=f"y")
-# gp.quicksum(x[s][j][k] for j in range(n_jobs))-
 
 model.setObjective(z, GRB.MINIMIZE)
 

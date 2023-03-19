@@ -10,12 +10,12 @@ def read_instances(instances_folder):
                 instance = {'name': folder.split('.')[0], 'path': instances_folder}
 
                 s = instance['name']
-                s = s.split('.')
-                try:
-                    int(s[0][-2])
-                except:
-                    s[0] = s[0][:-1] + '0' + s[0][-1]
-                    s = '.'.join(s)
+                if s[-1].isnumeric() and not s[-2].isnumeric():
+                    s = s[:-1] + '0' + s[-1:]
+                    os.rename(os.path.join(instance['path'], instance['name'] + '.fjs'), os.path.join(instance['path'], s + '.fjs'))
+                    instance['name'] = s
+                elif not s[-1].isnumeric() and s[-2].isnumeric() and not s[-3].isnumeric():
+                    s = s[:-2] + '0' + s[-2:]
                     os.rename(os.path.join(instance['path'], instance['name'] + '.fjs'), os.path.join(instance['path'], s + '.fjs'))
                     instance['name'] = s
 
@@ -25,6 +25,17 @@ def read_instances(instances_folder):
         for file in os.listdir(instances_folder + folder):
             if file.endswith('.fjs'):
                 instance = {'name': file.split('.')[0], 'path': os.path.join(instances_folder, folder)}
+
+                s = instance['name']
+                if s[-1].isnumeric() and not s[-2].isnumeric():
+                    s = s[:-1] + '0' + s[-1:]
+                    os.rename(os.path.join(instance['path'], instance['name'] + '.fjs'), os.path.join(instance['path'], s + '.fjs'))
+                    instance['name'] = s
+                elif not s[-1].isnumeric() and s[-2].isnumeric() and not s[-3].isnumeric():
+                    s = s[:-2] + '0' + s[-2:]
+                    os.rename(os.path.join(instance['path'], instance['name'] + '.fjs'), os.path.join(instance['path'], s + '.fjs'))
+                    instance['name'] = s
+
                 instance.update(read_instance(instance['name'], instance['path']))
                 instances.append(instance)
     return instances

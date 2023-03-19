@@ -33,11 +33,19 @@ path_instances_without_setup = './instances_without_setup/'
 
 all_instances = instances.read_instances(path_instances_without_setup)
 # all_instances = instances.read_instances(path_instances_with_setup)
+# all_instances = [instances.read_instance('FisherThompson', './instances_without_setup/')]
+
 
 print("Number of instances: ", len(all_instances))
 unsolved_instances = dict()
 log = []
 M: int = 1e6
+
+if not os.path.exists('./results'):
+    os.mkdir('./results')
+    os.mkdir('./results/csv')
+    os.mkdir('./results/fig')
+    os.mkdir('./results/lp')
 
 for idx, instance in enumerate(all_instances):
     print(instance['name'])
@@ -108,7 +116,8 @@ for idx, instance in enumerate(all_instances):
         for v in model.getVars():
             d= dict(name=v.varName, value=v.x)
             vars_list.append(d)
-        df = pd.DataFrame(vars_list)
+
+        df = pd.DataFrame(vars_list).sort_values(by=['name'], ascending=True)
         df.to_csv(f"results/csv/{instance['name']}_vars.csv", index=False, sep=";")
 
         timestamp_list = []
@@ -122,7 +131,7 @@ for idx, instance in enumerate(all_instances):
         df = pd.DataFrame(timestamp_list)
 
         df = df.sort_values(by=['Resource','Start'], ascending=True)
-        df = df.sort_values(by=['Job','Start'], ascending=True)
+
         fig = px.timeline(df, x_start="Start", x_end="Finish", y="Resource", color="Job")
         fig.update_layout(xaxis=dict(
                             title='Timestamp', 
@@ -133,6 +142,7 @@ for idx, instance in enumerate(all_instances):
         autosize=True,)
         # width=1000,
         # height=1000,)
+
         df.to_csv(f"results/csv/{instance['name']}_timestamp.csv", index=False, sep=';')
         fig.write_image(f"results/fig/{instance['name']}_gantt.jpg")
     else:
@@ -140,7 +150,7 @@ for idx, instance in enumerate(all_instances):
         print(f"     {bcolors.redback}No optimal solution found{bcolors.end}")
 
     log.append({'instance': instance['name'], 'status': model.status, 'obj': model.objVal, 'model time': model.Runtime, 'total time': time() - start_time})
-    pd.DataFrame(log).to_csv(f"results/csv/{instance['name']}_log.csv", index=False, sep=';')
+    pd.DataFrame(log).to_csv(f"results/csv/log_{idx}.csv", index=False, sep=';')
 
 with open("unsolved.json", "w") as f:
     json.dump(unsolved_instances, f, indent=4, sort_keys=True)

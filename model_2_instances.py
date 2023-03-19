@@ -44,6 +44,9 @@ def read_instance(instance_name, instance_path):
 
     path = os.path.join(instance_path, instance_name + '.fjs')
     instance = dict()
+    instance['name'] = instance_name
+    instance['path'] = instance_path
+    
     with open(path, 'r') as f:
         lines = f.readlines()
         lines[0] = lines[0].split()
@@ -114,5 +117,3 @@ def read_instance(instance_name, instance_path):
                     id_line += 1
         # instance['setup_times_dict'] = df
     return instance
-
-read_instances('./instances_without_setup/')

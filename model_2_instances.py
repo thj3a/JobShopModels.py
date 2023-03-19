@@ -2,18 +2,29 @@ import os
 import pdb
 import pandas as pd
 
-def read_instances(instances_folder='./FJSSPinstances/'):
+def read_instances(instances_folder):
     instances = []
     for folder in os.listdir(instances_folder):
         if len(folder.split('.')) > 1:
             if folder.endswith('.fjs'):
-                instance = {'name': folder.split('.')[0], 'path': instances_folder, 'data': None}
+                instance = {'name': folder.split('.')[0], 'path': instances_folder}
+
+                s = instance['name']
+                s = s.split('.')
+                try:
+                    int(s[0][-2])
+                except:
+                    s[0] = s[0][:-1] + '0' + s[0][-1]
+                    s = '.'.join(s)
+                    os.rename(os.path.join(instance['path'], instance['name'] + '.fjs'), os.path.join(instance['path'], s + '.fjs'))
+                    instance['name'] = s
+
                 instance.update(read_instance(instance['name'], instance['path']))
                 instances.append(instance)
             continue
         for file in os.listdir(instances_folder + folder):
             if file.endswith('.fjs'):
-                instance = {'name': file.split('.')[0], 'path': os.path.join(instances_folder, folder), 'data': None}
+                instance = {'name': file.split('.')[0], 'path': os.path.join(instances_folder, folder)}
                 instance.update(read_instance(instance['name'], instance['path']))
                 instances.append(instance)
     return instances
@@ -93,4 +104,4 @@ def read_instance(instance_name, instance_path):
         # instance['setup_times_dict'] = df
     return instance
 
-read_instance(instance_name='Fattahi_setup_01', instance_path='./instances_with_setup/')
+read_instances('./instances_without_setup/')

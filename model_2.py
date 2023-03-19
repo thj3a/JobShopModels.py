@@ -29,17 +29,15 @@ print("Gurobi version: ", gp.gurobi.version())
 # Environment
 print("Reading instances")
 path_instances_with_setup = './instances_with_setup/'
-path_instances_without_setup = './FJSSPinstances/'
+path_instances_without_setup = './instances_without_setup/'
 
 all_instances = instances.read_instances(path_instances_without_setup)
-all_instances = all_instances[-1:]
-
 # all_instances = instances.read_instances(path_instances_with_setup)
-# all_instances = all_instances[:1]
 
 print("Number of instances: ", len(all_instances))
 unsolved_instances = dict()
 log = []
+M: int = 1e6
 
 for idx, instance in enumerate(all_instances):
     print(instance['name'])
@@ -50,14 +48,12 @@ for idx, instance in enumerate(all_instances):
     n_jobs = instance['n_jobs']
     n_machines = instance['n_machines']
     machines = instance['machines']
-    print(instance['R'])
     # Create variables
     print("     Creating variables and constraints")
     y = {j: {l: {i: model.addVar(vtype=GRB.BINARY, name=f"y[job:{j}, stage:{l}, machine:{i}]") for i in instance['PT'][j][l]} for l in instance['PT'][j]} for j in instance['PT']}              
-    x = {j: {l: {h: {z: {i: model.addVar(vtype=GRB.BINARY, name=f"x[machine: {i}, job1:{j}, stage1:{l}, job2:{h}, stage2:{z} ]") for i in list(set(instance['R'][j][l]) & set(instance['R'][h][z]))} for z in instance['PT'][h]} for h in range(j+1, n_jobs)} for l in instance['PT'][j]} for j in range(n_jobs-1)}
+    x = {j: {l: {h: {z: {i: model.addVar(vtype=GRB.BINARY, name=f"x[machine: {i}, job1|stage1:{j}|{l}, job2|stage2:{h}|{z}]") for i in list(set(instance['R'][j][l]) & set(instance['R'][h][z]))} for z in instance['PT'][h]} for h in range(j+1, n_jobs)} for l in instance['PT'][j]} for j in range(n_jobs-1)}
     startT = {j: {l: {i: model.addVar(vtype=GRB.CONTINUOUS, lb=0.0, name=f"startT[job:{j}, stage:{l}, machine:{i}]") for i in instance['PT'][j][l]} for l in instance['PT'][j]} for j in instance['PT']}  
 
-    M = 10**100
 
     # constraint 13
     for j in instance['PT']:
@@ -83,20 +79,9 @@ for idx, instance in enumerate(all_instances):
                 for z in instance['PT'][h]:
                     for i in list(set(instance['R'][j][l]) & set(instance['R'][h][z])):
                         # 16
-                        model.addConstr(startT[j][l][i] >= (startT[h][z][i] + instance['PT'][h][z][i]  - M*(3 - x[j][l][h][z][i] - y[h][z][i] - y[j][l][i]))) # + instance['ST'][m-1][h][z][j][l]
+                        model.addConstr(startT[j][l][i] >= (startT[h][z][i] + instance['PT'][h][z][i]  - M*(3 - x[j][l][h][z][i] - y[h][z][i] - y[j][l][i])), name=f"precedence between {j},{l} and {h},{z} if x_[j,l,h,z,i]=1") # + instance['ST'][m-1][h][z][j][l]
                         # 17
-                        model.addConstr(startT[h][z][i] >= (startT[j][l][i] + instance['PT'][j][l][i]  - M*(x[j][l][h][z][i] + 2 - y[h][z][i] - y[j][l][i]))) # + instance['ST'][m-1][j][l][h][z]
-
-    # # constraint 19
-    # for j in instance['PT']:
-    #     for l in instance['PT'][j]:
-    #         for i in instance['PT'][j][l]:
-    #             model.addConstr(startT[j][l][i] >= 0, name="start time positive constraint")
-
-
-    # EXTRA CONSTRAINT
-    # for i in machines:
-    #     model.addConstr(, name="binary x constraint")
+                        model.addConstr(startT[h][z][i] >= (startT[j][l][i] + instance['PT'][j][l][i]  - M*(x[j][l][h][z][i] + 2 - y[h][z][i] - y[j][l][i])), name=f"precedence between {j},{l} and {h},{z} if x_[j,l,h,z,i]=0") # + instance['ST'][m-1][j][l][h][z]
 
     # constraint 18 - objective function 
     C_max = model.addVar(vtype=GRB.CONTINUOUS, name="C_max")
@@ -113,25 +98,30 @@ for idx, instance in enumerate(all_instances):
     print("     Optimizing model")
     model.optimize()
 
+    model.write(f"results/lp/{instance['name']}.lp")
 
     if model.status == GRB.Status.OPTIMAL:
+        
         print(f"     {bcolors.blueback}Optimal solution found{bcolors.end}")
+        
+        vars_list = []
         for v in model.getVars():
-            print(v.varName, v.x)
+            d= dict(name=v.varName, value=v.x)
+            vars_list.append(d)
+        df = pd.DataFrame(vars_list)
+        df.to_csv(f"results/csv/{instance['name']}_vars.csv", index=False, sep=";")
 
-        df = pd.DataFrame()
+        timestamp_list = []
         date_start = pd.Timestamp('2023-01-01 00:00:00')
         for j in range(n_jobs):
             for l in instance['PT'][j]:
                 for i in instance['PT'][j][l]:
                     if  y[j][l][i].x == 1:
                         d = dict(Job=f"{j}", Op=l, Start=date_start+pd.Timedelta(f"{startT[j][l][i].x} minutes"), Finish=date_start+ pd.Timedelta(f"{startT[j][l][i].x + instance['PT'][j][l][i]}  minutes"), Resource=f"Machine {i}")
+                        timestamp_list.append(d)
+        df = pd.DataFrame(timestamp_list)
 
-                        df = pd.concat((df, pd.DataFrame(d, index=[0])), axis=0)
-        
         df = df.sort_values(by=['Resource','Start'], ascending=True)
-        print(f'Instance name: {instance["name"]}')
-        print(df)
         df = df.sort_values(by=['Job','Start'], ascending=True)
         fig = px.timeline(df, x_start="Start", x_end="Finish", y="Resource", color="Job")
         fig.update_layout(xaxis=dict(
@@ -143,14 +133,14 @@ for idx, instance in enumerate(all_instances):
         autosize=True,)
         # width=1000,
         # height=1000,)
-        df.to_csv(os.path.join(instance['path'], f"result_{instance['name']}.csv"), index=False, sep=';')
-        fig.write_image(os.path.join(instance['path'], f"gantt_{instance['name']}.jpg"))
+        df.to_csv(f"results/csv/{instance['name']}_timestamp.csv", index=False, sep=';')
+        fig.write_image(f"results/fig/{instance['name']}_gantt.jpg")
     else:
         unsolved_instances[instance['name']] = instance
         print(f"     {bcolors.redback}No optimal solution found{bcolors.end}")
 
     log.append({'instance': instance['name'], 'status': model.status, 'obj': model.objVal, 'model time': model.Runtime, 'total time': time() - start_time})
-    pd.DataFrame(log).to_csv(os.path.join(instance['path'],f"log_{instance['name']}.csv"), index=False, sep=';')
+    pd.DataFrame(log).to_csv(f"results/csv/{instance['name']}_log.csv", index=False, sep=';')
 
 with open("unsolved.json", "w") as f:
     json.dump(unsolved_instances, f, indent=4, sort_keys=True)

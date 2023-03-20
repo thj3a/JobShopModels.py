@@ -118,7 +118,7 @@ for idx, instance in enumerate(all_instances):
             vars_list.append(d)
 
         df = pd.DataFrame(vars_list).sort_values(by=['name'], ascending=True)
-        df.to_csv(f"results/csv/{instance['name']}_vars.csv", index=False, sep=";")
+        df.to_csv(f"results/csv/vars/{instance['name']}_vars.csv", index=False, sep=";")
 
         timestamp_list = []
         date_start = pd.Timestamp('2023-01-01 00:00:00')
@@ -143,14 +143,14 @@ for idx, instance in enumerate(all_instances):
         # width=1000,
         # height=1000,)
 
-        df.to_csv(f"results/csv/{instance['name']}_timestamp.csv", index=False, sep=';')
+        df.to_csv(f"results/csv/timestamp/{instance['name']}_timestamp.csv", index=False, sep=';')
         fig.write_image(f"results/fig/{instance['name']}_gantt.jpg")
     else:
         unsolved_instances[instance['name']] = instance
         print(f"     {bcolors.redback}No optimal solution found{bcolors.end}")
 
     log.append({'instance': instance['name'], 'status': model.status, 'obj': model.objVal, 'model time (s)': model.Runtime, 'total time (s)': time() - start_time})
-    pd.DataFrame(log).to_csv(f"results/csv/log_{idx}.csv", index=False, sep=';')
+    pd.DataFrame(log).to_csv(f"results/csv/log/log_{idx}.csv", index=False, sep=';')
 
 with open("unsolved.json", "w") as f:
     json.dump(unsolved_instances, f, indent=4, sort_keys=True)

@@ -149,7 +149,7 @@ for idx, instance in enumerate(all_instances):
         unsolved_instances[instance['name']] = instance
         print(f"     {bcolors.redback}No optimal solution found{bcolors.end}")
 
-    log.append({'instance': instance['name'], 'status': model.status, 'obj': model.objVal, 'model time': model.Runtime, 'total time': time() - start_time})
+    log.append({'instance': instance['name'], 'status': model.status, 'obj': model.objVal, 'model time (s)': model.Runtime, 'total time (s)': time() - start_time})
     pd.DataFrame(log).to_csv(f"results/csv/log_{idx}.csv", index=False, sep=';')
 
 with open("unsolved.json", "w") as f:

@@ -6,7 +6,7 @@ import numpy as np
 import pdb
 import plotly.express as px
 import pandas as pd
-import model_1_instances as instances
+import model_2_instances as instances
 import json
 from time import time 
 
@@ -32,7 +32,7 @@ path_instances_with_setup = './instances_with_setup/'
 path_instances_without_setup = './instances_without_setup/'
 
 all_instances = instances.read_instances(path_instances_with_setup)
-# all_instances = instances.read_instances(path_instances_with_setup)
+# all_instances = instances.read_instances(path_instances_without_setup)
 # all_instances = [instances.read_instance('FisherThompson', './instances_without_setup/')]
 
 
@@ -41,16 +41,15 @@ unsolved_instances = dict()
 log = []
 M: int = 1e6
 
-if not os.path.exists('./results'):
-    os.mkdir('./results')
-    os.mkdir('./results/csv')
-    os.mkdir('./results/fig')
-    os.mkdir('./results/lp')
+paths = ['./results', './results/csv', './results/fig', './results/lp', './results/mps', './results/json', './results/ilp']
+for path in paths:
+    if not os.path.exists(path):
+        os.mkdir(path)
 
 for idx, instance in enumerate(all_instances):
     print(instance['name'])
     start_time = time()
-    model = gp.Model("hybrid")
+    model = gp.Model("F-JSSP-SDST")
 
     print(f"Instance {idx+1}/{len(all_instances)}: {instance['name']}")
     n_jobs = instance['n_jobs']
@@ -77,7 +76,7 @@ for idx, instance in enumerate(all_instances):
     # constraint 15
     for j in instance['PT']:
         for l in list(instance['PT'][j].keys())[:-1]:
-            model.addConstr((gp.quicksum(startT[j][l+1][i] for i in instance['PT'][j][l+1]) >= gp.quicksum(startT[j][l][i] for i in instance['PT'][j][l]) + gp.quicksum(y[j][l][i]*(instance['PT'][j][l][i]) for i in instance['PT'][j][l])), # +instance['ST'][m-1][j][l][j][l+1]
+            model.addConstr((gp.quicksum(startT[j][l+1][i] for i in instance['PT'][j][l+1]) >= gp.quicksum(startT[j][l][i] for i in instance['PT'][j][l]) + gp.quicksum(y[j][l][i]*(instance['PT'][j][l][i] + instance['ST'][i-1][j][l][j][l+1]) for i in instance['PT'][j][l])),
                             name=f"start_time_job{j}_stage{l}_machine{i}_constraint2")
 
     # constraints 16 and 17
@@ -87,9 +86,15 @@ for idx, instance in enumerate(all_instances):
                 for z in instance['PT'][h]:
                     for i in list(set(instance['R'][j][l]) & set(instance['R'][h][z])):
                         # 16
-                        model.addConstr(startT[j][l][i] >= (startT[h][z][i] + instance['PT'][h][z][i]  - M*(3 - x[j][l][h][z][i] - y[h][z][i] - y[j][l][i])), name=f"precedence between {j},{l} and {h},{z} if x_[j,l,h,z,i]=1") # + instance['ST'][m-1][h][z][j][l]
+                        model.addConstr(startT[j][l][i] >= (startT[h][z][i] + instance['PT'][h][z][i] + instance['ST'][i-1][h][z][j][l] - M*(3 - x[j][l][h][z][i] - y[h][z][i] - y[j][l][i])), name=f"precedence between {j},{l} and {h},{z} if x_[j,l,h,z,i]=1")
                         # 17
-                        model.addConstr(startT[h][z][i] >= (startT[j][l][i] + instance['PT'][j][l][i]  - M*(x[j][l][h][z][i] + 2 - y[h][z][i] - y[j][l][i])), name=f"precedence between {j},{l} and {h},{z} if x_[j,l,h,z,i]=0") # + instance['ST'][m-1][j][l][h][z]
+                        model.addConstr(startT[h][z][i] >= (startT[j][l][i] + instance['PT'][j][l][i] + instance['ST'][i-1][j][l][h][z] - M*(x[j][l][h][z][i] + 2 - y[h][z][i] - y[j][l][i])), name=f"precedence between {j},{l} and {h},{z} if x_[j,l,h,z,i]=0")
+
+    # constraint 20? - positive start time
+    for j in instance['PT']:
+        for l in instance['PT'][j]:
+            for i in instance['PT'][j][l]:
+                model.addConstr(startT[j][l][i] >= 0, name=f"positive_start_time_job{j}_stage{l}_machine{i}_constraint")
 
     # constraint 18 - objective function 
     C_max = model.addVar(vtype=GRB.CONTINUOUS, name="C_max")
@@ -97,6 +102,7 @@ for idx, instance in enumerate(all_instances):
         n_j = len(instance['PT'][j].keys())-1
         m = instance['PT'][j][n_j].keys()
         model.addConstr(C_max >= gp.quicksum(startT[j][n_j][i] for i in m) + gp.quicksum(y[j][n_j][i]*(instance['PT'][j][n_j][i]) for i in m), name="max_contraint") # + gp.quicksum(instance['ST'][m-1][j][l][h][z]*y[h][z][j].keys()[-1] for h in range(n_jobs) for z in range(instance['PT'][h].keys()))
+
 
     model.setObjective(C_max, GRB.MINIMIZE)
     model.params.OutputFlag = 0 # 0 to disable output
@@ -107,6 +113,8 @@ for idx, instance in enumerate(all_instances):
     model.optimize()
 
     model.write(f"results/lp/{instance['name']}.lp")
+    model.write(f"results/mps/{instance['name']}.mps")
+    model.write(f"results/json/{instance['name']}.json")
 
     if model.status == GRB.Status.OPTIMAL:
         
@@ -145,12 +153,16 @@ for idx, instance in enumerate(all_instances):
         df.to_csv(f"results/csv/timestamp/{instance['name']}_timestamp.csv", index=False, sep=';')
         fig.write_image(f"results/fig/{instance['name']}_gantt.jpg")
 
+        log.append({'instance': instance['name'], 'status': model.status, 'obj': model.objVal, 'model time (s)': model.Runtime, 'total time (s)': time() - start_time})
+        pd.DataFrame(log).to_csv(f"results/csv/log/log_{np.random.random()}.csv", index=False, sep=';')
+
     else:
         unsolved_instances[instance['name']] = instance
         print(f"     {bcolors.redback}No optimal solution found{bcolors.end}")
+        model.computeIIS()
+        model.write(f"results/ilp/{instance['name']}_iis.ilp")
     
-    log.append({'instance': instance['name'], 'status': model.status, 'obj': model.objVal, 'model time (s)': model.Runtime, 'total time (s)': time() - start_time})
-    pd.DataFrame(log).to_csv(f"results/csv/log/log_{np.random.random()}.csv", index=False, sep=';')
+
 
 with open("unsolved.json", "w") as f:
     json.dump(unsolved_instances, f, indent=4, sort_keys=True)

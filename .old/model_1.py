@@ -31,8 +31,8 @@ print("Reading instances")
 path_instances_with_setup = './instances_with_setup/'
 path_instances_without_setup = './instances_without_setup/'
 
-all_instances = instances.read_instances(path_instances_with_setup)
-# all_instances = instances.read_instances(path_instances_with_setup)
+all_instances = instances.read_instances(path_instances_with_setup)[:1]
+# all_instances = instances.read_instances(path_instances_without_setup)
 # all_instances = [instances.read_instance('FisherThompson', './instances_without_setup/')]
 
 

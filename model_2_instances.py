@@ -46,7 +46,7 @@ def read_instance(instance_name, instance_path):
     instance = dict()
     instance['name'] = instance_name
     instance['path'] = instance_path
-    
+    instance['M'] = -1
     with open(path, 'r') as f:
         lines = f.readlines()
         lines[0] = lines[0].split()
@@ -73,7 +73,9 @@ def read_instance(instance_name, instance_path):
                 for _ in range(int(job[pos])):
                     # print(f'job: {i}, op: {op}, machine: {int(job[pos+1])}, time: {int(job[pos+2])}')
                     instance['R'][i][op].append(int(job[pos+1]))
-                    instance['PT'][i][op][int(job[pos+1])] = int(job[pos+2]) 
+                    instance['PT'][i][op][int(job[pos+1])] = float(job[pos+2]) 
+                    if instance['PT'][i][op][int(job[pos+1])] > instance['M']:
+                        instance['M'] = instance['PT'][i][op][int(job[pos+1])]
                     pos+=2
                 pos+=1
             id_line += 1
@@ -105,7 +107,7 @@ def read_instance(instance_name, instance_path):
             for j in range(instance['n_jobs']):
                 for l in range(len(instance['PT'][j])):
                     # print(f'line: {id_line}: {lines[id_line]}')
-                    setup_times = list(map(int, lines[id_line].split()))
+                    setup_times = list(map(float, lines[id_line].split()))
                     tmp = 0
                     for h in range(instance['n_jobs']):
                         for z in range(len(instance['PT'][h])):
@@ -113,6 +115,8 @@ def read_instance(instance_name, instance_path):
                             # print(f'machine: {machine}, job|op: {j}|{l}, job|op: {h}|{z}, setup_time: {setup_times[tmp]}')
                             # d = dict(machine=machine+1, job1=j, op1=l, job2=h, op2=z, setup_times=instance['ST'][machine][j][l][h][z])
                             # df = pd.concat((df, pd.DataFrame(d, index=[0])), axis=0)
+                            if setup_times[tmp] > instance['M']:
+                                instance['M'] = setup_times[tmp]
                             tmp += 1
                     id_line += 1
         # instance['setup_times_dict'] = df

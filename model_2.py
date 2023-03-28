@@ -39,9 +39,9 @@ all_instances = instances.read_instances(path_instances_with_setup)
 print("Number of instances: ", len(all_instances))
 unsolved_instances = dict()
 log = []
-M: int = 1e6
+M = 1e6
 
-paths = ['./results', './results/csv', './results/fig', './results/lp', './results/mps', './results/json', './results/ilp']
+paths = ['./results', './results/csv', './results/csv/vars', './results/csv/log', './results/csv/timestamp', './results/fig', './results/lp', './results/mps', './results/json', './results/ilp']
 for path in paths:
     if not os.path.exists(path):
         os.mkdir(path)
@@ -50,7 +50,9 @@ for idx, instance in enumerate(all_instances):
     print(instance['name'])
     start_time = time()
     model = gp.Model("F-JSSP-SDST")
-
+    if instance['M'] * 1e6 > M:
+        M = instance['M'] * 1e6
+    
     print(f"Instance {idx+1}/{len(all_instances)}: {instance['name']}")
     n_jobs = instance['n_jobs']
     n_machines = instance['n_machines']
@@ -76,7 +78,7 @@ for idx, instance in enumerate(all_instances):
     # constraint 15
     for j in instance['PT']:
         for l in list(instance['PT'][j].keys())[:-1]:
-            model.addConstr((gp.quicksum(startT[j][l+1][i] for i in instance['PT'][j][l+1]) >= gp.quicksum(startT[j][l][i] for i in instance['PT'][j][l]) + gp.quicksum(y[j][l][i]*(instance['PT'][j][l][i] + instance['ST'][i-1][j][l][j][l+1]) for i in instance['PT'][j][l])),
+            model.addConstr((gp.quicksum(startT[j][l+1][i] for i in instance['PT'][j][l+1]) >= gp.quicksum(startT[j][l][i] for i in instance['PT'][j][l]) + gp.quicksum(y[j][l][i]*(instance['PT'][j][l][i]) for i in instance['PT'][j][l])),
                             name=f"start_time_job{j}_stage{l}_machine{i}_constraint2")
 
     # constraints 16 and 17
@@ -90,7 +92,7 @@ for idx, instance in enumerate(all_instances):
                         # 17
                         model.addConstr(startT[h][z][i] >= (startT[j][l][i] + instance['PT'][j][l][i] + instance['ST'][i-1][j][l][h][z] - M*(x[j][l][h][z][i] + 2 - y[h][z][i] - y[j][l][i])), name=f"precedence between {j},{l} and {h},{z} if x_[j,l,h,z,i]=0")
 
-    # constraint 20? - positive start time
+    # constraint xx? - positive start time
     for j in instance['PT']:
         for l in instance['PT'][j]:
             for i in instance['PT'][j][l]:
@@ -109,6 +111,7 @@ for idx, instance in enumerate(all_instances):
     model.params.LogToConsole = 0 # 0 to disable output
     model.params.IntFeasTol = 1e-9
     model.params.IntegralityFocus = 1
+    model.params.TimeLimit = 3600 * 6
     print("     Optimizing model")
     model.optimize()
 

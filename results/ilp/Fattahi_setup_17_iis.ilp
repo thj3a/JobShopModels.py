@@ -1,0 +1,39 @@
+\ Model F-JSSP-SDST_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+Minimize
+ 
+Subject To
+ assignment_job5_stage2_constraint: y[job_5,_stage_2,_machine_5]
+   + y[job_5,_stage_2,_machine_6] + y[job_5,_stage_2,_machine_7] = 1
+ precedence_between_5,2_and_5,2_if_x_[j,l,h,z,i]=1:
+   - 2e+12 y[job_5,_stage_2,_machine_5]
+   - 1e+12 x[machine__5,_job1|stage1_5|2,_job2|stage2_5|2]
+   >= -2.999999999857e+12
+ precedence_between_5,2_and_5,2_if_x_[j,l,h,z,i]=0:
+   - 2e+12 y[job_5,_stage_2,_machine_5]
+   + 1e+12 x[machine__5,_job1|stage1_5|2,_job2|stage2_5|2]
+   >= -1.999999999857e+12
+ precedence_between_5,2_and_5,2_if_x_[j,l,h,z,i]=1:
+   - 2e+12 y[job_5,_stage_2,_machine_6]
+   - 1e+12 x[machine__6,_job1|stage1_5|2,_job2|stage2_5|2]
+   >= -2.999999999734e+12
+ precedence_between_5,2_and_5,2_if_x_[j,l,h,z,i]=0:
+   - 2e+12 y[job_5,_stage_2,_machine_6]
+   + 1e+12 x[machine__6,_job1|stage1_5|2,_job2|stage2_5|2]
+   >= -1.999999999734e+12
+ precedence_between_5,2_and_5,2_if_x_[j,l,h,z,i]=1:
+   - 2e+12 y[job_5,_stage_2,_machine_7]
+   - 1e+12 x[machine__7,_job1|stage1_5|2,_job2|stage2_5|2]
+   >= -2.999999999794e+12
+ precedence_between_5,2_and_5,2_if_x_[j,l,h,z,i]=0:
+   - 2e+12 y[job_5,_stage_2,_machine_7]
+   + 1e+12 x[machine__7,_job1|stage1_5|2,_job2|stage2_5|2]
+   >= -1.999999999794e+12
+Bounds
+Binaries
+ y[job_5,_stage_2,_machine_5] y[job_5,_stage_2,_machine_6]
+ y[job_5,_stage_2,_machine_7]
+ x[machine__5,_job1|stage1_5|2,_job2|stage2_5|2]
+ x[machine__6,_job1|stage1_5|2,_job2|stage2_5|2]
+ x[machine__7,_job1|stage1_5|2,_job2|stage2_5|2]
+End

@@ -1,0 +1,55 @@
+\ Model F-JSSP-SDST_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+Minimize
+ 
+Subject To
+ assignment_job4_stage0_constraint: y[job_4,_stage_0,_machine_2]
+   + y[job_4,_stage_0,_machine_3] + y[job_4,_stage_0,_machine_1] = 1
+ start_time_job4_stage2_machine5_constraint1:
+   - 1e+12 y[job_4,_stage_2,_machine_5] + startT[job_4,_stage_2,_machine_5]
+   <= 0
+ start_time_job4_stage2_machine6_constraint1:
+   - 1e+12 y[job_4,_stage_2,_machine_6] + startT[job_4,_stage_2,_machine_6]
+   <= 0
+ start_time_job4_stage0_machine7_constraint2:
+   - 123 y[job_4,_stage_0,_machine_2] - 145 y[job_4,_stage_0,_machine_3]
+   - 128 y[job_4,_stage_0,_machine_1] - startT[job_4,_stage_0,_machine_2]
+   - startT[job_4,_stage_0,_machine_3] - startT[job_4,_stage_0,_machine_1]
+   + startT[job_4,_stage_1,_machine_7] + startT[job_4,_stage_1,_machine_4]
+   + startT[job_4,_stage_1,_machine_5] >= 0
+ start_time_job4_stage1_machine7_constraint2:
+   - 86 y[job_4,_stage_1,_machine_7] - 65 y[job_4,_stage_1,_machine_4]
+   - 47 y[job_4,_stage_1,_machine_5] - startT[job_4,_stage_1,_machine_7]
+   - startT[job_4,_stage_1,_machine_4] - startT[job_4,_stage_1,_machine_5]
+   + startT[job_4,_stage_2,_machine_5] + startT[job_4,_stage_2,_machine_6]
+   >= 0
+ precedence_between_4,2_and_4,2_if_x_[j,l,h,z,i]=1:
+   - 2e+12 y[job_4,_stage_2,_machine_5]
+   - 1e+12 x[machine__5,_job1|stage1_4|2,_job2|stage2_4|2]
+   >= -2.999999999865e+12
+ precedence_between_4,2_and_4,2_if_x_[j,l,h,z,i]=0:
+   - 2e+12 y[job_4,_stage_2,_machine_5]
+   + 1e+12 x[machine__5,_job1|stage1_4|2,_job2|stage2_4|2]
+   >= -1.999999999865e+12
+ precedence_between_4,2_and_4,2_if_x_[j,l,h,z,i]=1:
+   - 2e+12 y[job_4,_stage_2,_machine_6]
+   - 1e+12 x[machine__6,_job1|stage1_4|2,_job2|stage2_4|2]
+   >= -2.999999999888e+12
+ precedence_between_4,2_and_4,2_if_x_[j,l,h,z,i]=0:
+   - 2e+12 y[job_4,_stage_2,_machine_6]
+   + 1e+12 x[machine__6,_job1|stage1_4|2,_job2|stage2_4|2]
+   >= -1.999999999888e+12
+Bounds
+ startT[job_4,_stage_1,_machine_7] free
+ startT[job_4,_stage_1,_machine_4] free
+ startT[job_4,_stage_1,_machine_5] free
+ startT[job_4,_stage_2,_machine_5] free
+ startT[job_4,_stage_2,_machine_6] free
+Binaries
+ y[job_4,_stage_0,_machine_2] y[job_4,_stage_0,_machine_3]
+ y[job_4,_stage_0,_machine_1] y[job_4,_stage_1,_machine_7]
+ y[job_4,_stage_1,_machine_4] y[job_4,_stage_1,_machine_5]
+ y[job_4,_stage_2,_machine_5] y[job_4,_stage_2,_machine_6]
+ x[machine__5,_job1|stage1_4|2,_job2|stage2_4|2]
+ x[machine__6,_job1|stage1_4|2,_job2|stage2_4|2]
+End

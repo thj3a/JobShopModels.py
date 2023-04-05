@@ -1,6 +1,4 @@
 import os
-import pdb
-import pandas as pd
 
 def read_instances(instances_folder):
     instances = []
@@ -22,6 +20,7 @@ def read_instances(instances_folder):
                 instance.update(read_instance(instance['name'], instance['path']))
                 instances.append(instance)
             continue
+        
         for file in os.listdir(instances_folder + folder):
             if file.endswith('.fjs'):
                 instance = {'name': file.split('.')[0], 'path': os.path.join(instances_folder, folder)}
@@ -100,18 +99,18 @@ def read_instance(instance_name, instance_path):
         if id_line >= len(lines):
             return instance
 
-        instance['ST'] = [[[[[-1 for z in range(len(instance['PT'][j]))] for h in range(instance['n_jobs'])] for l in range(len(instance['PT'][j]))] for j in range(instance['n_jobs'])] for m in range(instance['n_machines'])]
+        instance['ST'] = {i: {j: {l: {h: {z: -1 for z in range(len(instance['PT'][j]))} for h in range(instance['n_jobs'])} for l in range(len(instance['PT'][j]))} for j in range(instance['n_jobs'])} for i in range(1, instance['n_machines']+1)}
         # df = pd.DataFrame()
         # instance['ST'][machine][job j ][op l][job h][op z] = setup_time
-        for machine in range(instance['n_machines']):
-            for j in range(instance['n_jobs']):
-                for l in range(len(instance['PT'][j])):
+        for i in instance['ST']:
+            for j in instance['ST'][i]:
+                for l in instance['ST'][i][j]:
                     # print(f'line: {id_line}: {lines[id_line]}')
                     setup_times = list(map(float, lines[id_line].split()))
                     tmp = 0
-                    for h in range(instance['n_jobs']):
-                        for z in range(len(instance['PT'][h])):
-                            instance['ST'][machine][j][l][h][z] = setup_times[tmp]
+                    for h in instance['ST'][i][j][l]:
+                        for z in instance['ST'][i][j][l][h]:
+                            instance['ST'][i][j][l][h][z] = setup_times[tmp]
                             # print(f'machine: {machine}, job|op: {j}|{l}, job|op: {h}|{z}, setup_time: {setup_times[tmp]}')
                             # d = dict(machine=machine+1, job1=j, op1=l, job2=h, op2=z, setup_times=instance['ST'][machine][j][l][h][z])
                             # df = pd.concat((df, pd.DataFrame(d, index=[0])), axis=0)

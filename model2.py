@@ -32,8 +32,9 @@ print("Gurobi version: ", gp.gurobi.version())
 print("Reading instances")
 path_instances_with_setup = './instances_with_setup/'
 path_instances_without_setup = './instances_without_setup/'
+path_instances_translated = './instances_translated/'
 
-all_instances = read_instances(path_instances_with_setup)
+all_instances = read_instances(path_instances_translated)
 # all_instances = instances.read_instances(path_instances_without_setup)
 # all_instances = [instances.read_instance('FisherThompson', './instances_without_setup/')]
 
@@ -62,7 +63,6 @@ for idx, instance in enumerate(all_instances):
     y = {j: {l: {i: model.addVar(vtype=GRB.BINARY, name=f"y[job:{j}, stage:{l}, machine:{i}]") for i in instance['PT'][j][l]} for l in instance['PT'][j]} for j in instance['PT']}              
     x = {j: {l: {h: {z: {i: model.addVar(vtype=GRB.BINARY, name=f"x[machine: {i}, job1|stage1:{j}|{l}, job2|stage2:{h}|{z}]") for i in list(set(instance['R'][j][l]) & set(instance['R'][h][z]))} for z in instance['PT'][h]} for h in range(j+1, n_jobs)} for l in instance['PT'][j]} for j in range(n_jobs-1)}
     startT = {j: {l: {i: model.addVar(vtype=GRB.CONTINUOUS, lb=0.0, name=f"startT[job:{j}, stage:{l}, machine:{i}]") for i in instance['PT'][j][l]} for l in instance['PT'][j]} for j in instance['PT']}  
-
 
     # constraint 13
     for j in instance['PT']:
@@ -116,7 +116,7 @@ for idx, instance in enumerate(all_instances):
     model.params.LogToConsole = 0 # 0 to disable output
     model.params.IntFeasTol = 1e-9
     model.params.IntegralityFocus = 1
-    model.params.TimeLimit = 3600 * 3
+    model.params.TimeLimit = 3600 * 6
     print("     Optimizing model")
     model.optimize()
 

@@ -96,10 +96,11 @@ def read_instance(instance_name, instance_path):
 
         id_line = instance['n_jobs'] + 2
 
+        instance['ST'] = {i: {j: {l: {h: {z: 0.0 for z in range(len(instance['PT'][h]))} for h in range(instance['n_jobs'])} for l in range(len(instance['PT'][j]))} for j in range(instance['n_jobs'])} for i in range(1, instance['n_machines']+1)}
+
         if id_line >= len(lines):
             return instance
 
-        instance['ST'] = {i: {j: {l: {h: {z: -1 for z in range(len(instance['PT'][j]))} for h in range(instance['n_jobs'])} for l in range(len(instance['PT'][j]))} for j in range(instance['n_jobs'])} for i in range(1, instance['n_machines']+1)}
         # df = pd.DataFrame()
         # instance['ST'][machine][job j ][op l][job h][op z] = setup_time
         for i in instance['ST']:

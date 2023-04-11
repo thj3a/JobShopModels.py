@@ -34,7 +34,7 @@ path_instances_with_setup = './instances_with_setup/'
 path_instances_without_setup = './instances_without_setup/'
 path_instances_translated = './instances_translated/'
 
-all_instances = read_instances(path_instances_translated)
+all_instances = read_instances(path_instances_with_setup)
 # all_instances = instances.read_instances(path_instances_without_setup)
 # all_instances = [instances.read_instance('FisherThompson', './instances_without_setup/')]
 
@@ -124,7 +124,7 @@ for idx, instance in enumerate(all_instances):
     model.write(f"results/mps/{instance['name']}.mps")
     model.write(f"results/json/{instance['name']}.json")
 
-    if model.status == GRB.Status.OPTIMAL:
+    if model.status != GRB.Status.INFEASIBLE and model.status != GRB.Status.INF_OR_UNBD:
         
         print(f"     {bcolors.blueback}Optimal solution found{bcolors.end}")
         

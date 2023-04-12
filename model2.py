@@ -43,7 +43,23 @@ print("Number of instances: ", len(all_instances))
 unsolved_instances = dict()
 log = []
 
-paths = ['./results', './results/csv', './results/csv/vars', './results/csv/log', './results/csv/timestamp', './results/fig', './results/lp', './results/mps', './results/json', './results/ilp']
+paths = ['./results', 
+         './results/csv', 
+         './results/csv/vars', 
+         './results/csv/log', 
+         './results/csv/timestamp', 
+         './results/fig', 
+         './results/lp', 
+         './results/mps', 
+         './results/json', 
+         './results/ilp', 
+         './results/log', 
+         './results/txt', 
+         './results/txt/vars', 
+         './results/txt/log', 
+         './results/sol', 
+         './results/rlp']
+
 for path in paths:
     if not os.path.exists(path):
         os.mkdir(path)
@@ -112,22 +128,28 @@ for idx, instance in enumerate(all_instances):
     model.addConstr(C_max == gp.quicksum(startT[j][l][i] + instance['PT'][j][l][i]*y[j][l][i] for j in instance['PT'] for l in instance['PT'][j] for i in instance['PT'][j][l]), name="max_contraint")
 
     model.setObjective(C_max, GRB.MINIMIZE)
-    model.params.OutputFlag = 0 # 0 to disable output
-    model.params.LogToConsole = 0 # 0 to disable output
+    # model.params.OutputFlag = 0 # 0 to disable output
+    model.params.LogToConsole = 0 # 0 to disable console output
     model.params.IntFeasTol = 1e-9
     model.params.IntegralityFocus = 1
-    model.params.TimeLimit = 3600 * 6
+    model.params.TimeLimit = 3600 * 3
+    with open(f"results/log/{instance['name']}.log", "w") as f:
+        model.params.LogFile = f"results/log/{instance['name']}.log"
     print("     Optimizing model")
+    
     model.optimize()
 
     model.write(f"results/lp/{instance['name']}.lp")
     model.write(f"results/mps/{instance['name']}.mps")
     model.write(f"results/json/{instance['name']}.json")
-
+    
     if model.status != GRB.Status.INFEASIBLE and model.status != GRB.Status.INF_OR_UNBD:
         
-        print(f"     {bcolors.blueback}Optimal solution found{bcolors.end}")
+        print(f"     {bcolors.blueback}(Maybe Optimal) Solution found{bcolors.end}")
         
+        model.write(f"results/sol/{instance['name']}.sol")
+        model.write(f"results/rlp/{instance['name']}.rlp")
+
         vars_list = []
         for v in model.getVars():
             d= dict(name=v.varName, value=v.x)
@@ -181,5 +203,3 @@ for idx, instance in enumerate(all_instances):
 with open("unsolved.json", "w") as f:
     json.dump(unsolved_instances, f, indent=4, sort_keys=True)
     f.close()
-
-

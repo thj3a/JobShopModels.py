@@ -1,464 +1,464 @@
 name;value
-C_max;2508.0
-startT[job:0, stage:0, machine:1];140.0
+C_max;15866.999987369796
+startT[job:0, stage:0, machine:1];0.0
 startT[job:0, stage:0, machine:2];0.0
 startT[job:0, stage:0, machine:3];0.0
-startT[job:0, stage:1, machine:2];2083.0
+startT[job:0, stage:1, machine:2];0.0
 startT[job:0, stage:1, machine:4];0.0
-startT[job:0, stage:1, machine:7];0.0
-startT[job:0, stage:2, machine:4];2213.0
+startT[job:0, stage:1, machine:7];99.99999999999977
+startT[job:0, stage:2, machine:4];249.99999911610044
 startT[job:0, stage:2, machine:5];0.0
 startT[job:0, stage:2, machine:7];0.0
-startT[job:0, stage:3, machine:6];2363.0
-startT[job:0, stage:3, machine:7];0.0
-startT[job:1, stage:0, machine:1];0.0
-startT[job:1, stage:0, machine:3];1845.0
-startT[job:1, stage:1, machine:2];1995.0
+startT[job:0, stage:3, machine:6];0.0
+startT[job:0, stage:3, machine:7];467.99999925234806
+startT[job:1, stage:0, machine:1];241.9999999999983
+startT[job:1, stage:0, machine:3];0.0
+startT[job:1, stage:1, machine:2];455.9999999999976
 startT[job:1, stage:1, machine:3];0.0
 startT[job:1, stage:2, machine:5];0.0
-startT[job:1, stage:2, machine:6];2077.0
+startT[job:1, stage:2, machine:6];572.9999991814221
 startT[job:1, stage:2, machine:7];0.0
 startT[job:1, stage:3, machine:5];0.0
-startT[job:1, stage:3, machine:7];2195.0
-startT[job:2, stage:0, machine:1];0.0
-startT[job:2, stage:0, machine:2];1587.0
-startT[job:2, stage:1, machine:3];1649.0
+startT[job:1, stage:3, machine:7];691.999999252348
+startT[job:2, stage:0, machine:1];143.99999999999878
+startT[job:2, stage:0, machine:2];0.0
+startT[job:2, stage:1, machine:3];0.0
 startT[job:2, stage:1, machine:4];0.0
-startT[job:2, stage:1, machine:7];0.0
-startT[job:2, stage:2, machine:4];1829.0
-startT[job:2, stage:2, machine:5];0.0
+startT[job:2, stage:1, machine:7];241.99999925736182
+startT[job:2, stage:2, machine:4];0.0
+startT[job:2, stage:2, machine:5];411.99999999999363
 startT[job:2, stage:2, machine:6];0.0
 startT[job:2, stage:3, machine:6];0.0
-startT[job:2, stage:3, machine:7];2019.0
+startT[job:2, stage:3, machine:7];856.9999992522808
 startT[job:3, stage:0, machine:1];0.0
-startT[job:3, stage:0, machine:2];1507.0
+startT[job:3, stage:0, machine:2];0.0
 startT[job:3, stage:1, machine:3];0.0
-startT[job:3, stage:1, machine:5];1572.0
+startT[job:3, stage:1, machine:5];64.99999999999932
 startT[job:3, stage:2, machine:4];0.0
-startT[job:3, stage:2, machine:6];1745.0
+startT[job:3, stage:2, machine:6];237.99999999999113
 startT[job:3, stage:3, machine:5];0.0
-startT[job:3, stage:3, machine:6];1893.0
+startT[job:3, stage:3, machine:6];386.9999999999907
 startT[job:4, stage:0, machine:1];0.0
 startT[job:4, stage:0, machine:2];0.0
 startT[job:4, stage:0, machine:3];0.0
-startT[job:4, stage:1, machine:4];1330.0
+startT[job:4, stage:1, machine:4];168.99999916553497
 startT[job:4, stage:1, machine:5];0.0
 startT[job:4, stage:1, machine:7];0.0
-startT[job:4, stage:2, machine:2];1395.0
+startT[job:4, stage:2, machine:2];259.99999999999886
 startT[job:4, stage:2, machine:5];0.0
 startT[job:4, stage:2, machine:6];0.0
-startT[job:4, stage:3, machine:4];1495.0
+startT[job:4, stage:3, machine:4];414.9999991161003
 startT[job:4, stage:3, machine:6];0.0
 startT[job:5, stage:0, machine:2];0.0
 startT[job:5, stage:0, machine:3];0.0
-startT[job:5, stage:0, machine:4];256.0
-startT[job:5, stage:1, machine:3];410.0
+startT[job:5, stage:0, machine:4];0.0
+startT[job:5, stage:1, machine:3];153.99999999999636
 startT[job:5, stage:1, machine:4];0.0
 startT[job:5, stage:1, machine:5];0.0
-startT[job:5, stage:2, machine:5];0.0
-startT[job:5, stage:2, machine:6];958.0
+startT[job:5, stage:2, machine:5];276.9999999999982
+startT[job:5, stage:2, machine:6];0.0
 startT[job:5, stage:2, machine:7];0.0
-startT[job:5, stage:3, machine:4];1198.0
-startT[job:5, stage:3, machine:7];0.0
-startT[job:6, stage:0, machine:2];0.0
+startT[job:5, stage:3, machine:4];0.0
+startT[job:5, stage:3, machine:7];401.9999992523618
+startT[job:6, stage:0, machine:2];86.99999999999923
 startT[job:6, stage:0, machine:3];0.0
-startT[job:6, stage:1, machine:3];160.0
+startT[job:6, stage:1, machine:3];291.9999992391704
 startT[job:6, stage:1, machine:5];0.0
-startT[job:6, stage:2, machine:5];0.0
-startT[job:6, stage:2, machine:6];782.0
+startT[job:6, stage:2, machine:5];528.9999992796335
+startT[job:6, stage:2, machine:6];0.0
 startT[job:6, stage:2, machine:7];0.0
-startT[job:6, stage:3, machine:5];947.0
+startT[job:6, stage:3, machine:5];687.9999992796356
 startT[job:6, stage:3, machine:7];0.0
-startT[job:7, stage:0, machine:3];0.0
+startT[job:7, stage:0, machine:3];426.9999992391706
 startT[job:7, stage:0, machine:4];0.0
 startT[job:7, stage:1, machine:5];0.0
-startT[job:7, stage:1, machine:6];245.0
-startT[job:7, stage:2, machine:5];469.0
+startT[job:7, stage:1, machine:6];683.9999991236092
+startT[job:7, stage:2, machine:5];907.9999991235917
 startT[job:7, stage:2, machine:6];0.0
 startT[job:7, stage:2, machine:7];0.0
-startT[job:7, stage:3, machine:6];614.0
+startT[job:7, stage:3, machine:6];1052.9999992391686
 startT[job:7, stage:3, machine:7];0.0
-x[machine: 1, job1|stage1:0|0, job2|stage2:1|0];1.0
+x[machine: 1, job1|stage1:0|0, job2|stage2:1|0];0.0
 x[machine: 1, job1|stage1:0|0, job2|stage2:2|0];1.0
-x[machine: 1, job1|stage1:0|0, job2|stage2:3|0];1.0
-x[machine: 1, job1|stage1:0|0, job2|stage2:4|0];1.0
+x[machine: 1, job1|stage1:0|0, job2|stage2:3|0];0.0
+x[machine: 1, job1|stage1:0|0, job2|stage2:4|0];0.0
 x[machine: 1, job1|stage1:1|0, job2|stage2:2|0];1.0
-x[machine: 1, job1|stage1:1|0, job2|stage2:3|0];1.0
+x[machine: 1, job1|stage1:1|0, job2|stage2:3|0];0.0
 x[machine: 1, job1|stage1:1|0, job2|stage2:4|0];1.0
-x[machine: 1, job1|stage1:2|0, job2|stage2:3|0];1.0
+x[machine: 1, job1|stage1:2|0, job2|stage2:3|0];0.0
 x[machine: 1, job1|stage1:2|0, job2|stage2:4|0];1.0
 x[machine: 1, job1|stage1:3|0, job2|stage2:4|0];1.0
-x[machine: 2, job1|stage1:0|0, job2|stage2:1|1];1.0
-x[machine: 2, job1|stage1:0|0, job2|stage2:2|0];1.0
-x[machine: 2, job1|stage1:0|0, job2|stage2:3|0];1.0
-x[machine: 2, job1|stage1:0|0, job2|stage2:4|0];1.0
+x[machine: 2, job1|stage1:0|0, job2|stage2:1|1];0.0
+x[machine: 2, job1|stage1:0|0, job2|stage2:2|0];0.0
+x[machine: 2, job1|stage1:0|0, job2|stage2:3|0];0.0
+x[machine: 2, job1|stage1:0|0, job2|stage2:4|0];0.0
 x[machine: 2, job1|stage1:0|0, job2|stage2:4|2];1.0
-x[machine: 2, job1|stage1:0|0, job2|stage2:5|0];1.0
-x[machine: 2, job1|stage1:0|0, job2|stage2:6|0];1.0
+x[machine: 2, job1|stage1:0|0, job2|stage2:5|0];0.0
+x[machine: 2, job1|stage1:0|0, job2|stage2:6|0];0.0
 x[machine: 2, job1|stage1:0|1, job2|stage2:1|1];1.0
-x[machine: 2, job1|stage1:0|1, job2|stage2:2|0];1.0
-x[machine: 2, job1|stage1:0|1, job2|stage2:3|0];1.0
-x[machine: 2, job1|stage1:0|1, job2|stage2:4|0];1.0
-x[machine: 2, job1|stage1:0|1, job2|stage2:4|2];1.0
-x[machine: 2, job1|stage1:0|1, job2|stage2:5|0];1.0
-x[machine: 2, job1|stage1:0|1, job2|stage2:6|0];1.0
-x[machine: 2, job1|stage1:1|1, job2|stage2:2|0];1.0
+x[machine: 2, job1|stage1:0|1, job2|stage2:2|0];0.0
+x[machine: 2, job1|stage1:0|1, job2|stage2:3|0];0.0
+x[machine: 2, job1|stage1:0|1, job2|stage2:4|0];0.0
+x[machine: 2, job1|stage1:0|1, job2|stage2:4|2];0.0
+x[machine: 2, job1|stage1:0|1, job2|stage2:5|0];0.0
+x[machine: 2, job1|stage1:0|1, job2|stage2:6|0];0.0
+x[machine: 2, job1|stage1:1|1, job2|stage2:2|0];0.0
 x[machine: 2, job1|stage1:1|1, job2|stage2:3|0];1.0
-x[machine: 2, job1|stage1:1|1, job2|stage2:4|0];1.0
+x[machine: 2, job1|stage1:1|1, job2|stage2:4|0];0.0
 x[machine: 2, job1|stage1:1|1, job2|stage2:4|2];1.0
-x[machine: 2, job1|stage1:1|1, job2|stage2:5|0];1.0
+x[machine: 2, job1|stage1:1|1, job2|stage2:5|0];0.0
 x[machine: 2, job1|stage1:1|1, job2|stage2:6|0];1.0
 x[machine: 2, job1|stage1:2|0, job2|stage2:3|0];1.0
-x[machine: 2, job1|stage1:2|0, job2|stage2:4|0];1.0
+x[machine: 2, job1|stage1:2|0, job2|stage2:4|0];0.0
 x[machine: 2, job1|stage1:2|0, job2|stage2:4|2];1.0
-x[machine: 2, job1|stage1:2|0, job2|stage2:5|0];1.0
+x[machine: 2, job1|stage1:2|0, job2|stage2:5|0];0.0
 x[machine: 2, job1|stage1:2|0, job2|stage2:6|0];1.0
 x[machine: 2, job1|stage1:3|0, job2|stage2:4|0];1.0
-x[machine: 2, job1|stage1:3|0, job2|stage2:4|2];1.0
-x[machine: 2, job1|stage1:3|0, job2|stage2:5|0];1.0
-x[machine: 2, job1|stage1:3|0, job2|stage2:6|0];1.0
-x[machine: 2, job1|stage1:4|0, job2|stage2:5|0];1.0
-x[machine: 2, job1|stage1:4|0, job2|stage2:6|0];1.0
-x[machine: 2, job1|stage1:4|2, job2|stage2:5|0];1.0
+x[machine: 2, job1|stage1:3|0, job2|stage2:4|2];0.0
+x[machine: 2, job1|stage1:3|0, job2|stage2:5|0];0.0
+x[machine: 2, job1|stage1:3|0, job2|stage2:6|0];0.0
+x[machine: 2, job1|stage1:4|0, job2|stage2:5|0];0.0
+x[machine: 2, job1|stage1:4|0, job2|stage2:6|0];0.0
+x[machine: 2, job1|stage1:4|2, job2|stage2:5|0];0.0
 x[machine: 2, job1|stage1:4|2, job2|stage2:6|0];1.0
 x[machine: 2, job1|stage1:5|0, job2|stage2:6|0];1.0
-x[machine: 3, job1|stage1:0|0, job2|stage2:1|0];1.0
-x[machine: 3, job1|stage1:0|0, job2|stage2:1|1];1.0
-x[machine: 3, job1|stage1:0|0, job2|stage2:2|1];1.0
-x[machine: 3, job1|stage1:0|0, job2|stage2:3|1];1.0
-x[machine: 3, job1|stage1:0|0, job2|stage2:4|0];1.0
-x[machine: 3, job1|stage1:0|0, job2|stage2:5|0];1.0
-x[machine: 3, job1|stage1:0|0, job2|stage2:5|1];1.0
-x[machine: 3, job1|stage1:0|0, job2|stage2:6|0];1.0
-x[machine: 3, job1|stage1:0|0, job2|stage2:6|1];1.0
-x[machine: 3, job1|stage1:0|0, job2|stage2:7|0];1.0
-x[machine: 3, job1|stage1:1|0, job2|stage2:2|1];1.0
-x[machine: 3, job1|stage1:1|0, job2|stage2:3|1];1.0
-x[machine: 3, job1|stage1:1|0, job2|stage2:4|0];1.0
-x[machine: 3, job1|stage1:1|0, job2|stage2:5|0];1.0
-x[machine: 3, job1|stage1:1|0, job2|stage2:5|1];1.0
-x[machine: 3, job1|stage1:1|0, job2|stage2:6|0];1.0
+x[machine: 3, job1|stage1:0|0, job2|stage2:1|0];0.0
+x[machine: 3, job1|stage1:0|0, job2|stage2:1|1];0.0
+x[machine: 3, job1|stage1:0|0, job2|stage2:2|1];0.0
+x[machine: 3, job1|stage1:0|0, job2|stage2:3|1];0.0
+x[machine: 3, job1|stage1:0|0, job2|stage2:4|0];0.0
+x[machine: 3, job1|stage1:0|0, job2|stage2:5|0];0.0
+x[machine: 3, job1|stage1:0|0, job2|stage2:5|1];0.0
+x[machine: 3, job1|stage1:0|0, job2|stage2:6|0];0.0
+x[machine: 3, job1|stage1:0|0, job2|stage2:6|1];0.0
+x[machine: 3, job1|stage1:0|0, job2|stage2:7|0];0.0
+x[machine: 3, job1|stage1:1|0, job2|stage2:2|1];0.0
+x[machine: 3, job1|stage1:1|0, job2|stage2:3|1];0.0
+x[machine: 3, job1|stage1:1|0, job2|stage2:4|0];0.0
+x[machine: 3, job1|stage1:1|0, job2|stage2:5|0];0.0
+x[machine: 3, job1|stage1:1|0, job2|stage2:5|1];0.0
+x[machine: 3, job1|stage1:1|0, job2|stage2:6|0];0.0
 x[machine: 3, job1|stage1:1|0, job2|stage2:6|1];1.0
 x[machine: 3, job1|stage1:1|0, job2|stage2:7|0];1.0
-x[machine: 3, job1|stage1:1|1, job2|stage2:2|1];1.0
-x[machine: 3, job1|stage1:1|1, job2|stage2:3|1];1.0
-x[machine: 3, job1|stage1:1|1, job2|stage2:4|0];1.0
-x[machine: 3, job1|stage1:1|1, job2|stage2:5|0];1.0
-x[machine: 3, job1|stage1:1|1, job2|stage2:5|1];1.0
-x[machine: 3, job1|stage1:1|1, job2|stage2:6|0];1.0
-x[machine: 3, job1|stage1:1|1, job2|stage2:6|1];1.0
-x[machine: 3, job1|stage1:1|1, job2|stage2:7|0];1.0
-x[machine: 3, job1|stage1:2|1, job2|stage2:3|1];1.0
-x[machine: 3, job1|stage1:2|1, job2|stage2:4|0];1.0
-x[machine: 3, job1|stage1:2|1, job2|stage2:5|0];1.0
-x[machine: 3, job1|stage1:2|1, job2|stage2:5|1];1.0
-x[machine: 3, job1|stage1:2|1, job2|stage2:6|0];1.0
-x[machine: 3, job1|stage1:2|1, job2|stage2:6|1];1.0
-x[machine: 3, job1|stage1:2|1, job2|stage2:7|0];1.0
-x[machine: 3, job1|stage1:3|1, job2|stage2:4|0];1.0
-x[machine: 3, job1|stage1:3|1, job2|stage2:5|0];1.0
-x[machine: 3, job1|stage1:3|1, job2|stage2:5|1];1.0
-x[machine: 3, job1|stage1:3|1, job2|stage2:6|0];1.0
-x[machine: 3, job1|stage1:3|1, job2|stage2:6|1];1.0
+x[machine: 3, job1|stage1:1|1, job2|stage2:2|1];0.0
+x[machine: 3, job1|stage1:1|1, job2|stage2:3|1];0.0
+x[machine: 3, job1|stage1:1|1, job2|stage2:4|0];0.0
+x[machine: 3, job1|stage1:1|1, job2|stage2:5|0];0.0
+x[machine: 3, job1|stage1:1|1, job2|stage2:5|1];0.0
+x[machine: 3, job1|stage1:1|1, job2|stage2:6|0];0.0
+x[machine: 3, job1|stage1:1|1, job2|stage2:6|1];0.0
+x[machine: 3, job1|stage1:1|1, job2|stage2:7|0];0.0
+x[machine: 3, job1|stage1:2|1, job2|stage2:3|1];0.0
+x[machine: 3, job1|stage1:2|1, job2|stage2:4|0];0.0
+x[machine: 3, job1|stage1:2|1, job2|stage2:5|0];0.0
+x[machine: 3, job1|stage1:2|1, job2|stage2:5|1];0.0
+x[machine: 3, job1|stage1:2|1, job2|stage2:6|0];0.0
+x[machine: 3, job1|stage1:2|1, job2|stage2:6|1];0.0
+x[machine: 3, job1|stage1:2|1, job2|stage2:7|0];0.0
+x[machine: 3, job1|stage1:3|1, job2|stage2:4|0];0.0
+x[machine: 3, job1|stage1:3|1, job2|stage2:5|0];0.0
+x[machine: 3, job1|stage1:3|1, job2|stage2:5|1];0.0
+x[machine: 3, job1|stage1:3|1, job2|stage2:6|0];0.0
+x[machine: 3, job1|stage1:3|1, job2|stage2:6|1];0.0
 x[machine: 3, job1|stage1:3|1, job2|stage2:7|0];1.0
-x[machine: 3, job1|stage1:4|0, job2|stage2:5|0];1.0
-x[machine: 3, job1|stage1:4|0, job2|stage2:5|1];1.0
-x[machine: 3, job1|stage1:4|0, job2|stage2:6|0];1.0
-x[machine: 3, job1|stage1:4|0, job2|stage2:6|1];1.0
+x[machine: 3, job1|stage1:4|0, job2|stage2:5|0];0.0
+x[machine: 3, job1|stage1:4|0, job2|stage2:5|1];0.0
+x[machine: 3, job1|stage1:4|0, job2|stage2:6|0];0.0
+x[machine: 3, job1|stage1:4|0, job2|stage2:6|1];0.0
 x[machine: 3, job1|stage1:4|0, job2|stage2:7|0];1.0
 x[machine: 3, job1|stage1:5|0, job2|stage2:6|0];1.0
-x[machine: 3, job1|stage1:5|0, job2|stage2:6|1];1.0
+x[machine: 3, job1|stage1:5|0, job2|stage2:6|1];0.0
 x[machine: 3, job1|stage1:5|0, job2|stage2:7|0];1.0
 x[machine: 3, job1|stage1:5|1, job2|stage2:6|0];1.0
-x[machine: 3, job1|stage1:5|1, job2|stage2:6|1];1.0
-x[machine: 3, job1|stage1:5|1, job2|stage2:7|0];1.0
-x[machine: 3, job1|stage1:6|0, job2|stage2:7|0];1.0
-x[machine: 3, job1|stage1:6|1, job2|stage2:7|0];1.0
-x[machine: 4, job1|stage1:0|1, job2|stage2:2|1];1.0
-x[machine: 4, job1|stage1:0|1, job2|stage2:2|2];1.0
-x[machine: 4, job1|stage1:0|1, job2|stage2:3|2];1.0
-x[machine: 4, job1|stage1:0|1, job2|stage2:4|1];1.0
-x[machine: 4, job1|stage1:0|1, job2|stage2:4|3];1.0
-x[machine: 4, job1|stage1:0|1, job2|stage2:5|0];1.0
-x[machine: 4, job1|stage1:0|1, job2|stage2:5|1];1.0
-x[machine: 4, job1|stage1:0|1, job2|stage2:5|3];1.0
-x[machine: 4, job1|stage1:0|1, job2|stage2:7|0];1.0
-x[machine: 4, job1|stage1:0|2, job2|stage2:2|1];1.0
-x[machine: 4, job1|stage1:0|2, job2|stage2:2|2];1.0
-x[machine: 4, job1|stage1:0|2, job2|stage2:3|2];1.0
+x[machine: 3, job1|stage1:5|1, job2|stage2:6|1];0.0
+x[machine: 3, job1|stage1:5|1, job2|stage2:7|0];0.0
+x[machine: 3, job1|stage1:6|0, job2|stage2:7|0];0.0
+x[machine: 3, job1|stage1:6|1, job2|stage2:7|0];0.0
+x[machine: 4, job1|stage1:0|1, job2|stage2:2|1];0.0
+x[machine: 4, job1|stage1:0|1, job2|stage2:2|2];0.0
+x[machine: 4, job1|stage1:0|1, job2|stage2:3|2];0.0
+x[machine: 4, job1|stage1:0|1, job2|stage2:4|1];0.0
+x[machine: 4, job1|stage1:0|1, job2|stage2:4|3];0.0
+x[machine: 4, job1|stage1:0|1, job2|stage2:5|0];0.0
+x[machine: 4, job1|stage1:0|1, job2|stage2:5|1];0.0
+x[machine: 4, job1|stage1:0|1, job2|stage2:5|3];0.0
+x[machine: 4, job1|stage1:0|1, job2|stage2:7|0];0.0
+x[machine: 4, job1|stage1:0|2, job2|stage2:2|1];0.0
+x[machine: 4, job1|stage1:0|2, job2|stage2:2|2];0.0
+x[machine: 4, job1|stage1:0|2, job2|stage2:3|2];0.0
 x[machine: 4, job1|stage1:0|2, job2|stage2:4|1];1.0
-x[machine: 4, job1|stage1:0|2, job2|stage2:4|3];1.0
+x[machine: 4, job1|stage1:0|2, job2|stage2:4|3];0.0
 x[machine: 4, job1|stage1:0|2, job2|stage2:5|0];1.0
-x[machine: 4, job1|stage1:0|2, job2|stage2:5|1];1.0
-x[machine: 4, job1|stage1:0|2, job2|stage2:5|3];1.0
-x[machine: 4, job1|stage1:0|2, job2|stage2:7|0];1.0
-x[machine: 4, job1|stage1:2|1, job2|stage2:3|2];1.0
+x[machine: 4, job1|stage1:0|2, job2|stage2:5|1];0.0
+x[machine: 4, job1|stage1:0|2, job2|stage2:5|3];0.0
+x[machine: 4, job1|stage1:0|2, job2|stage2:7|0];0.0
+x[machine: 4, job1|stage1:2|1, job2|stage2:3|2];0.0
 x[machine: 4, job1|stage1:2|1, job2|stage2:4|1];1.0
-x[machine: 4, job1|stage1:2|1, job2|stage2:4|3];1.0
-x[machine: 4, job1|stage1:2|1, job2|stage2:5|0];1.0
+x[machine: 4, job1|stage1:2|1, job2|stage2:4|3];0.0
+x[machine: 4, job1|stage1:2|1, job2|stage2:5|0];0.0
 x[machine: 4, job1|stage1:2|1, job2|stage2:5|1];1.0
-x[machine: 4, job1|stage1:2|1, job2|stage2:5|3];1.0
+x[machine: 4, job1|stage1:2|1, job2|stage2:5|3];0.0
 x[machine: 4, job1|stage1:2|1, job2|stage2:7|0];1.0
-x[machine: 4, job1|stage1:2|2, job2|stage2:3|2];1.0
-x[machine: 4, job1|stage1:2|2, job2|stage2:4|1];1.0
-x[machine: 4, job1|stage1:2|2, job2|stage2:4|3];1.0
-x[machine: 4, job1|stage1:2|2, job2|stage2:5|0];1.0
-x[machine: 4, job1|stage1:2|2, job2|stage2:5|1];1.0
-x[machine: 4, job1|stage1:2|2, job2|stage2:5|3];1.0
-x[machine: 4, job1|stage1:2|2, job2|stage2:7|0];1.0
-x[machine: 4, job1|stage1:3|2, job2|stage2:4|1];1.0
-x[machine: 4, job1|stage1:3|2, job2|stage2:4|3];1.0
-x[machine: 4, job1|stage1:3|2, job2|stage2:5|0];1.0
-x[machine: 4, job1|stage1:3|2, job2|stage2:5|1];1.0
-x[machine: 4, job1|stage1:3|2, job2|stage2:5|3];1.0
-x[machine: 4, job1|stage1:3|2, job2|stage2:7|0];1.0
+x[machine: 4, job1|stage1:2|2, job2|stage2:3|2];0.0
+x[machine: 4, job1|stage1:2|2, job2|stage2:4|1];0.0
+x[machine: 4, job1|stage1:2|2, job2|stage2:4|3];0.0
+x[machine: 4, job1|stage1:2|2, job2|stage2:5|0];0.0
+x[machine: 4, job1|stage1:2|2, job2|stage2:5|1];0.0
+x[machine: 4, job1|stage1:2|2, job2|stage2:5|3];0.0
+x[machine: 4, job1|stage1:2|2, job2|stage2:7|0];0.0
+x[machine: 4, job1|stage1:3|2, job2|stage2:4|1];0.0
+x[machine: 4, job1|stage1:3|2, job2|stage2:4|3];0.0
+x[machine: 4, job1|stage1:3|2, job2|stage2:5|0];0.0
+x[machine: 4, job1|stage1:3|2, job2|stage2:5|1];0.0
+x[machine: 4, job1|stage1:3|2, job2|stage2:5|3];0.0
+x[machine: 4, job1|stage1:3|2, job2|stage2:7|0];0.0
 x[machine: 4, job1|stage1:4|1, job2|stage2:5|0];1.0
-x[machine: 4, job1|stage1:4|1, job2|stage2:5|1];1.0
-x[machine: 4, job1|stage1:4|1, job2|stage2:5|3];0.9999999999999996
-x[machine: 4, job1|stage1:4|1, job2|stage2:7|0];1.0
+x[machine: 4, job1|stage1:4|1, job2|stage2:5|1];0.0
+x[machine: 4, job1|stage1:4|1, job2|stage2:5|3];1.0
+x[machine: 4, job1|stage1:4|1, job2|stage2:7|0];0.0
 x[machine: 4, job1|stage1:4|3, job2|stage2:5|0];1.0
 x[machine: 4, job1|stage1:4|3, job2|stage2:5|1];1.0
-x[machine: 4, job1|stage1:4|3, job2|stage2:5|3];1.0
-x[machine: 4, job1|stage1:4|3, job2|stage2:7|0];1.0
-x[machine: 4, job1|stage1:5|0, job2|stage2:7|0];1.0
-x[machine: 4, job1|stage1:5|1, job2|stage2:7|0];1.0
-x[machine: 4, job1|stage1:5|3, job2|stage2:7|0];1.0
-x[machine: 5, job1|stage1:0|2, job2|stage2:1|2];1.0
-x[machine: 5, job1|stage1:0|2, job2|stage2:1|3];1.0
-x[machine: 5, job1|stage1:0|2, job2|stage2:2|2];1.0
-x[machine: 5, job1|stage1:0|2, job2|stage2:3|1];1.0
-x[machine: 5, job1|stage1:0|2, job2|stage2:3|3];1.0
+x[machine: 4, job1|stage1:4|3, job2|stage2:5|3];0.0
+x[machine: 4, job1|stage1:4|3, job2|stage2:7|0];0.0
+x[machine: 4, job1|stage1:5|0, job2|stage2:7|0];0.0
+x[machine: 4, job1|stage1:5|1, job2|stage2:7|0];0.0
+x[machine: 4, job1|stage1:5|3, job2|stage2:7|0];0.0
+x[machine: 5, job1|stage1:0|2, job2|stage2:1|2];0.0
+x[machine: 5, job1|stage1:0|2, job2|stage2:1|3];0.0
+x[machine: 5, job1|stage1:0|2, job2|stage2:2|2];0.0
+x[machine: 5, job1|stage1:0|2, job2|stage2:3|1];0.0
+x[machine: 5, job1|stage1:0|2, job2|stage2:3|3];0.0
 x[machine: 5, job1|stage1:0|2, job2|stage2:4|1];1.0
-x[machine: 5, job1|stage1:0|2, job2|stage2:4|2];1.0
-x[machine: 5, job1|stage1:0|2, job2|stage2:5|1];1.0
+x[machine: 5, job1|stage1:0|2, job2|stage2:4|2];0.0
+x[machine: 5, job1|stage1:0|2, job2|stage2:5|1];0.0
 x[machine: 5, job1|stage1:0|2, job2|stage2:5|2];1.0
-x[machine: 5, job1|stage1:0|2, job2|stage2:6|1];1.0
-x[machine: 5, job1|stage1:0|2, job2|stage2:6|2];1.0
+x[machine: 5, job1|stage1:0|2, job2|stage2:6|1];0.0
+x[machine: 5, job1|stage1:0|2, job2|stage2:6|2];0.0
 x[machine: 5, job1|stage1:0|2, job2|stage2:6|3];1.0
 x[machine: 5, job1|stage1:0|2, job2|stage2:7|1];1.0
-x[machine: 5, job1|stage1:0|2, job2|stage2:7|2];1.0
-x[machine: 5, job1|stage1:1|2, job2|stage2:2|2];1.0
-x[machine: 5, job1|stage1:1|2, job2|stage2:3|1];1.0
-x[machine: 5, job1|stage1:1|2, job2|stage2:3|3];1.0
-x[machine: 5, job1|stage1:1|2, job2|stage2:4|1];1.0
-x[machine: 5, job1|stage1:1|2, job2|stage2:4|2];1.0
-x[machine: 5, job1|stage1:1|2, job2|stage2:5|1];1.0
+x[machine: 5, job1|stage1:0|2, job2|stage2:7|2];0.0
+x[machine: 5, job1|stage1:1|2, job2|stage2:2|2];0.0
+x[machine: 5, job1|stage1:1|2, job2|stage2:3|1];0.0
+x[machine: 5, job1|stage1:1|2, job2|stage2:3|3];0.0
+x[machine: 5, job1|stage1:1|2, job2|stage2:4|1];0.0
+x[machine: 5, job1|stage1:1|2, job2|stage2:4|2];0.0
+x[machine: 5, job1|stage1:1|2, job2|stage2:5|1];0.0
 x[machine: 5, job1|stage1:1|2, job2|stage2:5|2];1.0
 x[machine: 5, job1|stage1:1|2, job2|stage2:6|1];1.0
-x[machine: 5, job1|stage1:1|2, job2|stage2:6|2];1.0
-x[machine: 5, job1|stage1:1|2, job2|stage2:6|3];1.0
-x[machine: 5, job1|stage1:1|2, job2|stage2:7|1];1.0
-x[machine: 5, job1|stage1:1|2, job2|stage2:7|2];1.0
-x[machine: 5, job1|stage1:1|3, job2|stage2:2|2];1.0
-x[machine: 5, job1|stage1:1|3, job2|stage2:3|1];1.0
-x[machine: 5, job1|stage1:1|3, job2|stage2:3|3];1.0
+x[machine: 5, job1|stage1:1|2, job2|stage2:6|2];0.0
+x[machine: 5, job1|stage1:1|2, job2|stage2:6|3];0.0
+x[machine: 5, job1|stage1:1|2, job2|stage2:7|1];0.0
+x[machine: 5, job1|stage1:1|2, job2|stage2:7|2];0.0
+x[machine: 5, job1|stage1:1|3, job2|stage2:2|2];0.0
+x[machine: 5, job1|stage1:1|3, job2|stage2:3|1];0.0
+x[machine: 5, job1|stage1:1|3, job2|stage2:3|3];0.0
 x[machine: 5, job1|stage1:1|3, job2|stage2:4|1];1.0
-x[machine: 5, job1|stage1:1|3, job2|stage2:4|2];1.0
-x[machine: 5, job1|stage1:1|3, job2|stage2:5|1];1.0
-x[machine: 5, job1|stage1:1|3, job2|stage2:5|2];1.0
+x[machine: 5, job1|stage1:1|3, job2|stage2:4|2];0.0
+x[machine: 5, job1|stage1:1|3, job2|stage2:5|1];0.0
+x[machine: 5, job1|stage1:1|3, job2|stage2:5|2];0.0
 x[machine: 5, job1|stage1:1|3, job2|stage2:6|1];1.0
-x[machine: 5, job1|stage1:1|3, job2|stage2:6|2];1.0
+x[machine: 5, job1|stage1:1|3, job2|stage2:6|2];0.0
 x[machine: 5, job1|stage1:1|3, job2|stage2:6|3];1.0
-x[machine: 5, job1|stage1:1|3, job2|stage2:7|1];1.0
-x[machine: 5, job1|stage1:1|3, job2|stage2:7|2];1.0
+x[machine: 5, job1|stage1:1|3, job2|stage2:7|1];0.0
+x[machine: 5, job1|stage1:1|3, job2|stage2:7|2];0.0
 x[machine: 5, job1|stage1:2|2, job2|stage2:3|1];1.0
-x[machine: 5, job1|stage1:2|2, job2|stage2:3|3];1.0
+x[machine: 5, job1|stage1:2|2, job2|stage2:3|3];0.0
 x[machine: 5, job1|stage1:2|2, job2|stage2:4|1];1.0
 x[machine: 5, job1|stage1:2|2, job2|stage2:4|2];1.0
-x[machine: 5, job1|stage1:2|2, job2|stage2:5|1];1.0
+x[machine: 5, job1|stage1:2|2, job2|stage2:5|1];0.0
 x[machine: 5, job1|stage1:2|2, job2|stage2:5|2];1.0
-x[machine: 5, job1|stage1:2|2, job2|stage2:6|1];1.0
-x[machine: 5, job1|stage1:2|2, job2|stage2:6|2];1.0
-x[machine: 5, job1|stage1:2|2, job2|stage2:6|3];1.0
-x[machine: 5, job1|stage1:2|2, job2|stage2:7|1];1.0
-x[machine: 5, job1|stage1:2|2, job2|stage2:7|2];1.0
-x[machine: 5, job1|stage1:3|1, job2|stage2:4|1];1.0
-x[machine: 5, job1|stage1:3|1, job2|stage2:4|2];1.0
+x[machine: 5, job1|stage1:2|2, job2|stage2:6|1];0.0
+x[machine: 5, job1|stage1:2|2, job2|stage2:6|2];0.0
+x[machine: 5, job1|stage1:2|2, job2|stage2:6|3];0.0
+x[machine: 5, job1|stage1:2|2, job2|stage2:7|1];0.0
+x[machine: 5, job1|stage1:2|2, job2|stage2:7|2];0.0
+x[machine: 5, job1|stage1:3|1, job2|stage2:4|1];0.0
+x[machine: 5, job1|stage1:3|1, job2|stage2:4|2];0.0
 x[machine: 5, job1|stage1:3|1, job2|stage2:5|1];1.0
-x[machine: 5, job1|stage1:3|1, job2|stage2:5|2];1.0
-x[machine: 5, job1|stage1:3|1, job2|stage2:6|1];1.0
-x[machine: 5, job1|stage1:3|1, job2|stage2:6|2];1.0
-x[machine: 5, job1|stage1:3|1, job2|stage2:6|3];1.0
-x[machine: 5, job1|stage1:3|1, job2|stage2:7|1];1.0
-x[machine: 5, job1|stage1:3|1, job2|stage2:7|2];1.0
-x[machine: 5, job1|stage1:3|3, job2|stage2:4|1];1.0
-x[machine: 5, job1|stage1:3|3, job2|stage2:4|2];1.0
-x[machine: 5, job1|stage1:3|3, job2|stage2:5|1];1.0
-x[machine: 5, job1|stage1:3|3, job2|stage2:5|2];1.0
-x[machine: 5, job1|stage1:3|3, job2|stage2:6|1];1.0
+x[machine: 5, job1|stage1:3|1, job2|stage2:5|2];0.0
+x[machine: 5, job1|stage1:3|1, job2|stage2:6|1];0.0
+x[machine: 5, job1|stage1:3|1, job2|stage2:6|2];0.0
+x[machine: 5, job1|stage1:3|1, job2|stage2:6|3];0.0
+x[machine: 5, job1|stage1:3|1, job2|stage2:7|1];0.0
+x[machine: 5, job1|stage1:3|1, job2|stage2:7|2];0.0
+x[machine: 5, job1|stage1:3|3, job2|stage2:4|1];0.0
+x[machine: 5, job1|stage1:3|3, job2|stage2:4|2];0.0
+x[machine: 5, job1|stage1:3|3, job2|stage2:5|1];0.0
+x[machine: 5, job1|stage1:3|3, job2|stage2:5|2];0.0
+x[machine: 5, job1|stage1:3|3, job2|stage2:6|1];0.0
 x[machine: 5, job1|stage1:3|3, job2|stage2:6|2];1.0
-x[machine: 5, job1|stage1:3|3, job2|stage2:6|3];1.0
-x[machine: 5, job1|stage1:3|3, job2|stage2:7|1];1.0
-x[machine: 5, job1|stage1:3|3, job2|stage2:7|2];1.0
-x[machine: 5, job1|stage1:4|1, job2|stage2:5|1];1.0
-x[machine: 5, job1|stage1:4|1, job2|stage2:5|2];1.0
-x[machine: 5, job1|stage1:4|1, job2|stage2:6|1];1.0
-x[machine: 5, job1|stage1:4|1, job2|stage2:6|2];1.0
-x[machine: 5, job1|stage1:4|1, job2|stage2:6|3];1.0
-x[machine: 5, job1|stage1:4|1, job2|stage2:7|1];1.0
-x[machine: 5, job1|stage1:4|1, job2|stage2:7|2];1.0
+x[machine: 5, job1|stage1:3|3, job2|stage2:6|3];0.0
+x[machine: 5, job1|stage1:3|3, job2|stage2:7|1];0.0
+x[machine: 5, job1|stage1:3|3, job2|stage2:7|2];0.0
+x[machine: 5, job1|stage1:4|1, job2|stage2:5|1];0.0
+x[machine: 5, job1|stage1:4|1, job2|stage2:5|2];0.0
+x[machine: 5, job1|stage1:4|1, job2|stage2:6|1];0.0
+x[machine: 5, job1|stage1:4|1, job2|stage2:6|2];0.0
+x[machine: 5, job1|stage1:4|1, job2|stage2:6|3];0.0
+x[machine: 5, job1|stage1:4|1, job2|stage2:7|1];0.0
+x[machine: 5, job1|stage1:4|1, job2|stage2:7|2];0.0
 x[machine: 5, job1|stage1:4|2, job2|stage2:5|1];1.0
 x[machine: 5, job1|stage1:4|2, job2|stage2:5|2];1.0
 x[machine: 5, job1|stage1:4|2, job2|stage2:6|1];1.0
-x[machine: 5, job1|stage1:4|2, job2|stage2:6|2];1.0
-x[machine: 5, job1|stage1:4|2, job2|stage2:6|3];1.0
+x[machine: 5, job1|stage1:4|2, job2|stage2:6|2];0.0
+x[machine: 5, job1|stage1:4|2, job2|stage2:6|3];0.0
 x[machine: 5, job1|stage1:4|2, job2|stage2:7|1];1.0
-x[machine: 5, job1|stage1:4|2, job2|stage2:7|2];1.0
-x[machine: 5, job1|stage1:5|1, job2|stage2:6|1];1.0
+x[machine: 5, job1|stage1:4|2, job2|stage2:7|2];0.0
+x[machine: 5, job1|stage1:5|1, job2|stage2:6|1];0.0
 x[machine: 5, job1|stage1:5|1, job2|stage2:6|2];1.0
 x[machine: 5, job1|stage1:5|1, job2|stage2:6|3];1.0
-x[machine: 5, job1|stage1:5|1, job2|stage2:7|1];1.0
-x[machine: 5, job1|stage1:5|1, job2|stage2:7|2];1.0
-x[machine: 5, job1|stage1:5|2, job2|stage2:6|1];1.0
-x[machine: 5, job1|stage1:5|2, job2|stage2:6|2];1.0
-x[machine: 5, job1|stage1:5|2, job2|stage2:6|3];1.0
-x[machine: 5, job1|stage1:5|2, job2|stage2:7|1];1.0
-x[machine: 5, job1|stage1:5|2, job2|stage2:7|2];1.0
-x[machine: 5, job1|stage1:6|1, job2|stage2:7|1];1.0
-x[machine: 5, job1|stage1:6|1, job2|stage2:7|2];1.0
-x[machine: 5, job1|stage1:6|2, job2|stage2:7|1];1.0
-x[machine: 5, job1|stage1:6|2, job2|stage2:7|2];1.0
-x[machine: 5, job1|stage1:6|3, job2|stage2:7|1];1.0
-x[machine: 5, job1|stage1:6|3, job2|stage2:7|2];1.0
-x[machine: 6, job1|stage1:0|3, job2|stage2:1|2];1.0
-x[machine: 6, job1|stage1:0|3, job2|stage2:2|2];1.0
-x[machine: 6, job1|stage1:0|3, job2|stage2:2|3];1.0
-x[machine: 6, job1|stage1:0|3, job2|stage2:3|2];1.0
-x[machine: 6, job1|stage1:0|3, job2|stage2:3|3];1.0
-x[machine: 6, job1|stage1:0|3, job2|stage2:4|2];1.0
-x[machine: 6, job1|stage1:0|3, job2|stage2:4|3];1.0
-x[machine: 6, job1|stage1:0|3, job2|stage2:5|2];1.0
+x[machine: 5, job1|stage1:5|1, job2|stage2:7|1];0.0
+x[machine: 5, job1|stage1:5|1, job2|stage2:7|2];0.0
+x[machine: 5, job1|stage1:5|2, job2|stage2:6|1];0.0
+x[machine: 5, job1|stage1:5|2, job2|stage2:6|2];0.0
+x[machine: 5, job1|stage1:5|2, job2|stage2:6|3];0.0
+x[machine: 5, job1|stage1:5|2, job2|stage2:7|1];0.0
+x[machine: 5, job1|stage1:5|2, job2|stage2:7|2];0.0
+x[machine: 5, job1|stage1:6|1, job2|stage2:7|1];0.0
+x[machine: 5, job1|stage1:6|1, job2|stage2:7|2];0.0
+x[machine: 5, job1|stage1:6|2, job2|stage2:7|1];0.0
+x[machine: 5, job1|stage1:6|2, job2|stage2:7|2];0.0
+x[machine: 5, job1|stage1:6|3, job2|stage2:7|1];0.0
+x[machine: 5, job1|stage1:6|3, job2|stage2:7|2];0.0
+x[machine: 6, job1|stage1:0|3, job2|stage2:1|2];0.0
+x[machine: 6, job1|stage1:0|3, job2|stage2:2|2];0.0
+x[machine: 6, job1|stage1:0|3, job2|stage2:2|3];0.0
+x[machine: 6, job1|stage1:0|3, job2|stage2:3|2];0.0
+x[machine: 6, job1|stage1:0|3, job2|stage2:3|3];0.0
+x[machine: 6, job1|stage1:0|3, job2|stage2:4|2];0.0
+x[machine: 6, job1|stage1:0|3, job2|stage2:4|3];0.0
+x[machine: 6, job1|stage1:0|3, job2|stage2:5|2];0.0
 x[machine: 6, job1|stage1:0|3, job2|stage2:6|2];1.0
-x[machine: 6, job1|stage1:0|3, job2|stage2:7|1];1.0
-x[machine: 6, job1|stage1:0|3, job2|stage2:7|2];1.0
-x[machine: 6, job1|stage1:0|3, job2|stage2:7|3];1.0
-x[machine: 6, job1|stage1:1|2, job2|stage2:2|2];1.0
-x[machine: 6, job1|stage1:1|2, job2|stage2:2|3];1.0
+x[machine: 6, job1|stage1:0|3, job2|stage2:7|1];0.0
+x[machine: 6, job1|stage1:0|3, job2|stage2:7|2];0.0
+x[machine: 6, job1|stage1:0|3, job2|stage2:7|3];0.0
+x[machine: 6, job1|stage1:1|2, job2|stage2:2|2];0.0
+x[machine: 6, job1|stage1:1|2, job2|stage2:2|3];0.0
 x[machine: 6, job1|stage1:1|2, job2|stage2:3|2];1.0
 x[machine: 6, job1|stage1:1|2, job2|stage2:3|3];1.0
 x[machine: 6, job1|stage1:1|2, job2|stage2:4|2];1.0
-x[machine: 6, job1|stage1:1|2, job2|stage2:4|3];1.0
-x[machine: 6, job1|stage1:1|2, job2|stage2:5|2];1.0
-x[machine: 6, job1|stage1:1|2, job2|stage2:6|2];1.0
-x[machine: 6, job1|stage1:1|2, job2|stage2:7|1];1.0
-x[machine: 6, job1|stage1:1|2, job2|stage2:7|2];1.0
-x[machine: 6, job1|stage1:1|2, job2|stage2:7|3];1.0
-x[machine: 6, job1|stage1:2|2, job2|stage2:3|2];1.0
-x[machine: 6, job1|stage1:2|2, job2|stage2:3|3];1.0
+x[machine: 6, job1|stage1:1|2, job2|stage2:4|3];0.0
+x[machine: 6, job1|stage1:1|2, job2|stage2:5|2];0.0
+x[machine: 6, job1|stage1:1|2, job2|stage2:6|2];0.0
+x[machine: 6, job1|stage1:1|2, job2|stage2:7|1];0.0
+x[machine: 6, job1|stage1:1|2, job2|stage2:7|2];0.0
+x[machine: 6, job1|stage1:1|2, job2|stage2:7|3];0.0
+x[machine: 6, job1|stage1:2|2, job2|stage2:3|2];0.0
+x[machine: 6, job1|stage1:2|2, job2|stage2:3|3];0.0
 x[machine: 6, job1|stage1:2|2, job2|stage2:4|2];1.0
-x[machine: 6, job1|stage1:2|2, job2|stage2:4|3];1.0
-x[machine: 6, job1|stage1:2|2, job2|stage2:5|2];1.0
-x[machine: 6, job1|stage1:2|2, job2|stage2:6|2];1.0
-x[machine: 6, job1|stage1:2|2, job2|stage2:7|1];1.0
-x[machine: 6, job1|stage1:2|2, job2|stage2:7|2];1.0
-x[machine: 6, job1|stage1:2|2, job2|stage2:7|3];1.0
-x[machine: 6, job1|stage1:2|3, job2|stage2:3|2];1.0
-x[machine: 6, job1|stage1:2|3, job2|stage2:3|3];1.0
-x[machine: 6, job1|stage1:2|3, job2|stage2:4|2];1.0
-x[machine: 6, job1|stage1:2|3, job2|stage2:4|3];1.0
-x[machine: 6, job1|stage1:2|3, job2|stage2:5|2];1.0
-x[machine: 6, job1|stage1:2|3, job2|stage2:6|2];1.0
-x[machine: 6, job1|stage1:2|3, job2|stage2:7|1];1.0
-x[machine: 6, job1|stage1:2|3, job2|stage2:7|2];1.0
-x[machine: 6, job1|stage1:2|3, job2|stage2:7|3];1.0
-x[machine: 6, job1|stage1:3|2, job2|stage2:4|2];1.0
-x[machine: 6, job1|stage1:3|2, job2|stage2:4|3];1.0
-x[machine: 6, job1|stage1:3|2, job2|stage2:5|2];1.0
-x[machine: 6, job1|stage1:3|2, job2|stage2:6|2];1.0
-x[machine: 6, job1|stage1:3|2, job2|stage2:7|1];1.0
-x[machine: 6, job1|stage1:3|2, job2|stage2:7|2];1.0
-x[machine: 6, job1|stage1:3|2, job2|stage2:7|3];1.0
-x[machine: 6, job1|stage1:3|3, job2|stage2:4|2];1.0
-x[machine: 6, job1|stage1:3|3, job2|stage2:4|3];1.0
-x[machine: 6, job1|stage1:3|3, job2|stage2:5|2];1.0
-x[machine: 6, job1|stage1:3|3, job2|stage2:6|2];1.0
-x[machine: 6, job1|stage1:3|3, job2|stage2:7|1];1.0
-x[machine: 6, job1|stage1:3|3, job2|stage2:7|2];1.0
-x[machine: 6, job1|stage1:3|3, job2|stage2:7|3];1.0
-x[machine: 6, job1|stage1:4|2, job2|stage2:5|2];1.0
-x[machine: 6, job1|stage1:4|2, job2|stage2:6|2];1.0
+x[machine: 6, job1|stage1:2|2, job2|stage2:4|3];0.0
+x[machine: 6, job1|stage1:2|2, job2|stage2:5|2];0.0
+x[machine: 6, job1|stage1:2|2, job2|stage2:6|2];0.0
+x[machine: 6, job1|stage1:2|2, job2|stage2:7|1];0.0
+x[machine: 6, job1|stage1:2|2, job2|stage2:7|2];0.0
+x[machine: 6, job1|stage1:2|2, job2|stage2:7|3];0.0
+x[machine: 6, job1|stage1:2|3, job2|stage2:3|2];0.0
+x[machine: 6, job1|stage1:2|3, job2|stage2:3|3];0.0
+x[machine: 6, job1|stage1:2|3, job2|stage2:4|2];0.0
+x[machine: 6, job1|stage1:2|3, job2|stage2:4|3];0.0
+x[machine: 6, job1|stage1:2|3, job2|stage2:5|2];0.0
+x[machine: 6, job1|stage1:2|3, job2|stage2:6|2];0.0
+x[machine: 6, job1|stage1:2|3, job2|stage2:7|1];0.0
+x[machine: 6, job1|stage1:2|3, job2|stage2:7|2];0.0
+x[machine: 6, job1|stage1:2|3, job2|stage2:7|3];0.0
+x[machine: 6, job1|stage1:3|2, job2|stage2:4|2];0.0
+x[machine: 6, job1|stage1:3|2, job2|stage2:4|3];0.0
+x[machine: 6, job1|stage1:3|2, job2|stage2:5|2];0.0
+x[machine: 6, job1|stage1:3|2, job2|stage2:6|2];0.0
+x[machine: 6, job1|stage1:3|2, job2|stage2:7|1];0.0
+x[machine: 6, job1|stage1:3|2, job2|stage2:7|2];0.0
+x[machine: 6, job1|stage1:3|2, job2|stage2:7|3];0.0
+x[machine: 6, job1|stage1:3|3, job2|stage2:4|2];0.0
+x[machine: 6, job1|stage1:3|3, job2|stage2:4|3];0.0
+x[machine: 6, job1|stage1:3|3, job2|stage2:5|2];0.0
+x[machine: 6, job1|stage1:3|3, job2|stage2:6|2];0.0
+x[machine: 6, job1|stage1:3|3, job2|stage2:7|1];0.0
+x[machine: 6, job1|stage1:3|3, job2|stage2:7|2];0.0
+x[machine: 6, job1|stage1:3|3, job2|stage2:7|3];0.0
+x[machine: 6, job1|stage1:4|2, job2|stage2:5|2];0.0
+x[machine: 6, job1|stage1:4|2, job2|stage2:6|2];0.0
 x[machine: 6, job1|stage1:4|2, job2|stage2:7|1];1.0
-x[machine: 6, job1|stage1:4|2, job2|stage2:7|2];1.0
-x[machine: 6, job1|stage1:4|2, job2|stage2:7|3];1.0
-x[machine: 6, job1|stage1:4|3, job2|stage2:5|2];1.0
-x[machine: 6, job1|stage1:4|3, job2|stage2:6|2];1.0
-x[machine: 6, job1|stage1:4|3, job2|stage2:7|1];1.0
-x[machine: 6, job1|stage1:4|3, job2|stage2:7|2];1.0
-x[machine: 6, job1|stage1:4|3, job2|stage2:7|3];1.0
+x[machine: 6, job1|stage1:4|2, job2|stage2:7|2];0.0
+x[machine: 6, job1|stage1:4|2, job2|stage2:7|3];0.0
+x[machine: 6, job1|stage1:4|3, job2|stage2:5|2];0.0
+x[machine: 6, job1|stage1:4|3, job2|stage2:6|2];0.0
+x[machine: 6, job1|stage1:4|3, job2|stage2:7|1];0.0
+x[machine: 6, job1|stage1:4|3, job2|stage2:7|2];0.0
+x[machine: 6, job1|stage1:4|3, job2|stage2:7|3];0.0
 x[machine: 6, job1|stage1:5|2, job2|stage2:6|2];1.0
-x[machine: 6, job1|stage1:5|2, job2|stage2:7|1];1.0
+x[machine: 6, job1|stage1:5|2, job2|stage2:7|1];0.0
 x[machine: 6, job1|stage1:5|2, job2|stage2:7|2];1.0
-x[machine: 6, job1|stage1:5|2, job2|stage2:7|3];1.0
-x[machine: 6, job1|stage1:6|2, job2|stage2:7|1];1.0
-x[machine: 6, job1|stage1:6|2, job2|stage2:7|2];1.0
-x[machine: 6, job1|stage1:6|2, job2|stage2:7|3];1.0
-x[machine: 7, job1|stage1:0|1, job2|stage2:1|2];1.0
-x[machine: 7, job1|stage1:0|1, job2|stage2:1|3];1.0
-x[machine: 7, job1|stage1:0|1, job2|stage2:2|1];1.0
-x[machine: 7, job1|stage1:0|1, job2|stage2:2|3];1.0
+x[machine: 6, job1|stage1:5|2, job2|stage2:7|3];0.0
+x[machine: 6, job1|stage1:6|2, job2|stage2:7|1];0.0
+x[machine: 6, job1|stage1:6|2, job2|stage2:7|2];0.0
+x[machine: 6, job1|stage1:6|2, job2|stage2:7|3];0.0
+x[machine: 7, job1|stage1:0|1, job2|stage2:1|2];0.0
+x[machine: 7, job1|stage1:0|1, job2|stage2:1|3];0.0
+x[machine: 7, job1|stage1:0|1, job2|stage2:2|1];0.0
+x[machine: 7, job1|stage1:0|1, job2|stage2:2|3];0.0
 x[machine: 7, job1|stage1:0|1, job2|stage2:4|1];1.0
-x[machine: 7, job1|stage1:0|1, job2|stage2:5|2];1.0
-x[machine: 7, job1|stage1:0|1, job2|stage2:5|3];1.0
-x[machine: 7, job1|stage1:0|1, job2|stage2:6|2];1.0
-x[machine: 7, job1|stage1:0|1, job2|stage2:6|3];1.0
-x[machine: 7, job1|stage1:0|1, job2|stage2:7|2];1.0
-x[machine: 7, job1|stage1:0|1, job2|stage2:7|3];1.0
-x[machine: 7, job1|stage1:0|2, job2|stage2:1|2];1.0
-x[machine: 7, job1|stage1:0|2, job2|stage2:1|3];1.0
-x[machine: 7, job1|stage1:0|2, job2|stage2:2|1];1.0
-x[machine: 7, job1|stage1:0|2, job2|stage2:2|3];1.0
-x[machine: 7, job1|stage1:0|2, job2|stage2:4|1];1.0
-x[machine: 7, job1|stage1:0|2, job2|stage2:5|2];1.0
+x[machine: 7, job1|stage1:0|1, job2|stage2:5|2];0.0
+x[machine: 7, job1|stage1:0|1, job2|stage2:5|3];0.0
+x[machine: 7, job1|stage1:0|1, job2|stage2:6|2];0.0
+x[machine: 7, job1|stage1:0|1, job2|stage2:6|3];0.0
+x[machine: 7, job1|stage1:0|1, job2|stage2:7|2];0.0
+x[machine: 7, job1|stage1:0|1, job2|stage2:7|3];0.0
+x[machine: 7, job1|stage1:0|2, job2|stage2:1|2];0.0
+x[machine: 7, job1|stage1:0|2, job2|stage2:1|3];0.0
+x[machine: 7, job1|stage1:0|2, job2|stage2:2|1];0.0
+x[machine: 7, job1|stage1:0|2, job2|stage2:2|3];0.0
+x[machine: 7, job1|stage1:0|2, job2|stage2:4|1];0.0
+x[machine: 7, job1|stage1:0|2, job2|stage2:5|2];0.0
 x[machine: 7, job1|stage1:0|2, job2|stage2:5|3];1.0
-x[machine: 7, job1|stage1:0|2, job2|stage2:6|2];1.0
-x[machine: 7, job1|stage1:0|2, job2|stage2:6|3];1.0
-x[machine: 7, job1|stage1:0|2, job2|stage2:7|2];1.0
-x[machine: 7, job1|stage1:0|2, job2|stage2:7|3];1.0
-x[machine: 7, job1|stage1:0|3, job2|stage2:1|2];1.0
-x[machine: 7, job1|stage1:0|3, job2|stage2:1|3];1.0
+x[machine: 7, job1|stage1:0|2, job2|stage2:6|2];0.0
+x[machine: 7, job1|stage1:0|2, job2|stage2:6|3];0.0
+x[machine: 7, job1|stage1:0|2, job2|stage2:7|2];0.0
+x[machine: 7, job1|stage1:0|2, job2|stage2:7|3];0.0
+x[machine: 7, job1|stage1:0|3, job2|stage2:1|2];0.0
+x[machine: 7, job1|stage1:0|3, job2|stage2:1|3];0.0
 x[machine: 7, job1|stage1:0|3, job2|stage2:2|1];1.0
-x[machine: 7, job1|stage1:0|3, job2|stage2:2|3];1.0
+x[machine: 7, job1|stage1:0|3, job2|stage2:2|3];0.0
 x[machine: 7, job1|stage1:0|3, job2|stage2:4|1];1.0
-x[machine: 7, job1|stage1:0|3, job2|stage2:5|2];1.0
+x[machine: 7, job1|stage1:0|3, job2|stage2:5|2];0.0
 x[machine: 7, job1|stage1:0|3, job2|stage2:5|3];1.0
-x[machine: 7, job1|stage1:0|3, job2|stage2:6|2];1.0
-x[machine: 7, job1|stage1:0|3, job2|stage2:6|3];1.0
-x[machine: 7, job1|stage1:0|3, job2|stage2:7|2];1.0
-x[machine: 7, job1|stage1:0|3, job2|stage2:7|3];1.0
-x[machine: 7, job1|stage1:1|2, job2|stage2:2|1];1.0
-x[machine: 7, job1|stage1:1|2, job2|stage2:2|3];1.0
-x[machine: 7, job1|stage1:1|2, job2|stage2:4|1];1.0
-x[machine: 7, job1|stage1:1|2, job2|stage2:5|2];1.0
-x[machine: 7, job1|stage1:1|2, job2|stage2:5|3];1.0
-x[machine: 7, job1|stage1:1|2, job2|stage2:6|2];1.0
-x[machine: 7, job1|stage1:1|2, job2|stage2:6|3];1.0
-x[machine: 7, job1|stage1:1|2, job2|stage2:7|2];1.0
-x[machine: 7, job1|stage1:1|2, job2|stage2:7|3];1.0
+x[machine: 7, job1|stage1:0|3, job2|stage2:6|2];0.0
+x[machine: 7, job1|stage1:0|3, job2|stage2:6|3];0.0
+x[machine: 7, job1|stage1:0|3, job2|stage2:7|2];0.0
+x[machine: 7, job1|stage1:0|3, job2|stage2:7|3];0.0
+x[machine: 7, job1|stage1:1|2, job2|stage2:2|1];0.0
+x[machine: 7, job1|stage1:1|2, job2|stage2:2|3];0.0
+x[machine: 7, job1|stage1:1|2, job2|stage2:4|1];0.0
+x[machine: 7, job1|stage1:1|2, job2|stage2:5|2];0.0
+x[machine: 7, job1|stage1:1|2, job2|stage2:5|3];0.0
+x[machine: 7, job1|stage1:1|2, job2|stage2:6|2];0.0
+x[machine: 7, job1|stage1:1|2, job2|stage2:6|3];0.0
+x[machine: 7, job1|stage1:1|2, job2|stage2:7|2];0.0
+x[machine: 7, job1|stage1:1|2, job2|stage2:7|3];0.0
 x[machine: 7, job1|stage1:1|3, job2|stage2:2|1];1.0
-x[machine: 7, job1|stage1:1|3, job2|stage2:2|3];1.0
+x[machine: 7, job1|stage1:1|3, job2|stage2:2|3];0.0
 x[machine: 7, job1|stage1:1|3, job2|stage2:4|1];1.0
-x[machine: 7, job1|stage1:1|3, job2|stage2:5|2];1.0
+x[machine: 7, job1|stage1:1|3, job2|stage2:5|2];0.0
 x[machine: 7, job1|stage1:1|3, job2|stage2:5|3];1.0
-x[machine: 7, job1|stage1:1|3, job2|stage2:6|2];1.0
-x[machine: 7, job1|stage1:1|3, job2|stage2:6|3];1.0
-x[machine: 7, job1|stage1:1|3, job2|stage2:7|2];1.0
-x[machine: 7, job1|stage1:1|3, job2|stage2:7|3];1.0
+x[machine: 7, job1|stage1:1|3, job2|stage2:6|2];0.0
+x[machine: 7, job1|stage1:1|3, job2|stage2:6|3];0.0
+x[machine: 7, job1|stage1:1|3, job2|stage2:7|2];0.0
+x[machine: 7, job1|stage1:1|3, job2|stage2:7|3];0.0
 x[machine: 7, job1|stage1:2|1, job2|stage2:4|1];1.0
-x[machine: 7, job1|stage1:2|1, job2|stage2:5|2];1.0
-x[machine: 7, job1|stage1:2|1, job2|stage2:5|3];1.0
-x[machine: 7, job1|stage1:2|1, job2|stage2:6|2];1.0
-x[machine: 7, job1|stage1:2|1, job2|stage2:6|3];1.0
-x[machine: 7, job1|stage1:2|1, job2|stage2:7|2];1.0
-x[machine: 7, job1|stage1:2|1, job2|stage2:7|3];1.0
+x[machine: 7, job1|stage1:2|1, job2|stage2:5|2];0.0
+x[machine: 7, job1|stage1:2|1, job2|stage2:5|3];0.0
+x[machine: 7, job1|stage1:2|1, job2|stage2:6|2];0.0
+x[machine: 7, job1|stage1:2|1, job2|stage2:6|3];0.0
+x[machine: 7, job1|stage1:2|1, job2|stage2:7|2];0.0
+x[machine: 7, job1|stage1:2|1, job2|stage2:7|3];0.0
 x[machine: 7, job1|stage1:2|3, job2|stage2:4|1];1.0
-x[machine: 7, job1|stage1:2|3, job2|stage2:5|2];1.0
+x[machine: 7, job1|stage1:2|3, job2|stage2:5|2];0.0
 x[machine: 7, job1|stage1:2|3, job2|stage2:5|3];1.0
-x[machine: 7, job1|stage1:2|3, job2|stage2:6|2];1.0
-x[machine: 7, job1|stage1:2|3, job2|stage2:6|3];1.0
-x[machine: 7, job1|stage1:2|3, job2|stage2:7|2];1.0
+x[machine: 7, job1|stage1:2|3, job2|stage2:6|2];0.0
+x[machine: 7, job1|stage1:2|3, job2|stage2:6|3];0.0
+x[machine: 7, job1|stage1:2|3, job2|stage2:7|2];0.0
 x[machine: 7, job1|stage1:2|3, job2|stage2:7|3];1.0
 x[machine: 7, job1|stage1:4|1, job2|stage2:5|2];1.0
-x[machine: 7, job1|stage1:4|1, job2|stage2:5|3];1.0
+x[machine: 7, job1|stage1:4|1, job2|stage2:5|3];0.0
 x[machine: 7, job1|stage1:4|1, job2|stage2:6|2];1.0
 x[machine: 7, job1|stage1:4|1, job2|stage2:6|3];1.0
 x[machine: 7, job1|stage1:4|1, job2|stage2:7|2];1.0
@@ -467,27 +467,27 @@ x[machine: 7, job1|stage1:5|2, job2|stage2:6|2];1.0
 x[machine: 7, job1|stage1:5|2, job2|stage2:6|3];1.0
 x[machine: 7, job1|stage1:5|2, job2|stage2:7|2];1.0
 x[machine: 7, job1|stage1:5|2, job2|stage2:7|3];1.0
-x[machine: 7, job1|stage1:5|3, job2|stage2:6|2];1.0
-x[machine: 7, job1|stage1:5|3, job2|stage2:6|3];1.0
-x[machine: 7, job1|stage1:5|3, job2|stage2:7|2];1.0
-x[machine: 7, job1|stage1:5|3, job2|stage2:7|3];1.0
-x[machine: 7, job1|stage1:6|2, job2|stage2:7|2];1.0
-x[machine: 7, job1|stage1:6|2, job2|stage2:7|3];1.0
-x[machine: 7, job1|stage1:6|3, job2|stage2:7|2];1.0
-x[machine: 7, job1|stage1:6|3, job2|stage2:7|3];1.0
-y[job:0, stage:0, machine:1];1.0
+x[machine: 7, job1|stage1:5|3, job2|stage2:6|2];0.0
+x[machine: 7, job1|stage1:5|3, job2|stage2:6|3];0.0
+x[machine: 7, job1|stage1:5|3, job2|stage2:7|2];0.0
+x[machine: 7, job1|stage1:5|3, job2|stage2:7|3];0.0
+x[machine: 7, job1|stage1:6|2, job2|stage2:7|2];0.0
+x[machine: 7, job1|stage1:6|2, job2|stage2:7|3];0.0
+x[machine: 7, job1|stage1:6|3, job2|stage2:7|2];0.0
+x[machine: 7, job1|stage1:6|3, job2|stage2:7|3];0.0
+y[job:0, stage:0, machine:1];0.0
 y[job:0, stage:0, machine:2];0.0
-y[job:0, stage:0, machine:3];0.0
-y[job:0, stage:1, machine:2];1.0
+y[job:0, stage:0, machine:3];1.0
+y[job:0, stage:1, machine:2];0.0
 y[job:0, stage:1, machine:4];0.0
-y[job:0, stage:1, machine:7];0.0
+y[job:0, stage:1, machine:7];1.0
 y[job:0, stage:2, machine:4];1.0
 y[job:0, stage:2, machine:5];0.0
 y[job:0, stage:2, machine:7];0.0
-y[job:0, stage:3, machine:6];1.0
-y[job:0, stage:3, machine:7];0.0
-y[job:1, stage:0, machine:1];0.0
-y[job:1, stage:0, machine:3];1.0
+y[job:0, stage:3, machine:6];0.0
+y[job:0, stage:3, machine:7];1.0
+y[job:1, stage:0, machine:1];1.0
+y[job:1, stage:0, machine:3];0.0
 y[job:1, stage:1, machine:2];1.0
 y[job:1, stage:1, machine:3];0.0
 y[job:1, stage:2, machine:5];0.0
@@ -495,13 +495,13 @@ y[job:1, stage:2, machine:6];1.0
 y[job:1, stage:2, machine:7];0.0
 y[job:1, stage:3, machine:5];0.0
 y[job:1, stage:3, machine:7];1.0
-y[job:2, stage:0, machine:1];0.0
-y[job:2, stage:0, machine:2];1.0
-y[job:2, stage:1, machine:3];1.0
+y[job:2, stage:0, machine:1];1.0
+y[job:2, stage:0, machine:2];0.0
+y[job:2, stage:1, machine:3];0.0
 y[job:2, stage:1, machine:4];0.0
-y[job:2, stage:1, machine:7];0.0
-y[job:2, stage:2, machine:4];1.0
-y[job:2, stage:2, machine:5];0.0
+y[job:2, stage:1, machine:7];1.0
+y[job:2, stage:2, machine:4];0.0
+y[job:2, stage:2, machine:5];1.0
 y[job:2, stage:2, machine:6];0.0
 y[job:2, stage:3, machine:6];0.0
 y[job:2, stage:3, machine:7];1.0
@@ -530,22 +530,22 @@ y[job:5, stage:0, machine:4];1.0
 y[job:5, stage:1, machine:3];1.0
 y[job:5, stage:1, machine:4];0.0
 y[job:5, stage:1, machine:5];0.0
-y[job:5, stage:2, machine:5];0.0
-y[job:5, stage:2, machine:6];1.0
+y[job:5, stage:2, machine:5];1.0
+y[job:5, stage:2, machine:6];0.0
 y[job:5, stage:2, machine:7];0.0
-y[job:5, stage:3, machine:4];1.0
-y[job:5, stage:3, machine:7];0.0
-y[job:6, stage:0, machine:2];0.0
-y[job:6, stage:0, machine:3];1.0
+y[job:5, stage:3, machine:4];0.0
+y[job:5, stage:3, machine:7];1.0
+y[job:6, stage:0, machine:2];1.0
+y[job:6, stage:0, machine:3];0.0
 y[job:6, stage:1, machine:3];1.0
 y[job:6, stage:1, machine:5];0.0
-y[job:6, stage:2, machine:5];0.0
-y[job:6, stage:2, machine:6];1.0
+y[job:6, stage:2, machine:5];1.0
+y[job:6, stage:2, machine:6];0.0
 y[job:6, stage:2, machine:7];0.0
 y[job:6, stage:3, machine:5];1.0
 y[job:6, stage:3, machine:7];0.0
-y[job:7, stage:0, machine:3];0.0
-y[job:7, stage:0, machine:4];1.0
+y[job:7, stage:0, machine:3];1.0
+y[job:7, stage:0, machine:4];0.0
 y[job:7, stage:1, machine:5];0.0
 y[job:7, stage:1, machine:6];1.0
 y[job:7, stage:2, machine:5];1.0

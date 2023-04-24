@@ -720,53 +720,62 @@ Subject To
    + 4.32e+06 x[machine__4,_job1|stage1_3|3,_job2|stage2_4|4]
    - startT[job_3,_stage_3,_machine_4] + startT[job_4,_stage_4,_machine_4]
    >= -8.63712e+06
- positive_start_time_job0_stage0_machine1_constraint:
+ initial_start_time_job0_stage0_machine1_constraint:
    startT[job_0,_stage_0,_machine_1] >= 0
- positive_start_time_job0_stage1_machine2_constraint:
+ initial_start_time_job0_stage0_machine2_constraint:
    startT[job_0,_stage_1,_machine_2] >= 0
- positive_start_time_job0_stage2_machine3_constraint:
+ initial_start_time_job0_stage0_machine3_constraint:
    startT[job_0,_stage_2,_machine_3] >= 0
- positive_start_time_job0_stage3_machine4_constraint:
+ initial_start_time_job0_stage0_machine4_constraint:
    startT[job_0,_stage_3,_machine_4] >= 0
- positive_start_time_job0_stage4_machine5_constraint:
+ initial_start_time_job0_stage0_machine5_constraint:
    startT[job_0,_stage_4,_machine_5] >= 0
- positive_start_time_job1_stage0_machine1_constraint:
+ initial_start_time_job1_stage0_machine1_constraint:
    startT[job_1,_stage_0,_machine_1] >= 0
- positive_start_time_job1_stage1_machine4_constraint:
+ initial_start_time_job1_stage0_machine4_constraint:
    startT[job_1,_stage_1,_machine_4] >= 0
- positive_start_time_job1_stage2_machine3_constraint:
+ initial_start_time_job1_stage0_machine3_constraint:
    startT[job_1,_stage_2,_machine_3] >= 0
- positive_start_time_job1_stage3_machine5_constraint:
+ initial_start_time_job1_stage0_machine5_constraint:
    startT[job_1,_stage_3,_machine_5] >= 0
- positive_start_time_job1_stage4_machine2_constraint:
+ initial_start_time_job1_stage0_machine2_constraint:
    startT[job_1,_stage_4,_machine_2] >= 0
- positive_start_time_job2_stage0_machine1_constraint:
-   startT[job_2,_stage_0,_machine_1] >= 0
- positive_start_time_job2_stage1_machine5_constraint:
-   startT[job_2,_stage_1,_machine_5] >= 0
- positive_start_time_job2_stage2_machine2_constraint:
-   startT[job_2,_stage_2,_machine_2] >= 0
- positive_start_time_job2_stage3_machine3_constraint:
-   startT[job_2,_stage_3,_machine_3] >= 0
- positive_start_time_job2_stage4_machine4_constraint:
-   startT[job_2,_stage_4,_machine_4] >= 0
- positive_start_time_job3_stage0_machine1_constraint:
-   startT[job_3,_stage_0,_machine_1] >= 0
- positive_start_time_job3_stage1_machine3_constraint:
-   startT[job_3,_stage_1,_machine_3] >= 0
- positive_start_time_job3_stage2_machine2_constraint:
-   startT[job_3,_stage_2,_machine_2] >= 0
- positive_start_time_job3_stage3_machine4_constraint:
-   startT[job_3,_stage_3,_machine_4] >= 0
- positive_start_time_job4_stage0_machine1_constraint:
+ initial_start_time_job2_stage0_machine1_constraint:
+   - 2880 y[job_2,_stage_0,_machine_1] + startT[job_2,_stage_0,_machine_1]
+   >= 0
+ initial_start_time_job2_stage0_machine5_constraint:
+   - 2880 y[job_2,_stage_1,_machine_5] + startT[job_2,_stage_1,_machine_5]
+   >= 0
+ initial_start_time_job2_stage0_machine2_constraint:
+   - 2880 y[job_2,_stage_2,_machine_2] + startT[job_2,_stage_2,_machine_2]
+   >= 0
+ initial_start_time_job2_stage0_machine3_constraint:
+   - 2880 y[job_2,_stage_3,_machine_3] + startT[job_2,_stage_3,_machine_3]
+   >= 0
+ initial_start_time_job2_stage0_machine4_constraint:
+   - 2880 y[job_2,_stage_4,_machine_4] + startT[job_2,_stage_4,_machine_4]
+   >= 0
+ initial_start_time_job3_stage0_machine1_constraint:
+   - 1440 y[job_3,_stage_0,_machine_1] + startT[job_3,_stage_0,_machine_1]
+   >= 0
+ initial_start_time_job3_stage0_machine3_constraint:
+   - 1440 y[job_3,_stage_1,_machine_3] + startT[job_3,_stage_1,_machine_3]
+   >= 0
+ initial_start_time_job3_stage0_machine2_constraint:
+   - 1440 y[job_3,_stage_2,_machine_2] + startT[job_3,_stage_2,_machine_2]
+   >= 0
+ initial_start_time_job3_stage0_machine4_constraint:
+   - 1440 y[job_3,_stage_3,_machine_4] + startT[job_3,_stage_3,_machine_4]
+   >= 0
+ initial_start_time_job4_stage0_machine1_constraint:
    startT[job_4,_stage_0,_machine_1] >= 0
- positive_start_time_job4_stage1_machine3_constraint:
+ initial_start_time_job4_stage0_machine3_constraint:
    startT[job_4,_stage_1,_machine_3] >= 0
- positive_start_time_job4_stage2_machine4_constraint:
+ initial_start_time_job4_stage0_machine4_constraint:
    startT[job_4,_stage_2,_machine_4] >= 0
- positive_start_time_job4_stage3_machine2_constraint:
+ initial_start_time_job4_stage0_machine2_constraint:
    startT[job_4,_stage_3,_machine_2] >= 0
- positive_start_time_job4_stage4_machine4_constraint:
+ initial_start_time_job4_stage0_machine4_constraint:
    startT[job_4,_stage_4,_machine_4] >= 0
  max_contraint: - 1440 y[job_0,_stage_0,_machine_1]
    - 2880 y[job_0,_stage_1,_machine_2] - 2880 y[job_0,_stage_2,_machine_3]

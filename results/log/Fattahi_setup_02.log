@@ -1,0 +1,52 @@
+
+Gurobi 10.0.1 (win64) logging started Wed Apr 12 07:35:27 2023
+
+Set parameter LogFile to value "results/log/Fattahi_setup_02.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 29 rows, 17 columns and 97 nonzeros
+Model fingerprint: 0x95331a2b
+Variable types: 7 continuous, 10 integer (10 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+09]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+09]
+Warning: Model contains large matrix coefficients
+Warning: Model contains large rhs
+         Consider reformulating model or setting NumericFocus parameter
+         to avoid numerical issues.
+Presolve removed 14 rows and 5 columns
+Presolve time: 0.00s
+Presolved: 15 rows, 12 columns, 56 nonzeros
+Variable types: 6 continuous, 6 integer (6 binary)
+Found heuristic solution: objective 470.0000000
+Found heuristic solution: objective 387.9999994
+Found heuristic solution: objective 272.9999997
+
+Root relaxation: objective 2.400000e+02, 3 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  240.00000    0    1  273.00000  240.00000  12.1%     -    0s
+
+Explored 1 nodes (3 simplex iterations) in 0.00 seconds (0.00 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 4: 273 273 388 470 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.730000000000e+02, best bound 2.730000000000e+02, gap 0.0000%
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: to let Gurobi read it back, use rlp format
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default variable names used to write mps file
+Warning: default constraint names used to write mps file
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: default variable names used to write solution file

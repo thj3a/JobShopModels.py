@@ -1,0 +1,60 @@
+
+Gurobi 10.0.1 (win64) logging started Wed Apr 12 07:35:28 2023
+
+Set parameter LogFile to value "results/log/Fattahi_setup_07.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 93 rows, 55 columns and 360 nonzeros
+Model fingerprint: 0x57a250f8
+Variable types: 19 continuous, 36 integer (36 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+09]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+09]
+Warning: Model contains large matrix coefficients
+Warning: Model contains large rhs
+         Consider reformulating model or setting NumericFocus parameter
+         to avoid numerical issues.
+Presolve removed 28 rows and 10 columns
+Presolve time: 0.00s
+Presolved: 65 rows, 45 columns, 276 nonzeros
+Variable types: 18 continuous, 27 integer (27 binary)
+Found heuristic solution: objective 2799.0000000
+Found heuristic solution: objective 2798.9999936
+Found heuristic solution: objective 2656.9999923
+
+Root relaxation: objective 1.812000e+03, 13 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 1812.00002    0    4 2656.99999 1812.00002  31.8%     -    0s
+H    0     0                    1846.0000000 1812.00002  1.84%     -    0s
+H    0     0                    1845.9999980 1812.00002  1.84%     -    0s
+     0     0 1845.00000    0    3 1846.00000 1845.00000  0.05%     -    0s
+     0     0 1846.00000    0    1 1846.00000 1846.00000  0.00%     -    0s
+
+Cutting planes:
+  Implied bound: 2
+  Flow cover: 4
+
+Explored 1 nodes (21 simplex iterations) in 0.01 seconds (0.00 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 6: 1846 1846 1846 ... 2799
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.846000000000e+03, best bound 1.846000000000e+03, gap 0.0000%
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: to let Gurobi read it back, use rlp format
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default variable names used to write mps file
+Warning: default constraint names used to write mps file
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: default variable names used to write solution file

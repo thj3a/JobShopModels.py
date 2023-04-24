@@ -1,0 +1,48 @@
+
+Gurobi 10.0.1 (win64) logging started Wed Apr 12 07:35:24 2023
+
+Set parameter LogFile to value "results/log/Fattahi_setup_01.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 43 rows, 25 columns and 169 nonzeros
+Model fingerprint: 0x3f6f1f93
+Variable types: 9 continuous, 16 integer (16 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 7e+04]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 2e+05]
+Presolve removed 13 rows and 5 columns
+Presolve time: 0.00s
+Presolved: 30 rows, 20 columns, 130 nonzeros
+Variable types: 8 continuous, 12 integer (12 binary)
+Found heuristic solution: objective 247.0000000
+Found heuristic solution: objective 216.0000000
+
+Root relaxation: objective 1.850025e+02, 4 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  185.00246    0    2  216.00000  185.00246  14.4%     -    0s
+     0     0     cutoff    0       216.00000  216.00000  0.00%     -    0s
+
+Explored 1 nodes (8 simplex iterations) in 0.00 seconds (0.00 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 2: 216 247 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.160000000000e+02, best bound 2.160000000000e+02, gap 0.0000%
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: to let Gurobi read it back, use rlp format
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default variable names used to write mps file
+Warning: default constraint names used to write mps file
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: default variable names used to write solution file

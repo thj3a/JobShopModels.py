@@ -1,0 +1,105 @@
+
+Gurobi 10.0.1 (win64) logging started Wed Apr 12 07:35:28 2023
+
+Set parameter LogFile to value "results/log/Fattahi_setup_10.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 119 rows, 69 columns and 454 nonzeros
+Model fingerprint: 0x123d3096
+Variable types: 21 continuous, 48 integer (48 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+09]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+09]
+Warning: Model contains large matrix coefficients
+Warning: Model contains large rhs
+         Consider reformulating model or setting NumericFocus parameter
+         to avoid numerical issues.
+Presolve removed 37 rows and 13 columns
+Presolve time: 0.00s
+Presolved: 82 rows, 56 columns, 331 nonzeros
+Variable types: 20 continuous, 36 integer (36 binary)
+Found heuristic solution: objective 4981.0000000
+
+Root relaxation: objective 2.934000e+03, 22 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 2934.00003    0    9 4981.00000 2934.00003  41.1%     -    0s
+H    0     0                    4812.0000000 2934.00003  39.0%     -    0s
+H    0     0                    4767.9999872 2934.00003  38.5%     -    0s
+H    0     0                    4767.9999842 2969.00000  37.7%     -    0s
+     0     0 2969.00000    0    6 4767.99998 2969.00000  37.7%     -    0s
+H    0     0                    4570.9999794 2969.00000  35.0%     -    0s
+H    0     0                    4360.0000000 2969.00000  31.9%     -    0s
+     0     0 2969.00000    0    6 4360.00000 2969.00000  31.9%     -    0s
+H    0     0                    3799.9999860 2969.53333  21.9%     -    0s
+     0     0 2969.53333    0    7 3799.99999 2969.53333  21.9%     -    0s
+     0     0 2985.00000    0    9 3799.99999 2985.00000  21.4%     -    0s
+     0     0 2986.00000    0    9 3799.99999 2986.00000  21.4%     -    0s
+     0     0 2988.00000    0    9 3799.99999 2988.00000  21.4%     -    0s
+H    0     0                    3715.9999905 3044.30951  18.1%     -    0s
+     0     0 3044.30951    0    7 3715.99999 3044.30951  18.1%     -    0s
+H    0     0                    3635.0000000 3044.30951  16.3%     -    0s
+     0     0 3052.64412    0    8 3635.00000 3052.64412  16.0%     -    0s
+     0     0 3070.36400    0    8 3635.00000 3070.36400  15.5%     -    0s
+     0     0 3071.76543    0    8 3635.00000 3071.76543  15.5%     -    0s
+     0     0 3071.76543    0    8 3635.00000 3071.76543  15.5%     -    0s
+     0     0 3225.93904    0    8 3635.00000 3225.93904  11.3%     -    0s
+     0     0 3228.14414    0    6 3635.00000 3228.14414  11.2%     -    0s
+H    0     0                    3634.9999991 3228.14414  11.2%     -    0s
+H    0     0                    3498.0000000 3228.14414  7.71%     -    0s
+     0     0 3228.18790    0    8 3498.00000 3228.18790  7.71%     -    0s
+     0     0 3230.87087    0    8 3498.00000 3230.87087  7.64%     -    0s
+     0     0 3236.62062    0    9 3498.00000 3236.62062  7.47%     -    0s
+     0     0 3238.51538    0   10 3498.00000 3238.51538  7.42%     -    0s
+     0     0 3239.64799    0   10 3498.00000 3239.64799  7.39%     -    0s
+     0     0 3239.64799    0   10 3498.00000 3239.64799  7.39%     -    0s
+     0     0 3241.36809    0    9 3498.00000 3241.36809  7.34%     -    0s
+     0     0 3243.78397    0    8 3498.00000 3243.78397  7.27%     -    0s
+     0     0 3243.78397    0    8 3498.00000 3243.78397  7.27%     -    0s
+     0     0 3243.78397    0    9 3498.00000 3243.78397  7.27%     -    0s
+     0     0 3245.04531    0    8 3498.00000 3245.04531  7.23%     -    0s
+     0     0 3245.04531    0    8 3498.00000 3245.04531  7.23%     -    0s
+     0     0 3245.04531    0    8 3498.00000 3245.04531  7.23%     -    0s
+     0     0 3245.04532    0    8 3498.00000 3245.04532  7.23%     -    0s
+     0     0 3249.54532    0    8 3498.00000 3249.54532  7.10%     -    0s
+H    0     0                    3497.9999992 3249.54532  7.10%     -    0s
+     0     0 3345.59223    0    7 3498.00000 3345.59223  4.36%     -    0s
+     0     0 3345.59223    0    7 3498.00000 3345.59223  4.36%     -    0s
+     0     0 3345.59223    0    7 3498.00000 3345.59223  4.36%     -    0s
+     0     0 3372.00000    0    2 3498.00000 3372.00000  3.60%     -    0s
+H    0     0                    3497.9999973 3372.00000  3.60%     -    0s
+     0     0 3396.03193    0    5 3498.00000 3396.03193  2.92%     -    0s
+     0     0 3481.00000    0    3 3498.00000 3481.00000  0.49%     -    0s
+     0     0 3485.45946    0    3 3498.00000 3485.45946  0.36%     -    0s
+     0     0 3491.33333    0    2 3498.00000 3491.33333  0.19%     -    0s
+
+Cutting planes:
+  Gomory: 1
+  Cover: 1
+  MIR: 9
+  Flow cover: 1
+  RLT: 1
+
+Explored 1 nodes (177 simplex iterations) in 0.07 seconds (0.01 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 10: 3498 3498 3498 ... 4571
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.498000000000e+03, best bound 3.497999997329e+03, gap 0.0000%
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: to let Gurobi read it back, use rlp format
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default variable names used to write mps file
+Warning: default constraint names used to write mps file
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: default variable names used to write solution file

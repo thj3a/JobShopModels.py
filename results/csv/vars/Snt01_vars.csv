@@ -161,7 +161,7 @@ x[machine: 1, job1|stage1:1|0, job2|stage2:19|0];0.0
 x[machine: 1, job1|stage1:1|0, job2|stage2:2|0];0.0
 x[machine: 1, job1|stage1:1|0, job2|stage2:3|0];0.0
 x[machine: 1, job1|stage1:1|0, job2|stage2:6|0];0.0
-x[machine: 1, job1|stage1:1|0, job2|stage2:8|0];0.0
+x[machine: 1, job1|stage1:1|0, job2|stage2:8|0];1.0
 x[machine: 1, job1|stage1:1|0, job2|stage2:9|0];0.0
 x[machine: 1, job1|stage1:2|0, job2|stage2:11|0];0.0
 x[machine: 1, job1|stage1:2|0, job2|stage2:12|0];0.0
@@ -268,7 +268,7 @@ x[machine: 10, job1|stage1:8|0, job2|stage2:12|0];0.0
 x[machine: 10, job1|stage1:8|0, job2|stage2:14|0];0.0
 x[machine: 10, job1|stage1:8|0, job2|stage2:15|0];0.0
 x[machine: 10, job1|stage1:8|0, job2|stage2:16|0];1.0
-x[machine: 10, job1|stage1:8|0, job2|stage2:17|0];1.0
+x[machine: 10, job1|stage1:8|0, job2|stage2:17|0];0.0
 x[machine: 2, job1|stage1:0|0, job2|stage2:10|0];0.0
 x[machine: 2, job1|stage1:0|0, job2|stage2:11|0];0.0
 x[machine: 2, job1|stage1:0|0, job2|stage2:12|0];0.0
@@ -332,16 +332,16 @@ x[machine: 3, job1|stage1:11|0, job2|stage2:18|0];0.0
 x[machine: 3, job1|stage1:12|0, job2|stage2:13|0];0.0
 x[machine: 3, job1|stage1:12|0, job2|stage2:14|0];0.0
 x[machine: 3, job1|stage1:12|0, job2|stage2:15|0];0.0
-x[machine: 3, job1|stage1:12|0, job2|stage2:18|0];1.0
+x[machine: 3, job1|stage1:12|0, job2|stage2:18|0];0.0
 x[machine: 3, job1|stage1:13|0, job2|stage2:14|0];0.0
 x[machine: 3, job1|stage1:13|0, job2|stage2:15|0];0.0
-x[machine: 3, job1|stage1:13|0, job2|stage2:18|0];0.0
+x[machine: 3, job1|stage1:13|0, job2|stage2:18|0];1.0
 x[machine: 3, job1|stage1:14|0, job2|stage2:15|0];0.0
 x[machine: 3, job1|stage1:14|0, job2|stage2:18|0];0.0
 x[machine: 3, job1|stage1:15|0, job2|stage2:18|0];0.0
 x[machine: 3, job1|stage1:2|0, job2|stage2:11|0];0.0
 x[machine: 3, job1|stage1:2|0, job2|stage2:12|0];0.0
-x[machine: 3, job1|stage1:2|0, job2|stage2:13|0];0.0
+x[machine: 3, job1|stage1:2|0, job2|stage2:13|0];1.0
 x[machine: 3, job1|stage1:2|0, job2|stage2:14|0];0.0
 x[machine: 3, job1|stage1:2|0, job2|stage2:15|0];0.0
 x[machine: 3, job1|stage1:2|0, job2|stage2:18|0];1.0
@@ -461,7 +461,7 @@ x[machine: 5, job1|stage1:11|0, job2|stage2:15|0];1.0
 x[machine: 5, job1|stage1:11|0, job2|stage2:16|0];0.0
 x[machine: 5, job1|stage1:11|0, job2|stage2:17|0];0.0
 x[machine: 5, job1|stage1:11|0, job2|stage2:18|0];0.0
-x[machine: 5, job1|stage1:11|0, job2|stage2:19|0];1.0
+x[machine: 5, job1|stage1:11|0, job2|stage2:19|0];0.0
 x[machine: 5, job1|stage1:12|0, job2|stage2:13|0];0.0
 x[machine: 5, job1|stage1:12|0, job2|stage2:14|0];0.0
 x[machine: 5, job1|stage1:12|0, job2|stage2:15|0];0.0
@@ -470,7 +470,7 @@ x[machine: 5, job1|stage1:12|0, job2|stage2:17|0];0.0
 x[machine: 5, job1|stage1:12|0, job2|stage2:18|0];0.0
 x[machine: 5, job1|stage1:12|0, job2|stage2:19|0];0.0
 x[machine: 5, job1|stage1:13|0, job2|stage2:14|0];0.0
-x[machine: 5, job1|stage1:13|0, job2|stage2:15|0];1.0
+x[machine: 5, job1|stage1:13|0, job2|stage2:15|0];0.0
 x[machine: 5, job1|stage1:13|0, job2|stage2:16|0];0.0
 x[machine: 5, job1|stage1:13|0, job2|stage2:17|0];0.0
 x[machine: 5, job1|stage1:13|0, job2|stage2:18|0];0.0
@@ -495,11 +495,11 @@ x[machine: 5, job1|stage1:3|0, job2|stage2:11|0];0.0
 x[machine: 5, job1|stage1:3|0, job2|stage2:12|0];0.0
 x[machine: 5, job1|stage1:3|0, job2|stage2:13|0];0.0
 x[machine: 5, job1|stage1:3|0, job2|stage2:14|0];0.0
-x[machine: 5, job1|stage1:3|0, job2|stage2:15|0];0.0
+x[machine: 5, job1|stage1:3|0, job2|stage2:15|0];1.0
 x[machine: 5, job1|stage1:3|0, job2|stage2:16|0];0.0
 x[machine: 5, job1|stage1:3|0, job2|stage2:17|0];0.0
 x[machine: 5, job1|stage1:3|0, job2|stage2:18|0];0.0
-x[machine: 5, job1|stage1:3|0, job2|stage2:19|0];0.0
+x[machine: 5, job1|stage1:3|0, job2|stage2:19|0];1.0
 x[machine: 5, job1|stage1:3|0, job2|stage2:4|0];0.0
 x[machine: 5, job1|stage1:3|0, job2|stage2:5|0];0.0
 x[machine: 5, job1|stage1:3|0, job2|stage2:6|0];0.0
@@ -631,7 +631,7 @@ x[machine: 7, job1|stage1:0|0, job2|stage2:3|0];0.0
 x[machine: 7, job1|stage1:0|0, job2|stage2:5|0];0.0
 x[machine: 7, job1|stage1:0|0, job2|stage2:6|0];0.0
 x[machine: 7, job1|stage1:0|0, job2|stage2:8|0];0.0
-x[machine: 7, job1|stage1:0|0, job2|stage2:9|0];0.0
+x[machine: 7, job1|stage1:0|0, job2|stage2:9|0];1.0
 x[machine: 7, job1|stage1:10|0, job2|stage2:11|0];0.0
 x[machine: 7, job1|stage1:10|0, job2|stage2:12|0];0.0
 x[machine: 7, job1|stage1:10|0, job2|stage2:13|0];0.0
@@ -686,7 +686,7 @@ x[machine: 7, job1|stage1:1|0, job2|stage2:9|0];0.0
 x[machine: 7, job1|stage1:2|0, job2|stage2:10|0];0.0
 x[machine: 7, job1|stage1:2|0, job2|stage2:11|0];0.0
 x[machine: 7, job1|stage1:2|0, job2|stage2:12|0];0.0
-x[machine: 7, job1|stage1:2|0, job2|stage2:13|0];1.0
+x[machine: 7, job1|stage1:2|0, job2|stage2:13|0];0.0
 x[machine: 7, job1|stage1:2|0, job2|stage2:14|0];0.0
 x[machine: 7, job1|stage1:2|0, job2|stage2:15|0];0.0
 x[machine: 7, job1|stage1:2|0, job2|stage2:16|0];0.0
@@ -835,7 +835,7 @@ x[machine: 9, job1|stage1:1|0, job2|stage2:17|0];0.0
 x[machine: 9, job1|stage1:1|0, job2|stage2:2|0];0.0
 x[machine: 9, job1|stage1:1|0, job2|stage2:4|0];0.0
 x[machine: 9, job1|stage1:1|0, job2|stage2:6|0];0.0
-x[machine: 9, job1|stage1:1|0, job2|stage2:7|0];1.0
+x[machine: 9, job1|stage1:1|0, job2|stage2:7|0];0.0
 x[machine: 9, job1|stage1:2|0, job2|stage2:12|0];0.0
 x[machine: 9, job1|stage1:2|0, job2|stage2:14|0];0.0
 x[machine: 9, job1|stage1:2|0, job2|stage2:15|0];0.0
@@ -856,7 +856,7 @@ x[machine: 9, job1|stage1:6|0, job2|stage2:14|0];0.0
 x[machine: 9, job1|stage1:6|0, job2|stage2:15|0];0.0
 x[machine: 9, job1|stage1:6|0, job2|stage2:16|0];0.0
 x[machine: 9, job1|stage1:6|0, job2|stage2:17|0];0.0
-x[machine: 9, job1|stage1:6|0, job2|stage2:7|0];0.0
+x[machine: 9, job1|stage1:6|0, job2|stage2:7|0];1.0
 x[machine: 9, job1|stage1:7|0, job2|stage2:12|0];0.0
 x[machine: 9, job1|stage1:7|0, job2|stage2:14|0];0.0
 x[machine: 9, job1|stage1:7|0, job2|stage2:15|0];0.0

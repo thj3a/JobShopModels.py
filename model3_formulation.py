@@ -4,10 +4,11 @@ import sys
 import os
 import numpy as np
 import pdb
-import plotly.express as px
+
 import pandas as pd
 from model3_instances_reading import *
 from model3_solution_validation import *
+from plot_gantt import *
 import json
 from time import time 
 
@@ -25,9 +26,6 @@ class bcolors:
 
 print("Gurobi version: ", gp.gurobi.version())
 
-# Create empty model
-
-
 # Environment
 print("Reading instances")
 path_instances_with_setup = './instances_with_setup/'
@@ -35,10 +33,9 @@ path_instances_without_setup = './instances_without_setup/'
 path_instances_translated = './instances_translated/'
 path_instances_generated = './instances_generated/'
 
-all_instances = read_instances(path_instances_generated)
+all_instances = read_instances(path_instances_translated)[:1]
 # all_instances = instances.read_instances(path_instances_without_setup)
 # all_instances = [instances.read_instance('FisherThompson', './instances_without_setup/')]
-
 
 print("Number of instances: ", len(all_instances))
 unsolved_instances = dict()
@@ -65,9 +62,13 @@ for path in paths:
     if not os.path.exists(path):
         os.mkdir(path)
 
-for idx, instance in enumerate(all_instances[-1:]):
+for idx, instance in enumerate(all_instances):
+
+
     print(instance['name'])
     start_time = time()
+
+    # Create empty model
     model = gp.Model("F-JSSP-SDST")
     instance['M'] *= 1e3
     
@@ -79,7 +80,7 @@ for idx, instance in enumerate(all_instances[-1:]):
     print("     Creating variables and constraints")
     y = {j: {l: {i: model.addVar(vtype=GRB.BINARY, name=f"y[job:{j}, stage:{l}, machine:{i}]") for i in instance['PT'][j][l]} for l in instance['PT'][j]} for j in instance['PT']}              
     x = {j: {l: {h: {z: {i: model.addVar(vtype=GRB.BINARY, name=f"x[machine: {i}, job1|stage1:{j}|{l}, job2|stage2:{h}|{z}]") for i in list(set(instance['R'][j][l]) & set(instance['R'][h][z]))} for z in instance['PT'][h]} for h in range(j+1, n_jobs)} for l in instance['PT'][j]} for j in range(n_jobs-1)}
-    startT = {j: {l: {i: model.addVar(vtype=GRB.CONTINUOUS, lb=0.0, name=f"startT[job:{j}, stage:{l}, machine:{i}]") for i in instance['PT'][j][l]} for l in instance['PT'][j]} for j in instance['PT']}  
+    startT = {j: {l: {i: model.addVar(vtype=GRB.INTEGER, lb=0, name=f"startT[job:{j}, stage:{l}, machine:{i}]") for i in instance['PT'][j][l]} for l in instance['PT'][j]} for j in instance['PT']}  
 
     # constraint 13
     for j in instance['PT']:
@@ -121,7 +122,7 @@ for idx, instance in enumerate(all_instances[-1:]):
                 # model.addConstr(startT[j][l][i] >= 0, name=f"positive_start_time_job{j}_stage{l}_machine{i}_constraint")
 
     # constraint 18 - objective function 
-    C_max = model.addVar(vtype=GRB.CONTINUOUS, name="C_max")
+    C_max = model.addVar(vtype=GRB.INTEGER, name="C_max")
     # for j in range(n_jobs):
     #     n_j = len(instance['PT'][j].keys())-1
     #     m = instance['PT'][j][n_j].keys()
@@ -147,7 +148,17 @@ for idx, instance in enumerate(all_instances[-1:]):
     
     if model.status != GRB.Status.INFEASIBLE and model.status != GRB.Status.INF_OR_UNBD:
         
-        print(f"     {bcolors.blueback}(Maybe Optimal) Solution found{bcolors.end}")
+        msg = f"     {bcolors.blueback} Optimal Solution found{bcolors.end}"
+        match model.status:
+            case GRB.Status.TIME_LIMIT:
+                msg = f"     {bcolors.blueback}Optimal Solution NOT found{bcolors.end}"
+            case GRB.Status.OPTIMAL:
+                msg = f"     {bcolors.blueback}Optimal Solution found{bcolors.end}"
+            case GRB.Status.SUBOPTIMAL:
+                msg = f"     {bcolors.blueback}Suboptimal Solution found{bcolors.end}"
+            case GRB.Status.INFEASIBLE:
+                msg = f"     {bcolors.redback}Infeasible Solution found{bcolors.end}"
+        print(msg)
         
         model.write(f"results/sol/{instance['name']}.sol")
         model.write(f"results/rlp/{instance['name']}.rlp")
@@ -169,26 +180,13 @@ for idx, instance in enumerate(all_instances[-1:]):
                         d = dict(Job=f"{j}", Op=l, Start=date_start+pd.Timedelta(f"{startT[j][l][i].x} minutes"), Finish=date_start+ pd.Timedelta(f"{startT[j][l][i].x + instance['PT'][j][l][i]}  minutes"), Start_f=startT[j][l][i].x, Finish_f=startT[j][l][i].x + instance['PT'][j][l][i], Resource=f"Machine {i}")
                         timestamp_list.append(d)
         df = pd.DataFrame(timestamp_list)
-        
-        df = df.sort_values(by=['Resource','Start'], ascending=True)
-
-        fig = px.timeline(df, x_start="Start", x_end="Finish", y="Resource", color="Job")
-        fig.update_layout(xaxis=dict(
-                            title='Timestamp', 
-                            tickformat = '%H:%M:%S',
-                        ))
-        fig.update_yaxes(categoryorder='array', categoryarray=[f"Machine {k}"for k in range(instance['n_machines'])])
-        fig.update_layout(
-        autosize=True,)
-        # width=1000,
-        # height=1000,)
         df.to_csv(f"results/csv/timestamp/{instance['name']}_timestamp.csv", index=False, sep=';')
-        fig.write_image(f"results/fig/{instance['name']}_gantt.jpg")
+        
+        plot_gantt(df, instance['name'], 'results/fig')
 
         log.append({'instance': instance['name'], 'status': model.status, 'obj': model.objVal, 'model time (s)': model.Runtime, 'total time (s)': time() - start_time})
         pd.DataFrame(log).to_csv(f"results/csv/log/log_{instance['name']}.csv", index=False, sep=';')
         log = []
-
 
         validation = validate_solution(instance, df, x, y, startT, C_max)
         color = bcolors.greenback if validation else bcolors.redback

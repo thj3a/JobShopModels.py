@@ -863,4 +863,17 @@ Binaries
  x[machine__2,_job1|stage1_3|2,_job2|stage2_4|3]
  x[machine__4,_job1|stage1_3|3,_job2|stage2_4|2]
  x[machine__4,_job1|stage1_3|3,_job2|stage2_4|4]
+Generals
+ startT[job_0,_stage_0,_machine_1] startT[job_0,_stage_1,_machine_2]
+ startT[job_0,_stage_2,_machine_3] startT[job_0,_stage_3,_machine_4]
+ startT[job_0,_stage_4,_machine_5] startT[job_1,_stage_0,_machine_1]
+ startT[job_1,_stage_1,_machine_4] startT[job_1,_stage_2,_machine_3]
+ startT[job_1,_stage_3,_machine_5] startT[job_1,_stage_4,_machine_2]
+ startT[job_2,_stage_0,_machine_1] startT[job_2,_stage_1,_machine_5]
+ startT[job_2,_stage_2,_machine_2] startT[job_2,_stage_3,_machine_3]
+ startT[job_2,_stage_4,_machine_4] startT[job_3,_stage_0,_machine_1]
+ startT[job_3,_stage_1,_machine_3] startT[job_3,_stage_2,_machine_2]
+ startT[job_3,_stage_3,_machine_4] startT[job_4,_stage_0,_machine_1]
+ startT[job_4,_stage_1,_machine_3] startT[job_4,_stage_2,_machine_4]
+ startT[job_4,_stage_3,_machine_2] startT[job_4,_stage_4,_machine_4] C_max
 End

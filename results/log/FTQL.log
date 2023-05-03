@@ -1,59 +1,44 @@
 
-Gurobi 10.0.1 (win64) logging started Tue Apr 25 17:08:08 2023
+Gurobi 10.0.1 (win64) logging started Wed Apr 26 12:10:51 2023
 
 Set parameter LogFile to value "results/log/FTQL.log"
 Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
 
-CPU model: 12th Gen Intel(R) Core(TM) i7-12700, instruction set [SSE2|AVX|AVX2]
-Thread count: 12 physical cores, 20 logical processors, using up to 20 threads
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
 
-Optimize a model with 186 rows, 96 columns and 681 nonzeros
-Model fingerprint: 0xf748e811
+Optimize a model with 186 rows, 96 columns and 643 nonzeros
+Model fingerprint: 0xfc937cbc
 Variable types: 0 continuous, 96 integer (71 binary)
 Coefficient statistics:
   Matrix range     [1e+00, 4e+06]
   Objective range  [1e+00, 1e+00]
   Bounds range     [1e+00, 1e+00]
   RHS range        [1e+00, 1e+07]
-Presolve removed 73 rows and 25 columns
-Presolve time: 0.00s
-Presolved: 113 rows, 71 columns, 320 nonzeros
-Variable types: 0 continuous, 71 integer (47 binary)
 
-Root relaxation: objective 1.612800e+05, 30 iterations, 0.00 seconds (0.00 work units)
+User MIP start did not produce a new incumbent solution
+User MIP start violates constraint max_contraint by 1440.000000000
+
+Presolve removed 72 rows and 24 columns
+Presolve time: 0.00s
+Presolved: 114 rows, 72 columns, 326 nonzeros
+Variable types: 0 continuous, 72 integer (47 binary)
+
+Root relaxation: objective 0.000000e+00, 35 iterations, 0.00 seconds (0.00 work units)
 
     Nodes    |    Current Node    |     Objective Bounds      |     Work
  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
 
-     0     0 161280.000    0   14          - 161280.000      -     -    0s
-H    0     0                    234720.00000 161280.000  31.3%     -    0s
-H    0     0                    233280.00000 169920.000  27.2%     -    0s
-     0     0 204480.961    0   27 233280.000 204480.961  12.3%     -    0s
-     0     0 210960.481    0   32 233280.000 210960.481  9.57%     -    0s
-     0     0 214560.000    0   39 233280.000 214560.000  8.02%     -    0s
-     0     0 214560.000    0   30 233280.000 214560.000  8.02%     -    0s
-     0     0 214560.000    0   30 233280.000 214560.000  8.02%     -    0s
-     0     0 214560.000    0   11 233280.000 214560.000  8.02%     -    0s
-     0     0 214560.000    0   11 233280.000 214560.000  8.02%     -    0s
-     0     0 214560.000    0   11 233280.000 214560.000  8.02%     -    0s
-     0     0 216000.000    0   11 233280.000 216000.000  7.41%     -    0s
-     0     2 216000.000    0   10 233280.000 216000.000  7.41%     -    0s
-*  102    15               8    231840.00000 223200.000  3.73%   8.3    0s
+H    0     0                       0.0000000    0.00000  0.00%     -    0s
+     0     0    0.00000    0   24    0.00000    0.00000  0.00%     -    0s
 
-Cutting planes:
-  Gomory: 1
-  Implied bound: 9
-  MIR: 4
-  RLT: 2
-  Relax-and-lift: 8
+Explored 1 nodes (35 simplex iterations) in 0.00 seconds (0.00 work units)
+Thread count was 16 (of 16 available processors)
 
-Explored 135 nodes (1213 simplex iterations) in 0.03 seconds (0.02 work units)
-Thread count was 20 (of 20 available processors)
-
-Solution count 3: 231840 233280 234720 
+Solution count 1: 0 
 
 Optimal solution found (tolerance 1.00e-04)
-Best objective 2.318400000000e+05, best bound 2.318400000000e+05, gap 0.0000%
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
 Warning: variable name "y[job:0, stage:0, machine:1]" has a space
 Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
 Warning: to let Gurobi read it back, use rlp format

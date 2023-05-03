@@ -82,6 +82,16 @@ for idx, instance in enumerate(all_instances):
     x = {j: {l: {h: {z: {i: model.addVar(vtype=GRB.BINARY, name=f"x[machine: {i}, job1|stage1:{j}|{l}, job2|stage2:{h}|{z}]") for i in list(set(instance['R'][j][l]) & set(instance['R'][h][z]))} for z in instance['PT'][h]} for h in range(j+1, n_jobs)} for l in instance['PT'][j]} for j in range(n_jobs-1)}
     startT = {j: {l: {i: model.addVar(vtype=GRB.INTEGER, lb=0, name=f"startT[job:{j}, stage:{l}, machine:{i}]") for i in instance['PT'][j][l]} for l in instance['PT'][j]} for j in instance['PT']}  
 
+
+    # read initial solution
+    id_inisol = 0
+    for j in y:
+        for l in y[j]:
+            y[j][l][instance['initial_solution'][id_inisol][0]].Start = 1
+            startT[j][l][instance['initial_solution'][id_inisol][0]].Start = instance['initial_solution'][id_inisol][1]
+            id_inisol+=1
+
+
     # constraint 13
     for j in instance['PT']:
         for l in instance['PT'][j]:
@@ -122,15 +132,18 @@ for idx, instance in enumerate(all_instances):
                 # model.addConstr(startT[j][l][i] >= 0, name=f"positive_start_time_job{j}_stage{l}_machine{i}_constraint")
 
     # constraint 18 - objective function 
-    C_max = model.addVar(vtype=GRB.INTEGER, name="C_max")
+    Z = model.addVar(vtype=GRB.INTEGER, name="Z_FO")
     # for j in range(n_jobs):
     #     n_j = len(instance['PT'][j].keys())-1
     #     m = instance['PT'][j][n_j].keys()
-    #     model.addConstr(C_max >= gp.quicksum(startT[j][n_j][i] for i in m) + gp.quicksum(y[j][n_j][i]*(instance['PT'][j][n_j][i]) for i in m), name="max_contraint")
+    #     model.addConstr(Z >= gp.quicksum(startT[j][n_j][i] for i in m) + gp.quicksum(y[j][n_j][i]*(instance['PT'][j][n_j][i]) for i in m), name="max_contraint")
 
-    model.addConstr(C_max == gp.quicksum(startT[j][l][i] + instance['PT'][j][l][i]*y[j][l][i] for j in instance['PT'] for l in instance['PT'][j] for i in instance['PT'][j][l]), name="max_contraint")
+    # model.addConstr(Z == gp.quicksum(startT[j][l][i] + instance['PT'][j][l][i]*y[j][l][i] for j in instance['PT'] for l in instance['PT'][j] for i in instance['PT'][j][l]), name="max_contraint")
 
-    model.setObjective(C_max, GRB.MINIMIZE)
+    model.addConstr(Z == gp.quicksum(startT[j][l][i] + instance['PT'][j][l][i]*y[j][l][i] - instance['DD'][j] for j in instance['PT'] for l in list(instance['PT'][j].keys())[-1:] for i in instance['PT'][j][l]), name="max_contraint")
+
+
+    model.setObjective(Z, GRB.MINIMIZE)
     # model.params.OutputFlag = 0 # 0 to disable output
     model.params.LogToConsole = 0 # 0 to disable console output
     model.params.IntFeasTol = 1e-9
@@ -188,7 +201,7 @@ for idx, instance in enumerate(all_instances):
         pd.DataFrame(log).to_csv(f"results/csv/log/log_{instance['name']}.csv", index=False, sep=';')
         log = []
 
-        validation = validate_solution(instance, df, x, y, startT, C_max)
+        validation = validate_solution(instance, df, x, y, startT, Z)
         color = bcolors.greenback if validation else bcolors.redback
         print(f"     {color}Solution validated: {validation}{bcolors.end}")
 

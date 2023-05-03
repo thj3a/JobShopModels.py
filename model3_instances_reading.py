@@ -57,8 +57,9 @@ def read_instance(instance_name, instance_path):
         instance['machines'] = [i+1 for i in range(instance['n_machines'])]
         instance['PT'] = {i:dict() for i in instance['jobs']}
         instance['R'] = {i:dict() for i in instance['jobs']}
-        instance['STC'] = {j: 0.0 for j in instance['jobs']}
-
+        instance['STC'] = {j: 0 for j in instance['jobs']}
+        instance['DD'] = {j: 0 for j in instance['jobs']}
+        instance['initial_solution'] = []
         id_line = 1
 
         while id_line < len(lines) and len(lines[id_line].split()) > 0:
@@ -75,7 +76,7 @@ def read_instance(instance_name, instance_path):
                 for _ in range(int(job[pos])):
                     # print(f'job: {i}, op: {op}, machine: {int(job[pos+1])}, time: {int(job[pos+2])}')
                     instance['R'][i][op].append(int(job[pos+1]))
-                    instance['PT'][i][op][int(job[pos+1])] = float(job[pos+2]) 
+                    instance['PT'][i][op][int(job[pos+1])] = int(job[pos+2]) 
                     if instance['PT'][i][op][int(job[pos+1])] > instance['M']:
                         instance['M'] = instance['PT'][i][op][int(job[pos+1])]
                     pos+=2
@@ -109,7 +110,7 @@ def read_instance(instance_name, instance_path):
             for j in instance['ST'][i]:
                 for l in instance['ST'][i][j]:
                     # print(f'line: {id_line}: {lines[id_line]}')
-                    setup_times = list(map(float, lines[id_line].split()))
+                    setup_times = list(map(int, lines[id_line].split()))
                     tmp = 0
                     for h in instance['ST'][i][j][l]:
                         for z in instance['ST'][i][j][l][h]:
@@ -129,9 +130,27 @@ def read_instance(instance_name, instance_path):
         
         # read the starting times constraints
         for j in instance['STC']:
-            instance['STC'][j] = float(lines[id_line].split()[0])
+            instance['STC'][j] = int(lines[id_line].split()[0])
             id_line += 1
 
+        id_line += 1
+        if id_line >= len(lines):
+            return instance
+        
+        # read the due dates
+        for j in instance['jobs']:
+            instance['DD'][j] = int(lines[id_line].split()[0])
+            id_line += 1
+
+        id_line += 1
+        if id_line >= len(lines):
+            return instance
+        
+        # read initial solution
+        while id_line < len(lines):
+            machine, start_time = map(int, lines[id_line].split())
+            instance['initial_solution'].append([machine, start_time])
+            id_line += 1
 
     return instance
 

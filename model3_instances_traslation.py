@@ -6,6 +6,7 @@ import numpy as np
 import re
 
 def translate_instance(path, instance_name):
+    random.seed(0)
     conn_str = (r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};' +
             'DBQ='+f'{path};')
     conn = pyodbc.connect(conn_str)
@@ -62,8 +63,6 @@ def translate_instance(path, instance_name):
     initial_restrictions = pd.read_sql('select * from EXT_COMPRA_RECEB', conn)
     initial_restrictions.sort_values(by='CdItem', inplace=True)
 
-    # TODO: add constraints = 0 to those who doesnt appear in this table
-
     for i, job in enumerate(jobs):
         r = initial_restrictions[[any([job == x for x in re.split("[ _.]", initial_restrictions['CdItem'][i])]) for i in range(len(initial_restrictions))]]
         if r.empty:
@@ -73,26 +72,31 @@ def translate_instance(path, instance_name):
             diff = diff if diff > 0 else 0
             lines.append([diff])
 
-    # for i in initial_restrictions.itertuples():
-    #     diff = int((i.DtReceb - initial_date).total_seconds()/60)
-    #     lines.append([diff] if diff > 0 else [0])
-
     lines+= [['']]
 
     # translate deadlines
-    due_dates = pd.read_sql('select * from EXT_VENDA_ENTREGA', conn)
-    if len(due_dates) == 0:
-        due_dates = pd.read_sql('select * from EXT_PLANO_MESTRE', conn)
-    due_dates.sort_values(by='CdItem', inplace=True)
+    deadlines = pd.read_sql('select CdItem, DtEntrega from EXT_VENDA_ENTREGA', conn)
+    if len(deadlines) == 0:
+        deadlines = pd.read_sql('select CdItem, DtEntrega from EXT_PLANO_MESTRE', conn)
+    deadlines2 = pd.read_sql('select distinct ITEM_ESTRU.CdItemFil as CdItem, DtEntrega from EXT_PLANO_MESTRE, ITEM_ESTRU, ALTERNATIVAS where (EXT_PLANO_MESTRE.CdItem = ITEM_ESTRU.CdItemPai and ITEM_ESTRU.CdItemFil = ALTERNATIVAS.CdItem);', conn)
+    if len(deadlines2) > 0:
+        deadlines = pd.concat([deadlines, deadlines2])
+    deadlines3 = pd.read_sql('select distinct ITEM_ESTRU.CdItemFil as CdItem, DtEntrega from EXT_VENDA_ENTREGA, ITEM_ESTRU, ALTERNATIVAS where (EXT_VENDA_ENTREGA.CdItem = ITEM_ESTRU.CdItemPai and ITEM_ESTRU.CdItemFil = ALTERNATIVAS.CdItem);', conn)
+    if len(deadlines3) > 0:
+        deadlines = pd.concat([deadlines, deadlines3])
+    # for i, job in enumerate(jobs):
+    #     d = deadlines[[any([job == x for x in re.split("[ _.]", deadlines['CdItem'][i])]) for i in range(len(deadlines))]]
 
-    for i in due_dates.itertuples():
+
+    deadlines.sort_values(by='CdItem', inplace=True)
+    for i in deadlines.itertuples():
         diff = int((i.DtEntrega - initial_date).total_seconds()/60)
         lines.append([diff] if diff > 0 else [0])
 
     lines+= [['']]
 
     # translate initial solution
-    tarefas = pd.read_sql('select * from REL_TAREFAS', conn)
+    tarefas = pd.read_sql('select * from REL_TAREFAS ', conn)
     tarefas.sort_values(by=['CdAtiv', 'NuEstagio', 'CdMaq'], inplace=True)
     for tar in tarefas.itertuples():
         lines.append([machines.index(tar.CdMaq)+1, int(((tar.IniProc- initial_date).total_seconds())/60 -1)])

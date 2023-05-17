@@ -60,11 +60,13 @@ def translate_instance(path, instance_name):
     initial_date = pd.read_sql('select DtHrIniSim from TAB_HORIZONTE', conn).iloc[0].values[0]
     initial_date -= pd.Timedelta(seconds=1)
 
-    initial_restrictions = pd.read_sql('select * from EXT_COMPRA_RECEB', conn)
+    initial_restrictions = pd.read_sql('select ALTERNATIVAS.CdItem as CdItem, DtReceb from EXT_COMPRA_RECEB, ITEM_ESTRU, ALTERNATIVAS WHERE ITEM_ESTRU.CdItemFil = EXT_COMPRA_RECEB.CdItem and ITEM_ESTRU.CdItemPai = ALTERNATIVAS.CdItem', conn)
     initial_restrictions.sort_values(by='CdItem', inplace=True)
 
     for i, job in enumerate(jobs):
         r = initial_restrictions[[any([job == x for x in re.split("[ _.]", initial_restrictions['CdItem'][i])]) for i in range(len(initial_restrictions))]]
+        r = initial_restrictions[[any([job == x for x in re.split("[ _.]", initial_restrictions['CdItem'][i])]) for i in range(len(initial_restrictions))]]
+        
         if r.empty:
             lines.append([0])
         else:
@@ -84,14 +86,17 @@ def translate_instance(path, instance_name):
     deadlines3 = pd.read_sql('select distinct ITEM_ESTRU.CdItemFil as CdItem, DtEntrega from EXT_VENDA_ENTREGA, ITEM_ESTRU, ALTERNATIVAS where (EXT_VENDA_ENTREGA.CdItem = ITEM_ESTRU.CdItemPai and ITEM_ESTRU.CdItemFil = ALTERNATIVAS.CdItem);', conn)
     if len(deadlines3) > 0:
         deadlines = pd.concat([deadlines, deadlines3])
-    # for i, job in enumerate(jobs):
-    #     d = deadlines[[any([job == x for x in re.split("[ _.]", deadlines['CdItem'][i])]) for i in range(len(deadlines))]]
 
-
-    deadlines.sort_values(by='CdItem', inplace=True)
-    for i in deadlines.itertuples():
-        diff = int((i.DtEntrega - initial_date).total_seconds()/60)
+    for i, job in enumerate(jobs):
+        d = deadlines[deadlines['CdItem'] == job]['DtEntrega'].values[0]
+        diff = int((d - initial_date).total_seconds()/60)
         lines.append([diff] if diff > 0 else [0])
+
+
+    # deadlines.sort_values(by='CdItem', inplace=True)
+    # for i in deadlines.itertuples():
+    #     diff = int((i.DtEntrega - initial_date).total_seconds()/60)
+    #     lines.append([diff] if diff > 0 else [0])
 
     lines+= [['']]
 

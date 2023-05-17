@@ -34,6 +34,7 @@ path_instances_translated = './instances_translated/'
 path_instances_generated = './instances_generated/'
 
 all_instances = read_instances(path_instances_translated)
+all_instances.sort(key=lambda x: x['name'])
 # all_instances = instances.read_instances(path_instances_without_setup)
 # all_instances = [instances.read_instance('FisherThompson', './instances_without_setup/')]
 

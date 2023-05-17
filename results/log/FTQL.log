@@ -1,14 +1,14 @@
 
-Gurobi 10.0.1 (win64) logging started Tue May 16 17:32:03 2023
+Gurobi 10.0.1 (win64) logging started Wed May 17 16:42:27 2023
 
 Set parameter LogFile to value "results/log/FTQL.log"
 Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
 
-CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
-Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+CPU model: 12th Gen Intel(R) Core(TM) i7-12700, instruction set [SSE2|AVX|AVX2]
+Thread count: 12 physical cores, 20 logical processors, using up to 20 threads
 
 Optimize a model with 210 rows, 96 columns and 667 nonzeros
-Model fingerprint: 0x0e954de3
+Model fingerprint: 0xb7c85a4e
 Variable types: 0 continuous, 96 integer (71 binary)
 Coefficient statistics:
   Matrix range     [1e+00, 4e+06]
@@ -33,7 +33,7 @@ H    0     0                       0.0000000    0.00000  0.00%     -    0s
      0     0    0.00000    0   24    0.00000    0.00000  0.00%     -    0s
 
 Explored 1 nodes (35 simplex iterations) in 0.00 seconds (0.00 work units)
-Thread count was 16 (of 16 available processors)
+Thread count was 20 (of 20 available processors)
 
 Solution count 1: 0 
 

@@ -55,10 +55,10 @@ def read_instance(instance_name, instance_path):
         instance['n_machines'] = int(lines[0][1])
         instance['jobs'] = [i for i in range(instance['n_jobs'])]
         instance['machines'] = [i+1 for i in range(instance['n_machines'])]
-        instance['PT'] = {i:dict() for i in instance['jobs']}
+        instance['P'] = {i:dict() for i in instance['jobs']}
         instance['R'] = {i:dict() for i in instance['jobs']}
-        instance['STC'] = {j: 0 for j in instance['jobs']}
-        instance['DD'] = {j: 0 for j in instance['jobs']}
+        instance['Q'] = {j: 0 for j in instance['jobs']}
+        instance['D'] = {j: 0 for j in instance['jobs']}
         instance['initial_solution'] = []
         id_line = 1
 
@@ -68,7 +68,7 @@ def read_instance(instance_name, instance_path):
             job = lines[id_line]
             job = job.split()
             n_operations = int(job[0])
-            instance['PT'][i] = {op: dict() for op in range(n_operations)}
+            instance['P'][i] = {op: dict() for op in range(n_operations)}
             pos = 1
             instance['R'][i] = dict()
             for op in range(n_operations):
@@ -76,47 +76,47 @@ def read_instance(instance_name, instance_path):
                 for _ in range(int(job[pos])):
                     # print(f'job: {i}, op: {op}, machine: {int(job[pos+1])}, time: {int(job[pos+2])}')
                     instance['R'][i][op].append(int(job[pos+1]))
-                    instance['PT'][i][op][int(job[pos+1])] = int(job[pos+2]) 
-                    if instance['PT'][i][op][int(job[pos+1])] > instance['M']:
-                        instance['M'] = instance['PT'][i][op][int(job[pos+1])]
+                    instance['P'][i][op][int(job[pos+1])] = int(job[pos+2]) 
+                    if instance['P'][i][op][int(job[pos+1])] > instance['M']:
+                        instance['M'] = instance['P'][i][op][int(job[pos+1])]
                     pos+=2
                 pos+=1
             id_line += 1
 
-        instance['O_id'] = dict()
+        instance['Op_id'] = dict()
         n = 0
         for j in instance['jobs']:
-            instance['O_id'][j] = dict()
-            for l in instance['PT'][j]:
-                instance['O_id'][j][l] = n
+            instance['Op_id'][j] = dict()
+            for l in instance['P'][j]:
+                instance['Op_id'][j][l] = n
                 n += 1
         
-        instance['O'] = dict()
+        instance['Op'] = dict()
         n = 0
         for j in instance['jobs']:
-            for l in instance['PT'][j]:
-                instance['O'][n] = (j,l)
+            for l in instance['P'][j]:
+                instance['Op'][n] = (j,l)
                 n += 1
 
         id_line = instance['n_jobs'] + 2
 
-        instance['ST'] = {i: {j: {l: {h: {z: 0.0 for z in range(len(instance['PT'][h]))} for h in range(instance['n_jobs'])} for l in range(len(instance['PT'][j]))} for j in range(instance['n_jobs'])} for i in range(1, instance['n_machines']+1)}
+        instance['O'] = {i: {j: {l: {h: {z: 0.0 for z in range(len(instance['P'][h]))} for h in range(instance['n_jobs'])} for l in range(len(instance['P'][j]))} for j in range(instance['n_jobs'])} for i in range(1, instance['n_machines']+1)}
 
         if id_line >= len(lines):
             return instance
 
         # read setup times
-        for i in instance['ST']:
-            for j in instance['ST'][i]:
-                for l in instance['ST'][i][j]:
+        for i in instance['O']:
+            for j in instance['O'][i]:
+                for l in instance['O'][i][j]:
                     # print(f'line: {id_line}: {lines[id_line]}')
                     setup_times = list(map(int, lines[id_line].split()))
                     tmp = 0
-                    for h in instance['ST'][i][j][l]:
-                        for z in instance['ST'][i][j][l][h]:
-                            instance['ST'][i][j][l][h][z] = setup_times[tmp]
+                    for h in instance['O'][i][j][l]:
+                        for z in instance['O'][i][j][l][h]:
+                            instance['O'][i][j][l][h][z] = setup_times[tmp]
                             # print(f'machine: {machine}, job|op: {j}|{l}, job|op: {h}|{z}, setup_time: {setup_times[tmp]}')
-                            # d = dict(machine=machine+1, job1=j, op1=l, job2=h, op2=z, setup_times=instance['ST'][machine][j][l][h][z])
+                            # d = dict(machine=machine+1, job1=j, op1=l, job2=h, op2=z, setup_times=instance['O'][machine][j][l][h][z])
                             # df = pd.concat((df, pd.DataFrame(d, index=[0])), axis=0)
                             if setup_times[tmp] > instance['M']:
                                 instance['M'] = setup_times[tmp]
@@ -129,17 +129,17 @@ def read_instance(instance_name, instance_path):
             return instance
         
         # read the starting times constraints
-        for j in instance['STC']:
-            instance['STC'][j] = int(lines[id_line].split()[0])
+        for j in instance['Q']:
+            instance['Q'][j] = int(lines[id_line].split()[0])
             id_line += 1
 
         id_line += 1
         if id_line >= len(lines):
             return instance
         
-        # read the due dates
+        # read the deadlines
         for j in instance['jobs']:
-            instance['DD'][j] = int(lines[id_line].split()[0])
+            instance['D'][j] = int(lines[id_line].split()[0])
             id_line += 1
 
         id_line += 1
@@ -154,6 +154,5 @@ def read_instance(instance_name, instance_path):
 
     return instance
 
-path = './instances_translated/'
-instances = read_instances(path)
-print('done')
+# path = './instances_translated/'
+# instances = read_instances(path)

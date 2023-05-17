@@ -1,5 +1,5 @@
 
-Gurobi 10.0.1 (win64) logging started Wed Apr 26 12:10:51 2023
+Gurobi 10.0.1 (win64) logging started Tue May 16 17:32:03 2023
 
 Set parameter LogFile to value "results/log/FTQL.log"
 Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
@@ -7,8 +7,8 @@ Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
 CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
 Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
 
-Optimize a model with 186 rows, 96 columns and 643 nonzeros
-Model fingerprint: 0xfc937cbc
+Optimize a model with 210 rows, 96 columns and 667 nonzeros
+Model fingerprint: 0x0e954de3
 Variable types: 0 continuous, 96 integer (71 binary)
 Coefficient statistics:
   Matrix range     [1e+00, 4e+06]
@@ -19,7 +19,7 @@ Coefficient statistics:
 User MIP start did not produce a new incumbent solution
 User MIP start violates constraint max_contraint by 1440.000000000
 
-Presolve removed 72 rows and 24 columns
+Presolve removed 96 rows and 24 columns
 Presolve time: 0.00s
 Presolved: 114 rows, 72 columns, 326 nonzeros
 Variable types: 0 continuous, 72 integer (47 binary)

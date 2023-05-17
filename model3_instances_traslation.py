@@ -61,13 +61,14 @@ def translate_instance(path, instance_name):
     initial_restrictions = pd.read_sql('select * from EXT_COMPRA_RECEB', conn)
     initial_restrictions.sort_values(by='CdItem', inplace=True)
 
+    # TODO: add constraints = 0 to those who doesnt appear in this table
     for i in initial_restrictions.itertuples():
         diff = int((i.DtReceb - initial_date).total_seconds()/60)
         lines.append([diff] if diff > 0 else [0])
 
     lines+= [['']]
 
-    # translate due dates
+    # translate deadlines
     due_dates = pd.read_sql('select * from EXT_VENDA_ENTREGA', conn)
     if len(due_dates) == 0:
         due_dates = pd.read_sql('select * from EXT_PLANO_MESTRE', conn)
@@ -93,12 +94,13 @@ def translate_instance(path, instance_name):
     conn.close()
 
 paths = ['./../../repos/LASOS-INT/TTBsim/01_Config/DBFiles/ToolBoxMix_Development - Faz Tudo Quero Logo.mdb',
-        #  './../../repos/LASOS-INT/TTBsim/01_Config/DBFiles/ToolBoxMix_MetalMeca.mdb',
-        #  './../../repos/LASOS-INT/TTBsim/01_Config/DBFiles/ToolBoxMix_InjecaoPlastica.mdb'
+          './../../repos/LASOS-INT/TTBsim/01_Config/DBFiles/ToolBoxMix_MetalMeca.mdb',
+          './../../repos/LASOS-INT/TTBsim/01_Config/DBFiles/ToolBoxMix_InjecaoPlastica.mdb'
 ]
+
 names = ['FTQL',
-        #  'MetalMeca',
-        #  'PlasticInjection'
+          'MetalMeca',
+          'PlasticInjection'
          ]
 
 for path, name in zip(paths, names):

@@ -33,7 +33,7 @@ path_instances_without_setup = './instances_without_setup/'
 path_instances_translated = './instances_translated/'
 path_instances_generated = './instances_generated/'
 
-all_instances = read_instances(path_instances_translated)[:1]
+all_instances = read_instances(path_instances_generated )[:1]
 # all_instances = instances.read_instances(path_instances_without_setup)
 # all_instances = [instances.read_instance('FisherThompson', './instances_without_setup/')]
 
@@ -80,16 +80,17 @@ for idx, instance in enumerate(all_instances):
     print("     Creating variables and constraints")
     y = {j: {l: {i: model.addVar(vtype=GRB.BINARY, name=f"y[job:{j}, stage:{l}, machine:{i}]") for i in instance['P'][j][l]} for l in instance['P'][j]} for j in instance['P']}              
     x = {j: {l: {h: {z: {i: model.addVar(vtype=GRB.BINARY, name=f"x[machine: {i}, job1|stage1:{j}|{l}, job2|stage2:{h}|{z}]") for i in list(set(instance['R'][j][l]) & set(instance['R'][h][z]))} for z in instance['P'][h]} for h in range(j+1, n_jobs)} for l in instance['P'][j]} for j in range(n_jobs-1)}
-    startT = {j: {l: {i: model.addVar(vtype=GRB.INTEGER, lb=0, name=f"startT[job:{j}, stage:{l}, machine:{i}]") for i in instance['P'][j][l]} for l in instance['P'][j]} for j in instance['P']}  
+    s = {j: {l: {i: model.addVar(vtype=GRB.INTEGER, lb=0, name=f"startT[job:{j}, stage:{l}, machine:{i}]") for i in instance['P'][j][l]} for l in instance['P'][j]} for j in instance['P']}  
 
 
     # read initial solution
-    id_inisol = 0
-    for j in y:
-        for l in y[j]:
-            y[j][l][instance['initial_solution'][id_inisol][0]].Start = 1
-            startT[j][l][instance['initial_solution'][id_inisol][0]].Start = instance['initial_solution'][id_inisol][1]
-            id_inisol+=1
+    if len(instance['initial_solution']) > 0:
+        id_inisol = 0
+        for j in y:
+            for l in y[j]:
+                y[j][l][instance['initial_solution'][id_inisol][0]].Start = 1
+                s[j][l][instance['initial_solution'][id_inisol][0]].Start = instance['initial_solution'][id_inisol][1]
+                id_inisol+=1
 
 
     # constraint 2
@@ -101,16 +102,16 @@ for idx, instance in enumerate(all_instances):
     for j in instance['P']:
         for l in instance['P'][j]:
             for i in instance['P'][j][l]:
-                model.addConstr(startT[j][l][i] <= instance['M']*y[j][l][i], name=f"start_time_job{j}_stage{l}_machine{i}_constraint1")
+                model.addConstr(s[j][l][i] <= instance['M']*y[j][l][i], name=f"start_time_job{j}_stage{l}_machine{i}_constraint1")
 
     # constraint 3
     for j in instance['P']:
         for l in list(instance['P'][j].keys())[:-1]:
-            model.addConstr((gp.quicksum(startT[j][l+1][i] for i in instance['P'][j][l+1]) >= gp.quicksum(startT[j][l][i] for i in instance['P'][j][l]) + gp.quicksum(y[j][l][i]*(instance['P'][j][l][i]) for i in instance['P'][j][l])),
+            model.addConstr((gp.quicksum(s[j][l+1][i] for i in instance['P'][j][l+1]) >= gp.quicksum(s[j][l][i] for i in instance['P'][j][l]) + gp.quicksum(y[j][l][i]*(instance['P'][j][l][i]) for i in instance['P'][j][l])),
                             name=f"start_time_job{j}_stage{l}_machine{i}_constraint2")
             
             for i in list(set(instance['R'][j][l]) & set(instance['R'][j][l+1])):
-                model.addConstr((gp.quicksum(startT[j][l+1][i] for i in instance['P'][j][l+1]) >= gp.quicksum(startT[j][l][i] for i in instance['P'][j][l]) + gp.quicksum(y[j][l][i]*(instance['P'][j][l][i]) for i in instance['P'][j][l]) + instance['O'][i][j][l][j][l+1] - instance['M']*(2 - y[j][l+1][i] - y[j][l][i])),
+                model.addConstr((gp.quicksum(s[j][l+1][i] for i in instance['P'][j][l+1]) >= gp.quicksum(s[j][l][i] for i in instance['P'][j][l]) + gp.quicksum(y[j][l][i]*(instance['P'][j][l][i]) for i in instance['P'][j][l]) + instance['O'][i][j][l][j][l+1] - instance['M']*(2 - y[j][l+1][i] - y[j][l][i])),
                                 name=f"start_time_job{j}_stage{l}_machine{i}_constraint3")
             
     # constraints 6 and 7
@@ -120,18 +121,18 @@ for idx, instance in enumerate(all_instances):
                 for z in instance['P'][h]:
                     for i in list(set(instance['R'][j][l]) & set(instance['R'][h][z])):
                         # 16
-                        model.addConstr(startT[j][l][i] >= (startT[h][z][i] + instance['P'][h][z][i] + instance['O'][i][h][z][j][l] - instance['M']*(3 - x[j][l][h][z][i] - y[h][z][i] - y[j][l][i])), name=f"precedence between {h},{z} to {j},{l} if x_[j,l,h,z,i]=1")
+                        model.addConstr(s[j][l][i] >= (s[h][z][i] + instance['P'][h][z][i] + instance['O'][i][h][z][j][l] - instance['M']*(3 - x[j][l][h][z][i] - y[h][z][i] - y[j][l][i])), name=f"precedence between {h},{z} to {j},{l} if x_[j,l,h,z,i]=1")
                         # 17
-                        model.addConstr(startT[h][z][i] >= (startT[j][l][i] + instance['P'][j][l][i] + instance['O'][i][j][l][h][z] - instance['M']*(x[j][l][h][z][i] + 2 - y[h][z][i] - y[j][l][i])), name=f"precedence between {j},{l} to {h},{z} if x_[j,l,h,z,i]=0")
+                        model.addConstr(s[h][z][i] >= (s[j][l][i] + instance['P'][j][l][i] + instance['O'][i][j][l][h][z] - instance['M']*(x[j][l][h][z][i] + 2 - y[h][z][i] - y[j][l][i])), name=f"precedence between {j},{l} to {h},{z} if x_[j,l,h,z,i]=0")
 
     
     for j in instance['P']:
         for l in instance['P'][j]:
             for i in instance['P'][j][l]:
                 # constraint 3
-                model.addConstr(startT[j][l][i] >= instance['Q'][j]*y[j][l][i], name=f"initial_start_time_job{j}_stage0_machine{i}_constraint")
+                model.addConstr(s[j][l][i] >= instance['Q'][j]*y[j][l][i], name=f"initial_start_time_job{j}_stage0_machine{i}_constraint")
                 # constraint 10
-                model.addConstr(startT[j][l][i] >= 0, name=f"positive_start_time_job{j}_stage{l}_machine{i}_constraint")
+                model.addConstr(s[j][l][i] >= 0, name=f"positive_start_time_job{j}_stage{l}_machine{i}_constraint")
 
     # constraint 18 - objective function 
     # for j in range(n_jobs):
@@ -144,7 +145,7 @@ for idx, instance in enumerate(all_instances):
     Z = model.addVar(vtype=GRB.INTEGER, name="Z_FO")
     # model.addConstr(Z == gp.quicksum(startT[j][l][i] + instance['P'][j][l][i]*y[j][l][i] for j in instance['P'] for l in instance['P'][j] for i in instance['P'][j][l]), name="max_contraint")
 
-    model.addConstr(Z == gp.quicksum(startT[j][l][i] + instance['P'][j][l][i]*y[j][l][i] - instance['D'][j] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="max_contraint")
+    model.addConstr(Z == gp.quicksum(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] - instance['D'][j] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="max_contraint")
 
 
     model.setObjective(Z, GRB.MINIMIZE)
@@ -194,7 +195,7 @@ for idx, instance in enumerate(all_instances):
             for l in instance['P'][j]:
                 for i in instance['P'][j][l]:
                     if  y[j][l][i].x == 1:
-                        d = dict(Job=f"{j}", Op=l, Start=date_start+pd.Timedelta(f"{startT[j][l][i].x} minutes"), Finish=date_start+ pd.Timedelta(f"{startT[j][l][i].x + instance['P'][j][l][i]}  minutes"), Start_f=startT[j][l][i].x, Finish_f=startT[j][l][i].x + instance['P'][j][l][i], Resource=f"Machine {i}")
+                        d = dict(Job=f"{j}", Op=l, Start=date_start+pd.Timedelta(f"{s[j][l][i].x} minutes"), Finish=date_start+ pd.Timedelta(f"{s[j][l][i].x + instance['P'][j][l][i]}  minutes"), Start_f=s[j][l][i].x, Finish_f=s[j][l][i].x + instance['P'][j][l][i], Resource=f"Machine {str(i).rjust(2,'0')}")
                         timestamp_list.append(d)
         df = pd.DataFrame(timestamp_list)
         df.to_csv(f"results/csv/timestamp/{instance['name']}_timestamp.csv", index=False, sep=';')
@@ -205,7 +206,7 @@ for idx, instance in enumerate(all_instances):
         pd.DataFrame(log).to_csv(f"results/csv/log/log_{instance['name']}.csv", index=False, sep=';')
         log = []
 
-        validation = validate_solution(instance, df, x, y, startT, Z)
+        validation = validate_solution(instance, df, x, y, s, Z)
         color = bcolors.greenback if validation else bcolors.redback
         print(f"     {color}Solution validated: {validation}{bcolors.end}")
 

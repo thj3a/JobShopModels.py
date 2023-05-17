@@ -1,0 +1,26 @@
+name;value
+Z_FO;134.0
+startT[job:0, stage:0, machine:1];0.0
+startT[job:0, stage:0, machine:2];0.0
+startT[job:0, stage:1, machine:1];0.0
+startT[job:0, stage:1, machine:2];40.0
+startT[job:1, stage:0, machine:1];0.0
+startT[job:1, stage:0, machine:2];0.0
+startT[job:1, stage:1, machine:1];49.0
+startT[job:1, stage:1, machine:2];0.0
+x[machine: 1, job1|stage1:0|0, job2|stage2:1|0];0.0
+x[machine: 1, job1|stage1:0|0, job2|stage2:1|1];0.0
+x[machine: 1, job1|stage1:0|1, job2|stage2:1|0];0.0
+x[machine: 1, job1|stage1:0|1, job2|stage2:1|1];0.0
+x[machine: 2, job1|stage1:0|0, job2|stage2:1|0];0.0
+x[machine: 2, job1|stage1:0|0, job2|stage2:1|1];0.0
+x[machine: 2, job1|stage1:0|1, job2|stage2:1|0];0.0
+x[machine: 2, job1|stage1:0|1, job2|stage2:1|1];0.0
+y[job:0, stage:0, machine:1];0.0
+y[job:0, stage:0, machine:2];1.0
+y[job:0, stage:1, machine:1];0.0
+y[job:0, stage:1, machine:2];1.0
+y[job:1, stage:0, machine:1];1.0
+y[job:1, stage:0, machine:2];0.0
+y[job:1, stage:1, machine:1];1.0
+y[job:1, stage:1, machine:2];0.0

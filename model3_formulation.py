@@ -33,7 +33,7 @@ path_instances_without_setup = './instances_without_setup/'
 path_instances_translated = './instances_translated/'
 path_instances_generated = './instances_generated/'
 
-all_instances = read_instances(path_instances_generated )[:1]
+all_instances = read_instances(path_instances_translated)
 # all_instances = instances.read_instances(path_instances_without_setup)
 # all_instances = [instances.read_instance('FisherThompson', './instances_without_setup/')]
 

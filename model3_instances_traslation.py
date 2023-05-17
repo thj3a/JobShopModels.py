@@ -2,6 +2,8 @@ import os
 import pyodbc
 import random
 import pandas as pd
+import numpy as np
+import re
 
 def translate_instance(path, instance_name):
     conn_str = (r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};' +
@@ -31,7 +33,6 @@ def translate_instance(path, instance_name):
                 line.append(int(op.TempoPadrao * 60)) # convertendo o tempo de horas para minutos
                 op_times.append(int(op.TempoPadrao * 60))
         lines.append(line)
-
     lines = [[len(jobs), len(machines), sum(n_operations)/len(jobs)]] + lines
     lines += [['']]
 
@@ -62,9 +63,19 @@ def translate_instance(path, instance_name):
     initial_restrictions.sort_values(by='CdItem', inplace=True)
 
     # TODO: add constraints = 0 to those who doesnt appear in this table
-    for i in initial_restrictions.itertuples():
-        diff = int((i.DtReceb - initial_date).total_seconds()/60)
-        lines.append([diff] if diff > 0 else [0])
+
+    for i, job in enumerate(jobs):
+        r = initial_restrictions[[any([job == x for x in re.split("[ _.]", initial_restrictions['CdItem'][i])]) for i in range(len(initial_restrictions))]]
+        if r.empty:
+            lines.append([0])
+        else:
+            diff = int((r.DtReceb.values[0] - initial_date).total_seconds()/60)
+            diff = diff if diff > 0 else 0
+            lines.append([diff])
+
+    # for i in initial_restrictions.itertuples():
+    #     diff = int((i.DtReceb - initial_date).total_seconds()/60)
+    #     lines.append([diff] if diff > 0 else [0])
 
     lines+= [['']]
 

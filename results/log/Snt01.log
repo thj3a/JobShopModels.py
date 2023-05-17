@@ -1,5 +1,5 @@
 
-Gurobi 10.0.1 (win64) logging started Wed May 17 14:30:36 2023
+Gurobi 10.0.1 (win64) logging started Wed May 17 14:32:41 2023
 
 Set parameter LogFile to value "results/log/Snt01.log"
 Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
@@ -64,7 +64,7 @@ H   28    40                     187.0000000  137.36516  26.5%  24.8    0s
 H  270   291                     182.0000000  137.36516  24.5%   7.0    0s
 H  315   328                     177.0000000  137.36516  22.4%   6.5    0s
  40365 14863  173.67917   45   27  177.00000  161.57365  8.72%   8.0    5s
- 68622 19425  174.31187   48   17  177.00000  165.73988  6.36%   9.2   10s
+ 66746 19169  175.93415   47   33  177.00000  165.52922  6.48%   9.1   10s
  99686 18211     cutoff   47       177.00000  169.71762  4.11%  10.0   15s
 
 Cutting planes:
@@ -79,7 +79,7 @@ Cutting planes:
   Zero half: 7
   RLT: 28
 
-Explored 138194 nodes (1507467 simplex iterations) in 19.52 seconds (9.00 work units)
+Explored 138194 nodes (1507467 simplex iterations) in 19.54 seconds (9.00 work units)
 Thread count was 20 (of 20 available processors)
 
 Solution count 10: 177 182 187 ... 232

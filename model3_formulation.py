@@ -32,8 +32,9 @@ path_instances_with_setup = './instances_with_setup/'
 path_instances_without_setup = './instances_without_setup/'
 path_instances_translated = './instances_translated/'
 path_instances_generated = './instances_generated/'
+path_instances_modificated = './instances_modificated/'
 
-all_instances = read_instances(path_instances_translated)
+all_instances = read_instances(path_instances_modificated)
 all_instances.sort(key=lambda x: x['name'])
 # all_instances = instances.read_instances(path_instances_without_setup)
 # all_instances = [instances.read_instance('FisherThompson', './instances_without_setup/')]
@@ -80,57 +81,63 @@ for idx, instance in enumerate(all_instances):
     # Create variables
     print("     Creating variables and constraints")
     y = {j: {l: {i: model.addVar(vtype=GRB.BINARY, name=f"y[job:{j}, stage:{l}, machine:{i}]") for i in instance['P'][j][l]} for l in instance['P'][j]} for j in instance['P']}              
-    x = {j: {l: {h: {z: {i: model.addVar(vtype=GRB.BINARY, name=f"x[machine: {i}, job1|stage1:{j}|{l}, job2|stage2:{h}|{z}]") for i in list(set(instance['R'][j][l]) & set(instance['R'][h][z]))} for z in instance['P'][h]} for h in range(j+1, n_jobs)} for l in instance['P'][j]} for j in range(n_jobs-1)}
+    x = {j: {l: {h: {z: model.addVar(vtype=GRB.BINARY, name=f"x[job1|stage1:{j}|{l}, job2|stage2:{h}|{z}]") for z in instance['P'][h]} for h in range(n_jobs)} for l in instance['P'][j]} for j in range(n_jobs)}
     s = {j: {l: {i: model.addVar(vtype=GRB.INTEGER, lb=0, name=f"startT[job:{j}, stage:{l}, machine:{i}]") for i in instance['P'][j][l]} for l in instance['P'][j]} for j in instance['P']}  
 
 
-    # read initial solution
-    if len(instance['initial_solution']) > 0:
-        id_inisol = 0
-        for j in y:
-            for l in y[j]:
-                y[j][l][instance['initial_solution'][id_inisol][0]].Start = 1
-                s[j][l][instance['initial_solution'][id_inisol][0]].Start = instance['initial_solution'][id_inisol][1]
-                id_inisol+=1
+    # # read initial solution
+    # if len(instance['initial_solution']) > 0:
+    #     id_inisol = 0
+    #     for j in y:
+    #         for l in y[j]:
+    #             y[j][l][instance['initial_solution'][id_inisol][0]].Start = 1
+    #             s[j][l][instance['initial_solution'][id_inisol][0]].Start = instance['initial_solution'][id_inisol][1]
+    #             id_inisol+=1
 
 
-    # constraint 2
+    
     for j in instance['P']:
         for l in instance['P'][j]:
+            # constraint 1
             model.addConstr(gp.quicksum(y[j][l][i] for i in instance['P'][j][l]) == 1, name=f"assignment_job{j}_stage{l}_constraint")
 
-    # constraint 12
+        
     for j in instance['P']:
         for l in instance['P'][j]:
             for i in instance['P'][j][l]:
+                # constraint 2
                 model.addConstr(s[j][l][i] <= instance['M']*y[j][l][i], name=f"start_time_job{j}_stage{l}_machine{i}_constraint1")
 
-    # constraint 3
+
+    
     for j in instance['P']:
         for l in list(instance['P'][j].keys())[:-1]:
+            # constraint 3
             model.addConstr((gp.quicksum(s[j][l+1][i] for i in instance['P'][j][l+1]) >= gp.quicksum(s[j][l][i] for i in instance['P'][j][l]) + gp.quicksum(y[j][l][i]*(instance['P'][j][l][i]) for i in instance['P'][j][l])),
-                            name=f"start_time_job{j}_stage{l}_machine{i}_constraint2")
-            
+                            name=f"start_time_job{j}_stage{l}_constraint5")
+            # constraint 4
             for i in list(set(instance['R'][j][l]) & set(instance['R'][j][l+1])):
-                model.addConstr((gp.quicksum(s[j][l+1][i] for i in instance['P'][j][l+1]) >= gp.quicksum(s[j][l][i] for i in instance['P'][j][l]) + gp.quicksum(y[j][l][i]*(instance['P'][j][l][i]) for i in instance['P'][j][l]) + instance['O'][i][j][l][j][l+1] - instance['M']*(2 - y[j][l+1][i] - y[j][l][i])),
-                                name=f"start_time_job{j}_stage{l}_machine{i}_constraint3")
-            
+                model.addConstr((gp.quicksum(s[j][l+1][i] for i in instance['P'][j][l+1]) >= gp.quicksum(s[j][l][i] for i in instance['P'][j][l]) + gp.quicksum(y[j][l][i]*(instance['P'][j][l][i]) for i in instance['P'][j][l]) + instance['O'][i][j][l][j][l+1] - instance['M']*(2 - y[j][l+1][i] - y[j][l][i])), name=f"start_time_job{j}_stage{l}_machine{i}_constraint3")
+    
+
     # constraints 6 and 7
     for j in range(n_jobs-1):
         for l in instance['P'][j]:
-            for h in range(j+1, n_jobs):
+            for h in range(j, n_jobs):
                 for z in instance['P'][h]:
                     for i in list(set(instance['R'][j][l]) & set(instance['R'][h][z])):
-                        # 16
-                        model.addConstr(s[j][l][i] >= (s[h][z][i] + instance['P'][h][z][i] + instance['O'][i][h][z][j][l] - instance['M']*(3 - x[j][l][h][z][i] - y[h][z][i] - y[j][l][i])), name=f"precedence between {h},{z} to {j},{l} if x_[j,l,h,z,i]=1")
-                        # 17
-                        model.addConstr(s[h][z][i] >= (s[j][l][i] + instance['P'][j][l][i] + instance['O'][i][j][l][h][z] - instance['M']*(x[j][l][h][z][i] + 2 - y[h][z][i] - y[j][l][i])), name=f"precedence between {j},{l} to {h},{z} if x_[j,l,h,z,i]=0")
+                        if j == h and l == z:
+                            continue
+                        # 6
+                        model.addConstr(s[j][l][i] >= (s[h][z][i] + instance['P'][h][z][i] + instance['O'][i][h][z][j][l] - instance['M']*(3 - x[j][l][h][z] - y[h][z][i] - y[j][l][i])), name=f"precedence between {h},{z} to {j},{l} if x_[j,l,h,z,i]=1")
+                        # 7
+                        model.addConstr(s[h][z][i] >= (s[j][l][i] + instance['P'][j][l][i] + instance['O'][i][j][l][h][z] - instance['M']*(x[j][l][h][z] + 2 - y[h][z][i] - y[j][l][i])), name=f"precedence between {j},{l} to {h},{z} if x_[j,l,h,z,i]=0")
 
     
     for j in instance['P']:
         for l in instance['P'][j]:
             for i in instance['P'][j][l]:
-                # constraint 3
+                # constraint 2
                 model.addConstr(s[j][l][i] >= instance['Q'][j]*y[j][l][i], name=f"initial_start_time_job{j}_stage0_machine{i}_constraint")
                 # constraint 10
                 model.addConstr(s[j][l][i] >= 0, name=f"positive_start_time_job{j}_stage{l}_machine{i}_constraint")
@@ -148,13 +155,12 @@ for idx, instance in enumerate(all_instances):
 
     model.addConstr(Z == gp.quicksum(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] - instance['D'][j] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="max_contraint")
 
-
     model.setObjective(Z, GRB.MINIMIZE)
     # model.params.OutputFlag = 0 # 0 to disable output
     model.params.LogToConsole = 0 # 0 to disable console output
     model.params.IntFeasTol = 1e-9
     model.params.IntegralityFocus = 1
-    model.params.TimeLimit = 3600 * 3
+    model.params.TimeLimit = 3600*3
     with open(f"results/log/{instance['name']}.log", "w") as f:
         model.params.LogFile = f"results/log/{instance['name']}.log"
     print("     Optimizing model")

@@ -13,6 +13,7 @@ def generate_instance(path:str,
                       dev_proctime:int,
                       mean_setuptime:int,
                       dev_setuptime:int,
+                      prob_starttime:float,
                       mean_starttime:int,
                       dev_starttime:int,
                       seed:int=None):
@@ -30,11 +31,13 @@ def generate_instance(path:str,
         list_n_operations.append(nj)
         line.append(f'{nj} ')
         for op in range(nj):
-            mj = 1+abs(int(random.normalvariate(mean_alternatives, dev_alternatives)))
+            # mj = 1+abs(int(random.normalvariate(mean_alternatives, dev_alternatives)))
+            mj = 1+ abs(random.randint(mean_alternatives-dev_alternatives, mean_alternatives+dev_alternatives))
             line.append(f'{mj} ')
-            for _ in range(mj):
+            for alter in range(mj):
                 m = random.randint(1, n_machines)
-                p = 1+abs(int(random.normalvariate(mean_proctime, dev_proctime)))
+                # p = 1+abs(int(random.normalvariate(mean_proctime, dev_proctime)))
+                p = 1+ abs(random.randint(mean_proctime-dev_proctime, mean_proctime+dev_proctime))
                 line.append(f'{m} {p} ')
         line = ''.join(line)
         lines.append(line)
@@ -48,7 +51,14 @@ def generate_instance(path:str,
                 line = list()
                 for job2 in range(n_jobs):
                     for op2 in range(list_n_operations[job2]):
-                        s = abs(int(random.normalvariate(mean_setuptime, dev_setuptime)))
+                        if job1 == job2 and op1 == op2:
+                            line.append('0 ')
+                            continue
+                        if random.random() < 0.5:
+                            line.append('1000 ')
+                            continue
+                        # s = abs(int(random.normalvariate(mean_setuptime, dev_setuptime)))
+                        s = 1+ abs(random.randint(mean_setuptime-dev_setuptime, mean_setuptime+dev_setuptime))
                         line.append(f'{s} ')
                 line = ''.join(line)
                 lines.append(line)
@@ -57,8 +67,12 @@ def generate_instance(path:str,
 
     # Generate starting time constraint for each job
     for job in range(n_jobs):
-        st = abs(int(random.normalvariate(mean_starttime, dev_starttime)))
-        lines.append(f'{st} ')
+        if random.random() < prob_starttime:
+            # st = abs(int(random.normalvariate(mean_starttime, dev_starttime)))
+            st = abs(random.randint(mean_starttime-dev_starttime, mean_starttime+dev_starttime))
+            lines.append(f'{st} ')
+        else:
+            lines.append('0 ')
 
     # Add header
     lines = [f'{n_jobs} {n_machines} {int(np.mean(list_n_operations))} {seed}'] + lines
@@ -73,14 +87,17 @@ def generate_instance(path:str,
         f.writelines(lines)
 
 generate_instance(path='./instances_generated/', 
-                    n_jobs=20, 
-                    mean_operations=0, 
-                    dev_operations=0,
-                    n_machines=10, 
-                    mean_alternatives=10,
-                    dev_alternatives=10,
-                    mean_proctime=10,
-                    dev_proctime=20,
+                    n_jobs=5, 
+                    mean_operations=5, 
+                    dev_operations=3,
+                    n_machines=5,
+                    mean_alternatives=5,
+                    dev_alternatives=2,
+                    mean_proctime=20,
+                    dev_proctime=5,
                     mean_setuptime=0,
-                    dev_setuptime=10,
-                    seed=None)
+                    dev_setuptime=30,
+                    prob_starttime=0.15,
+                    mean_starttime=10,
+                    dev_starttime=50,
+                    seed=0)

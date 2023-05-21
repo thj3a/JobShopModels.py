@@ -25,15 +25,15 @@ def read_instances(instances_folder):
             if file.endswith('.fjs'):
                 instance = {'name': file.split('.')[0], 'path': os.path.join(instances_folder, folder)}
 
-                s = instance['name']
-                if s[-1].isnumeric() and not s[-2].isnumeric():
-                    s = s[:-1] + '0' + s[-1:]
-                    os.rename(os.path.join(instance['path'], instance['name'] + '.fjs'), os.path.join(instance['path'], s + '.fjs'))
-                    instance['name'] = s
-                elif not s[-1].isnumeric() and s[-2].isnumeric() and not s[-3].isnumeric():
-                    s = s[:-2] + '0' + s[-2:]
-                    os.rename(os.path.join(instance['path'], instance['name'] + '.fjs'), os.path.join(instance['path'], s + '.fjs'))
-                    instance['name'] = s
+                # s = instance['name']
+                # if s[-1].isnumeric() and not s[-2].isnumeric():
+                #     s = s[:-1] + '0' + s[-1:]
+                #     os.rename(os.path.join(instance['path'], instance['name'] + '.fjs'), os.path.join(instance['path'], s + '.fjs'))
+                #     instance['name'] = s
+                # elif not s[-1].isnumeric() and s[-2].isnumeric() and not s[-3].isnumeric():
+                #     s = s[:-2] + '0' + s[-2:]
+                #     os.rename(os.path.join(instance['path'], instance['name'] + '.fjs'), os.path.join(instance['path'], s + '.fjs'))
+                #     instance['name'] = s
 
                 instance.update(read_instance(instance['name'], instance['path']))
                 instances.append(instance)
@@ -97,7 +97,7 @@ def read_instance(instance_name, instance_path):
             for l in instance['P'][j]:
                 instance['Op'][n] = (j,l)
                 n += 1
-
+        
         id_line = instance['n_jobs'] + 2
 
         instance['O'] = {i: {j: {l: {h: {z: 0.0 for z in range(len(instance['P'][h]))} for h in range(instance['n_jobs'])} for l in range(len(instance['P'][j]))} for j in range(instance['n_jobs'])} for i in range(1, instance['n_machines']+1)}

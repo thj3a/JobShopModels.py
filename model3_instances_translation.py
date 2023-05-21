@@ -11,14 +11,69 @@ def translate_instance(path, instance_name):
             'DBQ='+f'{path};')
     conn = pyodbc.connect(conn_str)
 
+    # reading alternatives of production
     alter = pd.read_sql('select * from ALTERNATIVAS', conn)
     alter.sort_values(by=['CdItem', 'NuEstagio', 'CdMaq'], inplace=True)
 
-    jobs = alter['CdItem'].unique()
+    jobs = alter['CdItem'].unique().tolist()
     machines = alter['CdMaq'].unique().tolist()
     n_operations = []
     lines = []
     op_times = []
+
+    
+    # reading initial date 
+    start_const = []
+    initial_date = pd.read_sql('select DtHrIniSim from TAB_HORIZONTE', conn).iloc[0].values[0]
+    initial_date -= pd.Timedelta(seconds=1)
+
+    # reading initial restrictions
+    initial_restrictions = pd.read_sql('select ALTERNATIVAS.CdItem as CdItem, DtReceb from EXT_COMPRA_RECEB, ITEM_ESTRU, ALTERNATIVAS WHERE ITEM_ESTRU.CdItemFil = EXT_COMPRA_RECEB.CdItem and ITEM_ESTRU.CdItemPai = ALTERNATIVAS.CdItem', conn)
+    initial_restrictions.sort_values(by='CdItem', inplace=True)
+
+    # reading deadlines
+    dead_lines = []
+    deadlines = pd.read_sql('select CdItem, DtEntrega, QtEntrega from EXT_VENDA_ENTREGA', conn)
+    if len(deadlines) == 0:
+        deadlines = pd.read_sql('select CdItem, DtEntrega, QtEntrega from EXT_PLANO_MESTRE', conn)
+    deadlines2 = pd.read_sql('select distinct ITEM_ESTRU.CdItemFil as CdItem, DtEntrega, QtEntrega from EXT_PLANO_MESTRE, ITEM_ESTRU, ALTERNATIVAS where (EXT_PLANO_MESTRE.CdItem = ITEM_ESTRU.CdItemPai and ITEM_ESTRU.CdItemFil = ALTERNATIVAS.CdItem);', conn)
+    if len(deadlines2) > 0:
+        deadlines = pd.concat([deadlines, deadlines2])
+    deadlines3 = pd.read_sql('select distinct ITEM_ESTRU.CdItemFil as CdItem, DtEntrega, QtEntrega from EXT_VENDA_ENTREGA, ITEM_ESTRU, ALTERNATIVAS where (EXT_VENDA_ENTREGA.CdItem = ITEM_ESTRU.CdItemPai and ITEM_ESTRU.CdItemFil = ALTERNATIVAS.CdItem);', conn)
+    if len(deadlines3) > 0:
+        deadlines = pd.concat([deadlines, deadlines3])
+
+    # translate initial constraints
+    for i, job in enumerate(jobs):
+        r = initial_restrictions[[any([job == x for x in re.split("[ _.]", initial_restrictions['CdItem'][i])]) for i in range(len(initial_restrictions))]]
+        r = initial_restrictions[[any([job == x for x in re.split("[ _.]", initial_restrictions['CdItem'][i])]) for i in range(len(initial_restrictions))]]
+        
+        if r.empty:
+            if random.random() < 0.3:
+                diff = random.randint(1, 5) * alter.TempoPadrao.mean()*60 * deadlines.QtEntrega.mean()
+                start_const.append([int(diff)])
+            else:
+                start_const.append([0])
+        else:
+            diff = int((r.DtReceb.values[0] - initial_date).total_seconds()/60)
+            diff = diff if diff > 0 else 0
+            if instance_name == 'MetalMeca':
+                diff *= 0.35 # adjustments due to calendar
+            if diff == 0 and random.random() < 0.30:
+                diff = random.randint(1, 5) * alter.TempoPadrao.mean()*60
+            start_const.append([int(diff)])
+
+    
+
+    # translate deadlines
+    for i, job in enumerate(jobs):
+        d = deadlines[deadlines['CdItem'] == job]['DtEntrega'].values[0]
+        diff = int(0.35*(d - initial_date).total_seconds()/60)
+        dead_lines.append([diff] if diff > 0 else [0])
+
+
+
+    # translate jobs
     for i, job in enumerate(jobs):
         line = []
         df_job = alter[alter['CdItem'] == job]
@@ -30,16 +85,18 @@ def translate_instance(path, instance_name):
             df_op = df_job[df_job['NuEstagio'] == l]
             line.append(len(df_op))
             for op in df_op.itertuples():
+                q = deadlines[deadlines['CdItem']==job].QtEntrega.values[0]
                 line.append(machines.index(op.CdMaq)+1)
-                line.append(int(op.TempoPadrao * 60)) # convertendo o tempo de horas para minutos
-                op_times.append(int(op.TempoPadrao * 60))
+                line.append(int(op.TempoPadrao * 60 * q)) # convertendo o tempo de horas para minutos
+                op_times.append(int(op.TempoPadrao * 60 * q))
+
         lines.append(line)
     lines = [[len(jobs), len(machines), sum(n_operations)/len(jobs)]] + lines
     lines += [['']]
 
     #TODO: translate setup times 
-    mu_st = sum(op_times)/(len(op_times)*10) # 10 is a factor to decrease the setup times
-    sigma_st = sum([(x-mu_st)**2 for x in op_times])/(len(op_times)*10000) # 10 is a factor to decrease the variance in setup times
+    mu_st = int(sum(op_times)/(len(op_times)*100)) # 10 is a factor to decrease the setup times
+    sigma_st = int(sum([(x-mu_st)**2 for x in op_times])/(len(op_times)*10000)) # 100000 is a factor to decrease the variance in setup times
     # sigma_st = mu_st/10 
 
     for i in range(len(machines)):
@@ -51,52 +108,23 @@ def translate_instance(path, instance_name):
                         if j == h and l == z:
                             line.append(0)
                         else:
-                            line.append(abs(int(random.gauss(mu_st, sigma_st))))
+                            line.append(abs(int(random.randint(0, 2*mu_st))))
                 lines.append(line)
 
     lines+= [['']]
-
-    # translate restrictions
-    initial_date = pd.read_sql('select DtHrIniSim from TAB_HORIZONTE', conn).iloc[0].values[0]
-    initial_date -= pd.Timedelta(seconds=1)
-
-    initial_restrictions = pd.read_sql('select ALTERNATIVAS.CdItem as CdItem, DtReceb from EXT_COMPRA_RECEB, ITEM_ESTRU, ALTERNATIVAS WHERE ITEM_ESTRU.CdItemFil = EXT_COMPRA_RECEB.CdItem and ITEM_ESTRU.CdItemPai = ALTERNATIVAS.CdItem', conn)
-    initial_restrictions.sort_values(by='CdItem', inplace=True)
-
-    for i, job in enumerate(jobs):
-        r = initial_restrictions[[any([job == x for x in re.split("[ _.]", initial_restrictions['CdItem'][i])]) for i in range(len(initial_restrictions))]]
-        r = initial_restrictions[[any([job == x for x in re.split("[ _.]", initial_restrictions['CdItem'][i])]) for i in range(len(initial_restrictions))]]
-        
-        if r.empty:
-            lines.append([0])
-        else:
-            diff = int((r.DtReceb.values[0] - initial_date).total_seconds()/60)
-            diff = diff if diff > 0 else 0
-            lines.append([diff])
-
-    lines+= [['']]
-
-    # translate deadlines
-    deadlines = pd.read_sql('select CdItem, DtEntrega from EXT_VENDA_ENTREGA', conn)
-    if len(deadlines) == 0:
-        deadlines = pd.read_sql('select CdItem, DtEntrega from EXT_PLANO_MESTRE', conn)
-    deadlines2 = pd.read_sql('select distinct ITEM_ESTRU.CdItemFil as CdItem, DtEntrega from EXT_PLANO_MESTRE, ITEM_ESTRU, ALTERNATIVAS where (EXT_PLANO_MESTRE.CdItem = ITEM_ESTRU.CdItemPai and ITEM_ESTRU.CdItemFil = ALTERNATIVAS.CdItem);', conn)
-    if len(deadlines2) > 0:
-        deadlines = pd.concat([deadlines, deadlines2])
-    deadlines3 = pd.read_sql('select distinct ITEM_ESTRU.CdItemFil as CdItem, DtEntrega from EXT_VENDA_ENTREGA, ITEM_ESTRU, ALTERNATIVAS where (EXT_VENDA_ENTREGA.CdItem = ITEM_ESTRU.CdItemPai and ITEM_ESTRU.CdItemFil = ALTERNATIVAS.CdItem);', conn)
-    if len(deadlines3) > 0:
-        deadlines = pd.concat([deadlines, deadlines3])
-
-    for i, job in enumerate(jobs):
-        d = deadlines[deadlines['CdItem'] == job]['DtEntrega'].values[0]
-        diff = int((d - initial_date).total_seconds()/60)
-        lines.append([diff] if diff > 0 else [0])
-
 
     # deadlines.sort_values(by='CdItem', inplace=True)
     # for i in deadlines.itertuples():
     #     diff = int((i.DtEntrega - initial_date).total_seconds()/60)
     #     lines.append([diff] if diff > 0 else [0])
+
+    
+
+    lines += start_const
+
+    lines+= [['']]
+
+    lines += dead_lines
 
     lines+= [['']]
 

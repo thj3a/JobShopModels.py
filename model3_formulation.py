@@ -12,6 +12,12 @@ from plot_gantt import *
 import json
 from time import time 
 
+from enum import Enum
+
+class OBJECTIVE(Enum):
+    MAKESPAN = 'makespan'
+    DEADLINE = 'deadline'
+
 
 class bcolors:
     red = '\033[91m'
@@ -34,15 +40,14 @@ path_instances_translated = './instances_translated/'
 path_instances_generated = './instances_generated/'
 path_instances_modificated = './instances_modificated/'
 
-all_instances = read_instances(path_instances_modificated)
+all_instances = read_instances(path_instances_translated)
 all_instances.sort(key=lambda x: x['name'])
 # all_instances = instances.read_instances(path_instances_without_setup)
 # all_instances = [instances.read_instance('FisherThompson', './instances_without_setup/')]
 
 print("Number of instances: ", len(all_instances))
-unsolved_instances = dict()
-log = []
 
+summary_path = f"results/csv/log/summary_results.csv"
 paths = ['./results', 
          './results/csv', 
          './results/csv/vars', 
@@ -66,8 +71,9 @@ for path in paths:
 
 for idx, instance in enumerate(all_instances):
 
-
+    objective = OBJECTIVE.MAKESPAN
     print(instance['name'])
+    instance['name'] = instance['name'] + '_' + objective.value
     start_time = time()
 
     # Create empty model
@@ -93,8 +99,6 @@ for idx, instance in enumerate(all_instances):
     #             y[j][l][instance['initial_solution'][id_inisol][0]].Start = 1
     #             s[j][l][instance['initial_solution'][id_inisol][0]].Start = instance['initial_solution'][id_inisol][1]
     #             id_inisol+=1
-
-
     
     for j in instance['P']:
         for l in instance['P'][j]:
@@ -123,15 +127,15 @@ for idx, instance in enumerate(all_instances):
     # constraints 6 and 7
     for j in range(n_jobs-1):
         for l in instance['P'][j]:
-            for h in range(j, n_jobs):
-                for z in instance['P'][h]:
-                    for i in list(set(instance['R'][j][l]) & set(instance['R'][h][z])):
-                        if j == h and l == z:
+            for h in range(j+1, n_jobs): # TODO
+                for k in instance['P'][h]:
+                    for i in list(set(instance['R'][j][l]) & set(instance['R'][h][k])):
+                        if j == h and l == k:
                             continue
                         # 6
-                        model.addConstr(s[j][l][i] >= (s[h][z][i] + instance['P'][h][z][i] + instance['O'][i][h][z][j][l] - instance['M']*(3 - x[j][l][h][z] - y[h][z][i] - y[j][l][i])), name=f"precedence between {h},{z} to {j},{l} if x_[j,l,h,z,i]=1")
+                        model.addConstr(s[j][l][i] >= (s[h][k][i] + instance['P'][h][k][i] + instance['O'][i][h][k][j][l] - instance['M']*(3 - x[j][l][h][k] - y[h][k][i] - y[j][l][i])), name=f"precedence between {h},{k} to {j},{l} if x_[j,l,h,z,i]=1")
                         # 7
-                        model.addConstr(s[h][z][i] >= (s[j][l][i] + instance['P'][j][l][i] + instance['O'][i][j][l][h][z] - instance['M']*(x[j][l][h][z] + 2 - y[h][z][i] - y[j][l][i])), name=f"precedence between {j},{l} to {h},{z} if x_[j,l,h,z,i]=0")
+                        model.addConstr(s[h][k][i] >= (s[j][l][i] + instance['P'][j][l][i] + instance['O'][i][j][l][h][k] - instance['M']*(x[j][l][h][k] + 2 - y[h][k][i] - y[j][l][i])), name=f"precedence between {j},{l} to {h},{k} if x_[j,l,h,z,i]=0")
 
     
     for j in instance['P']:
@@ -151,10 +155,21 @@ for idx, instance in enumerate(all_instances):
 
     # Objective function
     Z = model.addVar(vtype=GRB.INTEGER, name="Z_FO")
+
+    # Exaggerated objective function that minimizes the processing time of all tasks
     # model.addConstr(Z == gp.quicksum(startT[j][l][i] + instance['P'][j][l][i]*y[j][l][i] for j in instance['P'] for l in instance['P'][j] for i in instance['P'][j][l]), name="max_contraint")
 
-    model.addConstr(Z == gp.quicksum(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] - instance['D'][j] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="max_contraint")
 
+    match objective:
+        case OBJECTIVE.DEADLINE:
+            # Concise objective function that minimizes only the end times of the last operation of each job with respect to its deadline
+            model.addConstr(Z == gp.quicksum(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] - instance['D'][j] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="max_contraint")
+        case OBJECTIVE.MAKESPAN:
+            # Concise objective function that minimizes only the end times of the last operation of each job
+            model.addConstr(Z == gp.quicksum(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="max_contraint")
+        case _:
+            raise ValueError("Objective not defined")
+    
     model.setObjective(Z, GRB.MINIMIZE)
     # model.params.OutputFlag = 0 # 0 to disable output
     model.params.LogToConsole = 0 # 0 to disable console output
@@ -209,22 +224,20 @@ for idx, instance in enumerate(all_instances):
         
         plot_gantt(df, instance['name'], 'results/fig')
 
-        log.append({'instance': instance['name'], 'status': model.status, 'obj': model.objVal, 'model time (s)': model.Runtime, 'total time (s)': time() - start_time})
-        pd.DataFrame(log).to_csv(f"results/csv/log/log_{instance['name']}.csv", index=False, sep=';')
-        log = []
+        
+        summary = pd.DataFrame({'instance': instance['name'], 'status': model.status,  'obj': model.objVal, 'model time (s)': model.Runtime, 'total time (s)': time() - start_time})
+        summary.to_csv(summary_path, mode='a', header= not os.path.exists(summary_path))
 
         validation = validate_solution(instance, df, x, y, s, Z)
         color = bcolors.greenback if validation else bcolors.redback
         print(f"     {color}Solution validated: {validation}{bcolors.end}")
 
     else:
-        unsolved_instances[instance['name']] = instance
         print(f"     {bcolors.redback}No optimal solution found{bcolors.end}")
         model.computeIIS()
         model.write(f"results/ilp/{instance['name']}_iis.ilp")
     
 
-
-with open("unsolved.json", "w") as f:
-    json.dump(unsolved_instances, f, indent=4, sort_keys=True)
-    f.close()
+# with open("unsolved.json", "w") as f:
+#     json.dump(unsolved_instances, f, indent=4, sort_keys=True)
+#     f.close()

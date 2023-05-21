@@ -33,7 +33,7 @@ def plot_gantt(timestamp, instance_name, path):
 
     ##### LEGEND #####
     legend_elements = [Patch(facecolor=color_map[int(job)], edgecolor='k', label=f'Job {job}') for job in sorted([str(v).rjust(2, '0') for v in timestamp.Job.unique()])]
-    ax.legend(handles=legend_elements, ncol=math.ceil(len(timestamp.Job.unique())/10), bbox_to_anchor=(1.05, 1), loc='upper left')
+    ax.legend(handles=legend_elements, ncol=math.ceil(len(timestamp.Job.unique())/20), bbox_to_anchor=(1.05, 1), loc='upper left')
         
     ##### TICKS #####
     # n_ranges = int(timestamp.Finish_f.max()/(timestamp.Finish_f - timestamp.Start_f).max())
@@ -75,6 +75,8 @@ def old_gantt_plot(timestamp, instance_name, path):
 
     fig.write_image(os.path.join(path, f"{instance_name}_gantt.jpg"))
 
-# timestamp = pd.read_csv('./results/csv/timestamp/MetalMeca_timestamp.csv', sep=';')
+# timestamp = pd.read_csv('./results/csv/timestamp/MetalMeca_makespan_timestamp.csv', sep=';')
+# plot_gantt(timestamp=timestamp, instance_name='MetalMeca_makespan', path='./results/fig')
 
-# plot_gantt(timestamp=timestamp, instance_name='MetalMeca', path='./results/fig')
+timestamp = pd.read_csv('./results/csv/timestamp/PlasticInjection_makespan_timestamp.csv', sep=';')
+plot_gantt(timestamp=timestamp, instance_name='PlasticInjection_makespan', path='./results/fig')

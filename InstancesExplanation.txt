@@ -28,7 +28,14 @@ For example, supose we have this 6x6 matrix of setup times, and supose we have o
 The second row represents the setup time between 1st operation of job 1 and every other operation and job (operation 1 of job 1, operation 1 of job 2, operation 1 of job 3 and operation 1 of job 4)
 
 The next 3 blocks are respectively: initial start constraints for each job, deadlines for each job and initial solution for the instance.
+Initial solution is presented following this pattern: each line contains the machine id and instant of processing time for the job, sorted by (job, operation).
 Not every instance have all those features, but it's presented always in that specific order.
 
-# A good repository for instances: http://people.brunel.ac.uk/~mastjjb/jeb/orlib/flowshopinfo.html
+
+
+
+
+
+
+# Random information: A good repository for instances: http://people.brunel.ac.uk/~mastjjb/jeb/orlib/flowshopinfo.html << that work and this work have no relation
 

@@ -80,6 +80,7 @@ def translate_to_mdb(db:str,
                         if j == h and l == k:
                             continue
                         cursor.execute(f"INSERT INTO SETUPS (Ordem, EscopoProdutoIn, ProdutoInCod, EscopoProdutoOut, ProdutoOutCod, EscopoRecurso, RecursoCod, Tempo, TempoSetupInverso) VALUES ('1', 'ATIV', '{jobs[h]}#{k+1}', 'ATIV', '{jobs[j]}#{l+1}', 'MAQ', '{i}', '{instance['O'][i][j][l][h][k]/60}', '{instance['O'][i][h][k][j][l]/60}')")
+                        cursor.execute(f"INSERT INTO SETUPS (Ordem, EscopoProdutoIn, ProdutoInCod, EscopoProdutoOut, ProdutoOutCod, EscopoRecurso, RecursoCod, Tempo, TempoSetupInverso) VALUES ('1', 'ATIV', '{jobs[j]}#{l+1}', 'ATIV', '{jobs[h]}#{k+1}', 'MAQ', '{i}', '{instance['O'][i][h][k][j][l]/60}', '{instance['O'][i][j][l][h][k]/60}')")
                         conn.commit()
     return 
 

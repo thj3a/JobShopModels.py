@@ -1,0 +1,27 @@
+Instance Name;Obj Func;Time Sim;Total Time
+FTQL_modified_makespan;88487;00:00:00.434499;00:00:02.577693
+FTQL_modified_deadline;52200;00:00:00.434499;00:00:02.577693
+Fattahi_setup_01_modified_makespan;193;00:00:00.379487;00:00:02.075970
+Fattahi_setup_02_modified_makespan;204;00:00:00.373919;00:00:01.918091
+Fattahi_setup_03_modified_makespan;612;00:00:00.390924;00:00:02.002237
+Fattahi_setup_04_modified_makespan;1001;00:00:00.380367;00:00:01.919818
+Fattahi_setup_05_modified_makespan;321;00:00:00.376323;00:00:02.047484
+Fattahi_setup_06_modified_makespan;1216;00:00:00.385055;00:00:02.210429
+Fattahi_setup_07_modified_makespan;952;00:00:00.432037;00:00:02.209412
+Fattahi_setup_08_modified_makespan;773;00:00:00.414810;00:00:02.225483
+Fattahi_setup_09_modified_makespan;579;00:00:00.382762;00:00:02.092389
+Fattahi_setup_10_modified_makespan;2000;00:00:00.399440;00:00:02.111283
+Fattahi_setup_11_modified_makespan;2339;00:00:00.426453;00:00:02.343726
+Fattahi_setup_12_modified_makespan;2165;00:00:00.397280;00:00:02.284311
+Fattahi_setup_13_modified_makespan;3259;00:00:00.408018;00:00:02.402810
+Fattahi_setup_14_modified_makespan;3699;00:00:00.418032;00:00:02.396999
+Fattahi_setup_15_modified_makespan;3807;00:00:00.409760;00:00:02.468933
+Fattahi_setup_16_modified_makespan;4949;00:00:00.429613;00:00:02.529933
+Fattahi_setup_17_modified_makespan;7268;00:00:00.416396;00:00:02.692541
+Fattahi_setup_18_modified_makespan;8237;00:00:00.420920;00:00:02.762801
+Fattahi_setup_19_modified_makespan;10911;00:00:00.426035;00:00:02.919923
+Fattahi_setup_20_modified_makespan;13005;00:00:00.434136;00:00:03.010857
+MetalMeca_modified_makespan;711671;00:00:00.904233;00:00:10.227893
+MetalMeca_modified_deadline;-716833;00:00:00.904233;00:00:10.227893
+PlasticInjection_modified_makespan;89405;00:00:00.567051;00:00:03.798554
+PlasticInjection_modified_deadline;62825;00:00:00.567051;00:00:03.798554

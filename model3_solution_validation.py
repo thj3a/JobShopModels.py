@@ -1,7 +1,7 @@
 import pandas as pd
 import pdb
 
-def validate_solution(instance, df, x, y, startT, C_max):
+def validate_solution(instance, df):
 
     # Check if there is a job that starts before the previous one finishes in the same machine
     machines = df['Resource'].unique()

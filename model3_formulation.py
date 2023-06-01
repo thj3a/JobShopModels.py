@@ -30,6 +30,7 @@ class bcolors:
     end = '\033[0m'
 
 
+save_output = False
 print("Gurobi version: ", gp.gurobi.version())
 
 # Environment
@@ -38,9 +39,9 @@ path_instances_with_setup = './instances_with_setup/'
 path_instances_without_setup = './instances_without_setup/'
 path_instances_translated = './instances_translated/'
 path_instances_generated = './instances_generated/'
-path_instances_modificated = './instances_modificated/'
+path_instances_modified = './instances_modified/'
 
-all_instances = read_instances(path_instances_translated)
+all_instances = read_instances(path_instances_modified)
 all_instances.sort(key=lambda x: x['name'])
 # all_instances = instances.read_instances(path_instances_without_setup)
 # all_instances = [instances.read_instance('FisherThompson', './instances_without_setup/')]
@@ -69,7 +70,7 @@ for path in paths:
     if not os.path.exists(path):
         os.mkdir(path)
 
-for idx, instance in enumerate(all_instances):
+for idx, instance in enumerate(all_instances[21:22]):
 
     objective = OBJECTIVE.MAKESPAN
     print(instance['name'])
@@ -100,6 +101,7 @@ for idx, instance in enumerate(all_instances):
     #             s[j][l][instance['initial_solution'][id_inisol][0]].Start = instance['initial_solution'][id_inisol][1]
     #             id_inisol+=1
     
+
     for j in instance['P']:
         for l in instance['P'][j]:
             # constraint 1
@@ -156,9 +158,6 @@ for idx, instance in enumerate(all_instances):
     # Objective function
     Z = model.addVar(vtype=GRB.INTEGER, name="Z_FO")
 
-    # Exaggerated objective function that minimizes the processing time of all tasks
-    # model.addConstr(Z == gp.quicksum(startT[j][l][i] + instance['P'][j][l][i]*y[j][l][i] for j in instance['P'] for l in instance['P'][j] for i in instance['P'][j][l]), name="max_contraint")
-
 
     match objective:
         case OBJECTIVE.DEADLINE:
@@ -166,7 +165,10 @@ for idx, instance in enumerate(all_instances):
             model.addConstr(Z == gp.quicksum(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] - instance['D'][j] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="max_contraint")
         case OBJECTIVE.MAKESPAN:
             # Concise objective function that minimizes only the end times of the last operation of each job
-            model.addConstr(Z == gp.quicksum(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="max_contraint")
+            # model.addConstr(Z == gp.quicksum(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="max_contraint")
+            
+            # Exaggerated objective function that minimizes the processing time of all tasks
+            model.addConstr(Z == gp.quicksum(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] for j in instance['P'] for l in instance['P'][j] for i in instance['P'][j][l]), name="max_contraint")
         case _:
             raise ValueError("Objective not defined")
     
@@ -176,8 +178,9 @@ for idx, instance in enumerate(all_instances):
     model.params.IntFeasTol = 1e-9
     model.params.IntegralityFocus = 1
     model.params.TimeLimit = 3600*3
-    with open(f"results/log/{instance['name']}.log", "w") as f:
-        model.params.LogFile = f"results/log/{instance['name']}.log"
+    if save_output:
+        with open(f"results/log/{instance['name']}.log", "w") as f:
+            model.params.LogFile = f"results/log/{instance['name']}.log"
     print("     Optimizing model")
     
     model.optimize()
@@ -209,7 +212,8 @@ for idx, instance in enumerate(all_instances):
             vars_list.append(d)
 
         df = pd.DataFrame(vars_list).sort_values(by=['name'], ascending=True)
-        df.to_csv(f"results/csv/vars/{instance['name']}_vars.csv", index=False, sep=";")
+        if save_output:
+            df.to_csv(f"results/csv/vars/{instance['name']}_vars.csv", index=False, sep=";")
 
         timestamp_list = []
         date_start = pd.Timestamp('2023-01-01 00:00:00')
@@ -220,15 +224,22 @@ for idx, instance in enumerate(all_instances):
                         d = dict(Job=f"{j}", Op=l, Start=date_start+pd.Timedelta(f"{s[j][l][i].x} minutes"), Finish=date_start+ pd.Timedelta(f"{s[j][l][i].x + instance['P'][j][l][i]}  minutes"), Start_f=s[j][l][i].x, Finish_f=s[j][l][i].x + instance['P'][j][l][i], Resource=f"Machine {str(i).rjust(2,'0')}")
                         timestamp_list.append(d)
         df = pd.DataFrame(timestamp_list)
-        df.to_csv(f"results/csv/timestamp/{instance['name']}_timestamp.csv", index=False, sep=';')
+
+        print(df)
+        print(Z.x)
+
+        if save_output:
+            df.to_csv(f"results/csv/timestamp/{instance['name']}_timestamp.csv", index=False, sep=';')
         
-        plot_gantt(df, instance['name'], 'results/fig')
+        if save_output:
+            plot_gantt(df, instance['name'], 'results/fig')
 
         
         summary = pd.DataFrame({'instance': instance['name'], 'status': model.status,  'obj': model.objVal, 'model time (s)': model.Runtime, 'total time (s)': time() - start_time})
-        summary.to_csv(summary_path, mode='a', header= not os.path.exists(summary_path))
+        if save_output:
+            summary.to_csv(summary_path, mode='a', header= not os.path.exists(summary_path))
 
-        validation = validate_solution(instance, df, x, y, s, Z)
+        validation = validate_solution(instance, df)
         color = bcolors.greenback if validation else bcolors.redback
         print(f"     {color}Solution validated: {validation}{bcolors.end}")
 

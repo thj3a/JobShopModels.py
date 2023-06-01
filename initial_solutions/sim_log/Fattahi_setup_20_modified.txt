@@ -1,0 +1,34 @@
+09:33:33 - ***** Inicio S000 - FLUXO PRINCIPAL - (DtHr Ini Sistema: 31/05/2023 9:32:45 pm) (DtHr Ini S000: 31/05/2023 9:33:33 pm) (Ambiente:True)
+09:33:33 - Inicialização BD (TipoBD: ACCESS2007) - (ConnStr: Provider=Microsoft.Jet.OLEDB.4.0; Data Source=..\..\..\..\..\JobShopModels.py\instances_mdb\Fattahi_setup_20_modified.mdb)
+09:33:33 - Fim Inicialização BD (Duração: 00:00:00.4656249)
+09:33:33 - Inicialização CT
+09:33:33 - Fim Inicialização CT (Duração: 00:00:00.0000008)
+09:33:33 - Inicialização T
+09:33:33 - HORIZONTE: 
+>>>>>>>> DtHrIniSim = 03/11/2022 00:00:00 am
+>>>>>>>> DtHrFimSim = 02/02/2023 06:00:00 am
+>>>>>>>> InstIni = 184204800
+>>>>>>>> InstFim = 192088800
+>>>>>>>> InstAtual = 184204800
+>>>>>>>> PassoIni = 60
+>>>>>>>> Passo = 60
+>>>>>>>> PassoUltimo = 184204800
+>>>>>>>> PassoProximo = 184204860
+09:33:33 - Fim Inicialização T (Duração: 00:00:00.0008925)
+09:33:33 - Inicialização M
+09:33:33 - Fim Inicialização M (Duração: 00:00:00.0000008)
+09:33:33 - Inicialização R
+09:33:33 - Fim Inicialização R (Duração: 00:00:00.0000005)
+09:33:33 - S100
+09:33:35 - Fim S100 (Duração: 00:00:01.6766167)
+09:33:35 - S200
+09:33:35 - Fim S200 (Duração: 00:00:00.0597097)
+09:33:35 - S300
+09:33:35 - Fim S300 (Duração: 00:00:00.4341362)
+09:33:35 - S400
+09:33:35 - Fim S400 (Duração: 00:00:00.0305829)
+09:33:35 - S500
+09:33:36 - Fim S500 (Duração: 00:00:00.2880878)
+09:33:36 - Inicio Encerramento BD
+09:33:36 - Fim Encerramento BD (Duração: 00:00:00.0551448)
+09:33:36 - ***** Fim S000 - FLUXO PRINCIPAL - (DtHr Fim S000: 31/05/2023 9:33:36 pm) (Duração:00:00:03.0108576)

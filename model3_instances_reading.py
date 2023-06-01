@@ -102,57 +102,55 @@ def read_instance(instance_name, instance_path):
 
         instance['O'] = {i: {j: {l: {h: {z: 0.0 for z in range(len(instance['P'][h]))} for h in range(instance['n_jobs'])} for l in range(len(instance['P'][j]))} for j in range(instance['n_jobs'])} for i in range(1, instance['n_machines']+1)}
 
-        if id_line >= len(lines):
-            return instance
-
-        # read setup times
-        for i in instance['O']:
-            for j in instance['O'][i]:
-                for l in instance['O'][i][j]:
-                    # print(f'line: {id_line}: {lines[id_line]}')
-                    setup_times = list(map(int, lines[id_line].split()))
-                    tmp = 0
-                    for h in instance['O'][i][j][l]:
-                        for z in instance['O'][i][j][l][h]:
-                            instance['O'][i][j][l][h][z] = setup_times[tmp]
-                            # print(f'machine: {machine}, job|op: {j}|{l}, job|op: {h}|{z}, setup_time: {setup_times[tmp]}')
-                            # d = dict(machine=machine+1, job1=j, op1=l, job2=h, op2=z, setup_times=instance['O'][machine][j][l][h][z])
-                            # df = pd.concat((df, pd.DataFrame(d, index=[0])), axis=0)
-                            if setup_times[tmp] > instance['M']:
-                                instance['M'] = setup_times[tmp]
-                            tmp += 1
-                    id_line += 1
-        # instance['setup_times_dict'] = df
+        if id_line < len(lines):
+            # read setup times
+            for i in instance['O']:
+                for j in instance['O'][i]:
+                    for l in instance['O'][i][j]:
+                        # print(f'line: {id_line}: {lines[id_line]}')
+                        setup_times = list(map(int, lines[id_line].split()))
+                        tmp = 0
+                        for h in instance['O'][i][j][l]:
+                            for z in instance['O'][i][j][l][h]:
+                                instance['O'][i][j][l][h][z] = setup_times[tmp]
+                                # print(f'machine: {machine}, job|op: {j}|{l}, job|op: {h}|{z}, setup_time: {setup_times[tmp]}')
+                                # d = dict(machine=machine+1, job1=j, op1=l, job2=h, op2=z, setup_times=instance['O'][machine][j][l][h][z])
+                                # df = pd.concat((df, pd.DataFrame(d, index=[0])), axis=0)
+                                if setup_times[tmp] > instance['M']:
+                                    instance['M'] = setup_times[tmp]
+                                tmp += 1
+                        id_line += 1
+            # instance['setup_times_dict'] = df
 
         id_line += 1
-        if id_line >= len(lines):
-            return instance
-        
-        # read the starting times constraints
-        for j in instance['Q']:
-            instance['Q'][j] = int(lines[id_line].split()[0])
-            id_line += 1
+        if id_line < len(lines):
+            # read the starting times constraints
+            for j in instance['Q']:
+                instance['Q'][j] = int(lines[id_line].split()[0])
+                id_line += 1
 
         id_line += 1
-        if id_line >= len(lines):
-            return instance
-        
-        # read the deadlines
-        for j in instance['jobs']:
-            instance['D'][j] = int(lines[id_line].split()[0])
-            id_line += 1
+        if id_line < len(lines):
+            # read the deadlines
+            for j in instance['jobs']:
+                instance['D'][j] = int(lines[id_line].split()[0])
+                id_line += 1
 
-        id_line += 1
-        if id_line >= len(lines):
-            return instance
-        
-        # read initial solution
-        while id_line < len(lines):
-            machine, start_time = map(int, lines[id_line].split())
-            instance['initial_solution'].append([machine, start_time])
-            id_line += 1
+
+        # read initial solution if it exists
+        r = [filename.split('.')[0] for filename in os.listdir('./initial_solutions/') if not os.path.isdir(filename)]
+        if instance_name in r:
+            path = os.path.join('./initial_solutions/', instance_name + '.fjs')
+            with open(path, 'r') as f:
+                lines = f.readlines()
+                for line in lines:
+                    line = line.split()
+                    machine, start_time = map(int, line)
+                    instance['initial_solution'].append([machine, start_time])
+        # lines = map(int, lines[id_line].split())
+        # instance['initial_solution'].append([machine, start_time])
 
     return instance
 
-# path = './instances_translated/'
-# instances = read_instances(path)
+path = './instances_modified/'
+instances = read_instances(path)

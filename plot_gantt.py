@@ -78,5 +78,5 @@ def old_gantt_plot(timestamp, instance_name, path):
 # timestamp = pd.read_csv('./results/csv/timestamp/MetalMeca_makespan_timestamp.csv', sep=';')
 # plot_gantt(timestamp=timestamp, instance_name='MetalMeca_makespan', path='./results/fig')
 
-timestamp = pd.read_csv('./results/csv/timestamp/PlasticInjection_makespan_timestamp.csv', sep=';')
-plot_gantt(timestamp=timestamp, instance_name='PlasticInjection_makespan', path='./results/fig')
+# timestamp = pd.read_csv('./results/csv/timestamp/PlasticInjection_makespan_timestamp.csv', sep=';')
+# plot_gantt(timestamp=timestamp, instance_name='PlasticInjection_makespan', path='./results/fig')

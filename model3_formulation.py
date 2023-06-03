@@ -26,11 +26,14 @@ class bcolors:
     blue = '\033[94m'
     redback = '\033[41m'
     blueback = '\033[44m'
+    orangeback = '\033[43m'
     greenback = '\033[42m'
     end = '\033[0m'
 
 
-save_output = False
+save_output = True
+save_temp = False
+log_console = False
 print("Gurobi version: ", gp.gurobi.version())
 
 # Environment
@@ -43,13 +46,12 @@ path_instances_modified = './instances_modified/'
 
 all_instances = read_instances(path_instances_modified)
 all_instances.sort(key=lambda x: x['name'])
-# all_instances = instances.read_instances(path_instances_without_setup)
-# all_instances = [instances.read_instance('FisherThompson', './instances_without_setup/')]
+all_instances = list(filter(lambda x: x['name'] not in ['FTQL_modified', 'MetalMeca_modified', 'PlasticInjection_modified'], all_instances))
 
 print("Number of instances: ", len(all_instances))
 
 summary_path = f"results/csv/log/summary_results.csv"
-paths = ['./results', 
+paths = ['./results/', 
          './results/csv', 
          './results/csv/vars', 
          './results/csv/log', 
@@ -60,7 +62,7 @@ paths = ['./results',
          './results/json', 
          './results/ilp', 
          './results/log', 
-         './results/txt', 
+         './results/txt',
          './results/txt/vars', 
          './results/txt/log', 
          './results/sol', 
@@ -70,18 +72,18 @@ for path in paths:
     if not os.path.exists(path):
         os.mkdir(path)
 
-for idx, instance in enumerate(all_instances[21:22]):
+for idx, instance in enumerate(all_instances):
 
-    objective = OBJECTIVE.MAKESPAN
-    print(instance['name'])
-    instance['name'] = instance['name'] + '_' + objective.value
+    objective = OBJECTIVE.DEADLINE
+    instance_name = instance['name'] + '_' + objective.value
+    print(instance_name)
     start_time = time()
 
     # Create empty model
     model = gp.Model("F-JSSP-SDST")
     instance['M'] *= 1e3
     
-    print(f"Instance {idx+1}/{len(all_instances)}: {instance['name']}")
+    print(f"Instance {idx+1}/{len(all_instances)}: {instance_name}")
     n_jobs = instance['n_jobs']
     n_machines = instance['n_machines']
     machines = instance['machines']
@@ -162,58 +164,63 @@ for idx, instance in enumerate(all_instances[21:22]):
     match objective:
         case OBJECTIVE.DEADLINE:
             # Concise objective function that minimizes only the end times of the last operation of each job with respect to its deadline
-            model.addConstr(Z == gp.quicksum(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] - instance['D'][j] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="max_contraint")
+            b = {j: {l: {i: model.addVar(vtype=GRB.BINARY, name=f"b[job:{j}, stage:{l}, machine:{i}]") for i in instance['P'][j][l]} for l in instance['P'][j]} for j in instance['P']}
+            
+            for j in instance['P']:
+                for l in list(instance['P'][j].keys())[-1:]:
+                    for i in instance['P'][j][l]:
+                        model.addConstr(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] >= instance['D'][j] - instance['M'] * (1 - b[j][l][i]), name="auxiliaryOF_constraint")
+                        model.addConstr(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] <= instance['D'][j] + instance['M'] *  b[j][l][i], name="auxiliaryOF_constraint")
+
+            model.addConstr(Z >= gp.quicksum((s[j][l][i] + instance['P'][j][l][i] - instance['D'][j])*b[j][l][i] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="OF_constraint")
+        
         case OBJECTIVE.MAKESPAN:
             # Concise objective function that minimizes only the end times of the last operation of each job
             # model.addConstr(Z == gp.quicksum(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="max_contraint")
             
             # Exaggerated objective function that minimizes the processing time of all tasks
-            model.addConstr(Z == gp.quicksum(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] for j in instance['P'] for l in instance['P'][j] for i in instance['P'][j][l]), name="max_contraint")
+            model.addConstr(Z >= gp.quicksum(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] for j in instance['P'] for l in instance['P'][j] for i in instance['P'][j][l]), name="OF_constraint")
         case _:
             raise ValueError("Objective not defined")
     
     model.setObjective(Z, GRB.MINIMIZE)
     # model.params.OutputFlag = 0 # 0 to disable output
-    model.params.LogToConsole = 0 # 0 to disable console output
+    model.params.LogToConsole = int(log_console) # 0 to disable console output
     model.params.IntFeasTol = 1e-9
     model.params.IntegralityFocus = 1
     model.params.TimeLimit = 3600*3
     if save_output:
-        with open(f"results/log/{instance['name']}.log", "w") as f:
-            model.params.LogFile = f"results/log/{instance['name']}.log"
+        with open(f"results/log/{instance_name}.log", "w") as f:
+            model.params.LogFile = f"results/log/{instance_name}.log"
     print("     Optimizing model")
     
     model.optimize()
 
-    model.write(f"results/lp/{instance['name']}.lp")
-    model.write(f"results/mps/{instance['name']}.mps")
-    model.write(f"results/json/{instance['name']}.json")
+    if save_output:
+        model.write(f"results/lp/{instance_name}.lp")
+        model.write(f"results/mps/{instance_name}.mps")
+        model.write(f"results/json/{instance_name}.json")
     
     if model.status != GRB.Status.INFEASIBLE and model.status != GRB.Status.INF_OR_UNBD:
         
         msg = f"     {bcolors.blueback} Optimal Solution found{bcolors.end}"
         match model.status:
-            case GRB.Status.TIME_LIMIT:
-                msg = f"     {bcolors.blueback}Optimal Solution NOT found{bcolors.end}"
             case GRB.Status.OPTIMAL:
                 msg = f"     {bcolors.blueback}Optimal Solution found{bcolors.end}"
+            case GRB.Status.TIME_LIMIT:
+                msg = f"     {bcolors.orangeback}Optimal Solution NOT found{bcolors.end}"
             case GRB.Status.SUBOPTIMAL:
-                msg = f"     {bcolors.blueback}Suboptimal Solution found{bcolors.end}"
+                msg = f"     {bcolors.orangeback}Suboptimal Solution found{bcolors.end}"
             case GRB.Status.INFEASIBLE:
                 msg = f"     {bcolors.redback}Infeasible Solution found{bcolors.end}"
         print(msg)
         
-        model.write(f"results/sol/{instance['name']}.sol")
-        model.write(f"results/rlp/{instance['name']}.rlp")
-
         vars_list = []
         for v in model.getVars():
             d= dict(name=v.varName, value=v.x)
             vars_list.append(d)
 
-        df = pd.DataFrame(vars_list).sort_values(by=['name'], ascending=True)
-        if save_output:
-            df.to_csv(f"results/csv/vars/{instance['name']}_vars.csv", index=False, sep=";")
+        vars = pd.DataFrame(vars_list).sort_values(by=['name'], ascending=True)
 
         timestamp_list = []
         date_start = pd.Timestamp('2023-01-01 00:00:00')
@@ -223,30 +230,36 @@ for idx, instance in enumerate(all_instances[21:22]):
                     if  y[j][l][i].x == 1:
                         d = dict(Job=f"{j}", Op=l, Start=date_start+pd.Timedelta(f"{s[j][l][i].x} minutes"), Finish=date_start+ pd.Timedelta(f"{s[j][l][i].x + instance['P'][j][l][i]}  minutes"), Start_f=s[j][l][i].x, Finish_f=s[j][l][i].x + instance['P'][j][l][i], Resource=f"Machine {str(i).rjust(2,'0')}")
                         timestamp_list.append(d)
-        df = pd.DataFrame(timestamp_list)
 
-        print(df)
-        print(Z.x)
-
-        if save_output:
-            df.to_csv(f"results/csv/timestamp/{instance['name']}_timestamp.csv", index=False, sep=';')
+        timestamp = pd.DataFrame(timestamp_list)
+        summary = pd.DataFrame([{'instance': instance_name, 'status': model.status,  'obj': model.objVal, 'model time (s)': model.Runtime, 'total time (s)': time() - start_time}])
         
         if save_output:
-            plot_gantt(df, instance['name'], 'results/fig')
-
-        
-        summary = pd.DataFrame({'instance': instance['name'], 'status': model.status,  'obj': model.objVal, 'model time (s)': model.Runtime, 'total time (s)': time() - start_time})
-        if save_output:
+            # save timestamp
+            timestamp.to_csv(f"results/csv/timestamp/{instance_name}_timestamp.csv", index=False, sep=';')
+            # save summary
             summary.to_csv(summary_path, mode='a', header= not os.path.exists(summary_path))
+            # save gantt chart
+            plot_gantt(timestamp, instance_name, 'results/fig')
+            # save vars
+            vars.to_csv(f"results/csv/vars/{instance_name}_vars.csv", index=False, sep=";")
+            # save solution
+            model.write(f"results/sol/{instance_name}.sol")
+            # save rlp
+            model.write(f"results/rlp/{instance_name}.rlp")
 
-        validation = validate_solution(instance, df)
+        if save_temp:
+            plot_gantt(timestamp, instance_name, 'results/temp')
+            timestamp.to_csv(f"results/csv/timestamp/{instance_name}_timestamp.csv", index=False, sep=';')
+        
+        validation = validate_solution(instance, timestamp)
         color = bcolors.greenback if validation else bcolors.redback
         print(f"     {color}Solution validated: {validation}{bcolors.end}")
 
     else:
         print(f"     {bcolors.redback}No optimal solution found{bcolors.end}")
         model.computeIIS()
-        model.write(f"results/ilp/{instance['name']}_iis.ilp")
+        model.write(f"results/ilp/{instance_name}_iis.ilp")
     
 
 # with open("unsolved.json", "w") as f:

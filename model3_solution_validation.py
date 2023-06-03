@@ -1,15 +1,15 @@
 import pandas as pd
 import pdb
 
-def validate_solution(instance, df):
+def validate_solution(instance, timestamp):
 
     # Check if there is a job that starts before the previous one finishes in the same machine
-    machines = df['Resource'].unique()
-    jobs = df['Job'].unique()
+    machines = timestamp['Resource'].unique()
+    jobs = timestamp['Job'].unique()
     jobs_array = map(int, jobs)
     
     for m in machines:
-        df_machine = df[df['Resource'] == m]
+        df_machine = timestamp[timestamp['Resource'] == m]
         df_machine = df_machine.sort_values(by=['Start_f'], ascending=True)
         df_machine = df_machine.reset_index(drop=True)
         for line in range(len(df_machine)-1):
@@ -23,7 +23,7 @@ def validate_solution(instance, df):
 
     # Check if an operation begins before its predecessor finishes
     for job in jobs_array:
-        df_job = df[df['Job'] == job]
+        df_job = timestamp[timestamp['Job'] == job]
         df_job = df_job.sort_values(by=['Op'])
         df_job = df_job.reset_index(drop=True)
         for operation in range(len(df_job)-1):
@@ -36,7 +36,7 @@ def validate_solution(instance, df):
             
     # Check if an operation begins before its start time constraint
     for job in jobs_array:
-        df_job = df[df['Job'] == job]
+        df_job = timestamp[timestamp['Job'] == job]
         df_job = df_job.sort_values(by=['Op'])
         df_job = df_job.reset_index(drop=True)
         for operation in range(len(df_job)):

@@ -87,6 +87,7 @@ for idx, instance in enumerate(all_instances):
     n_jobs = instance['n_jobs']
     n_machines = instance['n_machines']
     machines = instance['machines']
+    
     # Create variables
     print("     Creating variables and constraints")
     y = {j: {l: {i: model.addVar(vtype=GRB.BINARY, name=f"y[job:{j}, stage:{l}, machine:{i}]") for i in instance['P'][j][l]} for l in instance['P'][j]} for j in instance['P']}              
@@ -131,7 +132,7 @@ for idx, instance in enumerate(all_instances):
     # constraints 6 and 7
     for j in range(n_jobs-1):
         for l in instance['P'][j]:
-            for h in range(j+1, n_jobs): # TODO
+            for h in range(j+1, n_jobs):
                 for k in instance['P'][h]:
                     for i in list(set(instance['R'][j][l]) & set(instance['R'][h][k])):
                         if j == h and l == k:
@@ -149,13 +150,6 @@ for idx, instance in enumerate(all_instances):
                 model.addConstr(s[j][l][i] >= instance['Q'][j]*y[j][l][i], name=f"initial_start_time_job{j}_stage0_machine{i}_constraint")
                 # constraint 10
                 model.addConstr(s[j][l][i] >= 0, name=f"positive_start_time_job{j}_stage{l}_machine{i}_constraint")
-
-    # constraint 18 - objective function 
-    # for j in range(n_jobs):
-    #     n_j = len(instance['P'][j].keys())-1
-    #     m = instance['P'][j][n_j].keys()
-    #     model.addConstr(Z >= gp.quicksum(startT[j][n_j][i] for i in m) + gp.quicksum(y[j][n_j][i]*(instance['P'][j][n_j][i]) for i in m), name="max_contraint")
-
 
     # Objective function
     Z = model.addVar(vtype=GRB.INTEGER, name="Z_FO")

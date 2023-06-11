@@ -48,11 +48,11 @@ def plot_gantt(timestamp, instance_name, path):
     ##### LABELS #####
     ax.set_xlabel('Time (min)')
     ax.set_ylabel('Resource')
-    ax.set_title(f'{instance_name} - Timestamp')
+    # ax.set_title(f'{instance_name} - Timestamp')
     ax.autoscale(enable=True, axis='both', tight=False)
     # plt.show()
     plt.savefig(
-                os.path.join(path, f'{instance_name}_gantt'), 
+                os.path.join(path, f'{instance_name}'), 
                 dpi=300, 
                 bbox_inches='tight'
                 )
@@ -75,8 +75,12 @@ def old_gantt_plot(timestamp, instance_name, path):
 
     fig.write_image(os.path.join(path, f"{instance_name}_gantt.jpg"))
 
-# timestamp = pd.read_csv('./results/csv/timestamp/MetalMeca_makespan_timestamp.csv', sep=';')
-# plot_gantt(timestamp=timestamp, instance_name='MetalMeca_makespan', path='./results/fig')
+# path = './heuristic_solutions/timestamp/'
+
+# for filename in os.listdir(path)[::2]:
+#     instance_name = "_".join(filter(lambda x: x not in ['modified', 'timestamp', 'makespan', 'deadline'], filename.split('.')[0].split('_'))) + "_modified"
+#     timestamp = pd.read_csv(os.path.join(path, filename), sep=';')
+#     plot_gantt(timestamp=timestamp, instance_name=instance_name, path='./heuristic_solutions/gantt')
 
 # timestamp = pd.read_csv('./results/csv/timestamp/PlasticInjection_makespan_timestamp.csv', sep=';')
 # plot_gantt(timestamp=timestamp, instance_name='PlasticInjection_makespan', path='./results/fig')

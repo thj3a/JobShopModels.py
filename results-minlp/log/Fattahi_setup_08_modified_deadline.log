@@ -1,0 +1,80 @@
+
+Gurobi 10.0.1 (win64) logging started Fri Jun  2 12:25:28 2023
+
+Set parameter LogFile to value "results/log/Fattahi_setup_08_modified_deadline.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 164 rows, 136 columns and 539 nonzeros
+Model fingerprint: 0xdafad8a6
+Model has 1 quadratic constraint
+Variable types: 0 continuous, 136 integer (117 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+09]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+09]
+Warning: Model contains large matrix coefficients
+Warning: Model contains large rhs
+         Consider reformulating model or setting NumericFocus parameter
+         to avoid numerical issues.
+Presolve removed 57 rows and 80 columns
+Presolve time: 0.00s
+Presolved: 120 rows, 74 columns, 469 nonzeros
+Presolved model has 12 SOS constraint(s)
+Variable types: 0 continuous, 74 integer (43 binary)
+
+Root relaxation: objective 4.270000e+02, 17 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  427.00000    0   12          -  427.00000      -     -    0s
+H    0     0                     739.0000000  427.00000  42.2%     -    0s
+     0     0  427.00000    0    5  739.00000  427.00000  42.2%     -    0s
+H    0     0                     661.0000000  427.00000  35.4%     -    0s
+H    0     0                     645.0000000  427.00000  33.8%     -    0s
+     0     0  437.00000    0    5  645.00000  437.00000  32.2%     -    0s
+H    0     0                     575.0000000  437.00000  24.0%     -    0s
+     0     0  438.00000    0   17  575.00000  438.00000  23.8%     -    0s
+     0     0  443.00000    0   19  575.00000  443.00000  23.0%     -    0s
+H    0     0                     550.0000000  443.00000  19.5%     -    0s
+H    0     0                     547.0000000  443.00000  19.0%     -    0s
+     0     0  456.95775    0   15  547.00000  456.95775  16.5%     -    0s
+     0     0  461.00000    0   12  547.00000  461.00000  15.7%     -    0s
+H    0     0                     543.0000000  461.00000  15.1%     -    0s
+     0     0  461.00000    0   10  543.00000  461.00000  15.1%     -    0s
+     0     0  463.00000    0   14  543.00000  463.00000  14.7%     -    0s
+     0     0  463.00000    0   12  543.00000  463.00000  14.7%     -    0s
+     0     2  463.00000    0    9  543.00000  463.00000  14.7%     -    0s
+*   83    45               9     519.0000000  463.00000  10.8%   3.2    0s
+
+Cutting planes:
+  Learned: 6
+  Implied bound: 4
+  MIR: 12
+  StrongCG: 1
+  Flow cover: 1
+  Inf proof: 2
+  Relax-and-lift: 1
+
+Explored 387 nodes (1056 simplex iterations) in 0.06 seconds (0.02 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 8: 519 543 547 ... 739
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 5.190000000000e+02, best bound 5.190000000000e+02, gap 0.0000%
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: to let Gurobi read it back, use rlp format
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default variable names used to write mps file
+Warning: default constraint names used to write mps file
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: default variable names used to write solution file

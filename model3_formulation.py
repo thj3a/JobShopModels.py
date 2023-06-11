@@ -34,7 +34,7 @@ class bcolors:
 save_output = True
 save_temp = False
 log_console = False
-print("Gurobi version: ", gp.gurobi.version())
+# print("Gurobi version: ", gp.gurobi.version())
 
 # Environment
 print("Reading instances")
@@ -46,8 +46,10 @@ path_instances_modified = './instances_modified/'
 
 all_instances = read_instances(path_instances_modified)
 all_instances.sort(key=lambda x: x['name'])
-# all_instances = list(filter(lambda x: x['name'] not in ['FTQL_modified', 'MetalMeca_modified', 'PlasticInjection_modified'], all_instances))
-# all_instances = all_instances[13:14]
+bminstances = list(filter(lambda x: x['name'] not in ['FTQL_modified', 'MetalMeca_modified', 'PlasticInjection_modified'], all_instances))
+rwinstances = list(filter(lambda x: x['name'] in ['FTQL_modified', 'MetalMeca_modified', 'PlasticInjection_modified'], all_instances))
+all_instances = bminstances + rwinstances
+
 print("Number of instances: ", len(all_instances))
 
 summary_path = f"results/csv/log/summary_results.csv"
@@ -76,7 +78,7 @@ for idx, instance in enumerate(all_instances):
 
     objective = OBJECTIVE.DEADLINE
     instance_name = instance['name'] + '_' + objective.value
-    print(instance_name)
+    # print(instance_name)
     start_time = time()
 
     # Create empty model
@@ -163,10 +165,11 @@ for idx, instance in enumerate(all_instances):
             for j in instance['P']:
                 for l in list(instance['P'][j].keys())[-1:]:
                     for i in instance['P'][j][l]:
+                        eps = 1e-8
+                        instance['M'] += eps
                         model.addConstr(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] >= instance['D'][j] - instance['M'] * (1 - b[j][l][i]), name="auxiliaryOF_constraint")
-                        model.addConstr(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] <= instance['D'][j] + instance['M'] *  b[j][l][i], name="auxiliaryOF_constraint")
-
-            model.addConstr(Z >= gp.quicksum(s[j][l][i] + (instance['P'][j][l][i] - instance['D'][j])*b[j][l][i] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="OF_constraint")
+                        model.addConstr(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] <= instance['D'][j] - eps + instance['M'] *  b[j][l][i], name="auxiliaryOF_constraint")
+            model.addConstr(Z >= gp.quicksum((s[j][l][i] + instance['P'][j][l][i] - instance['D'][j])*b[j][l][i] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="OF_constraint")
         
         case OBJECTIVE.MAKESPAN:
             # Concise objective function that minimizes only the end times of the last operation of each job
@@ -182,7 +185,7 @@ for idx, instance in enumerate(all_instances):
     model.params.LogToConsole = int(log_console) # 0 to disable console output
     model.params.IntFeasTol = 1e-9
     # model.params.MIPFocus = 1
-    # model.params.IntegralityFocus = 1
+    model.params.IntegralityFocus = 1
     model.params.TimeLimit = 3600*3
     if save_output:
         with open(f"results/log/{instance_name}.log", "w") as f:
@@ -227,7 +230,7 @@ for idx, instance in enumerate(all_instances):
                         timestamp_list.append(d)
 
         timestamp = pd.DataFrame(timestamp_list)
-        summary = pd.DataFrame([{'instance': instance_name, 'status': model.status,  'obj': model.objVal, 'model time (s)': model.Runtime, 'total time (s)': time() - start_time}])
+        summary = pd.DataFrame([{'instance': instance_name, 'status': model.status,  'obj': model.objVal, 'model time (s)': model.Runtime, 'total time (s)': time() - start_time, 'gap': model.MIPGap}])
         
         if save_output:
             # save timestamp

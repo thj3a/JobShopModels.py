@@ -165,10 +165,10 @@ for idx, instance in enumerate(all_instances):
             for j in instance['P']:
                 for l in list(instance['P'][j].keys())[-1:]:
                     for i in instance['P'][j][l]:
-                        eps = 1e-8
-                        instance['M'] += eps
+                        # eps = 1e-8
+                        # instance['M'] += eps
                         model.addConstr(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] >= instance['D'][j] - instance['M'] * (1 - b[j][l][i]), name="auxiliaryOF_constraint")
-                        model.addConstr(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] <= instance['D'][j] - eps + instance['M'] *  b[j][l][i], name="auxiliaryOF_constraint")
+                        model.addConstr(s[j][l][i] + instance['P'][j][l][i]*y[j][l][i] <= instance['D'][j] + instance['M'] *  b[j][l][i], name="auxiliaryOF_constraint")
             model.addConstr(Z >= gp.quicksum((s[j][l][i] + instance['P'][j][l][i] - instance['D'][j])*b[j][l][i] for j in instance['P'] for l in list(instance['P'][j].keys())[-1:] for i in instance['P'][j][l]), name="OF_constraint")
         
         case OBJECTIVE.MAKESPAN:

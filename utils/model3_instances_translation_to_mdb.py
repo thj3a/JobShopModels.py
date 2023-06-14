@@ -6,7 +6,7 @@ import random
 import pandas as pd
 import numpy as np
 import pyodbc
-from model3_instances_reading import *
+from instance_reading import *
 
 def translate_to_mdb(db:str, 
                      dbs_folder:str, 

@@ -6,8 +6,8 @@ import numpy as np
 import pdb
 
 import pandas as pd
-from model3_instances_reading import *
-from model3_solution_validation import *
+from instance_reading import *
+from solution_validation import *
 from plot_gantt import *
 import json
 from time import time 
@@ -160,7 +160,7 @@ for idx, instance in enumerate(all_instances):
     match objective:
         case OBJECTIVE.DEADLINE:
             # Concise objective function that minimizes only the end times of the last operation of each job with respect to its deadline
-            b = {j: {l: {i: model.addVar(vtype=GRB.BINARY, name=f"b[job:{j}, stage:{l}, machine:{i}]") for i in instance['P'][j][l]} for l in instance['P'][j]} for j in instance['P']}
+            b = {j: {l: {i: model.addVar(vtype=GRB.BINARY, name=f"b[job:{j}, stage:{l}, machine:{i}]") for i in instance['P'][j][l]} for l in list(instance['P'][j].keys())[-1:]} for j in instance['P']}
             
             for j in instance['P']:
                 for l in list(instance['P'][j].keys())[-1:]:

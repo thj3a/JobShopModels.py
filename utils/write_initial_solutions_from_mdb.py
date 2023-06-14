@@ -5,7 +5,7 @@ import random
 import pandas as pd
 import numpy as np
 import pyodbc
-from model3_instances_reading import *
+from instance_reading import *
 
 
 def write_initial_solutions(mdb_path, solution_path, instance_name):

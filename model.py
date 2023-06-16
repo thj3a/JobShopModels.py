@@ -65,7 +65,7 @@ for path in paths:
 
 for idx, instance in enumerate(all_instances):
 
-    objective = OBJECTIVE.DEADLINE
+    objective = OBJECTIVE.MAKESPAN
     instance_name = instance['name'] + '_' + objective.value
     # print(instance_name)
     start_time = time()
@@ -146,12 +146,12 @@ for idx, instance in enumerate(all_instances):
                     Q = instance['Q'][j]
                 model.addConstr(s[j][l][i] >= Q*y[j][l][i], name=f"initial_start_time_job{j}_stage0_machine{i}_constraint")
 
-    # TODO: ADD THIS CONSTRAINT TO FORMALIZATION OF MODEL IN PAPER
+    # # TODO: ADD THIS CONSTRAINT TO FORMALIZATION OF THE MODEL IN PAPER
     for j in range(instance['n_jobs']):
         if len(instance['V'][j]) > 0:
             for v in instance['V'][j]:
                 v_last_op = list(instance['P'][v].keys())[-1]
-                model.addConstrs(s[j][0][i1] >= gp.quicksum(s[v][v_last_op][i2] + instance['P'][v][v_last_op][i2]*y[v][v_last_op][i2] for i2 in instance['P'][v][v_last_op]) for i1 in instance['P'][j][0])
+                model.addConstr(gp.quicksum(s[j][0][i1] for i1 in instance['P'][j][0]) >= gp.quicksum(s[v][v_last_op][i2] + instance['P'][v][v_last_op][i2]*y[v][v_last_op][i2] for i2 in instance['P'][v][v_last_op]))
 
     # Objective function
     Z = model.addVar(vtype=GRB.INTEGER, name="Z_FO")

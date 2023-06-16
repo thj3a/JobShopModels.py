@@ -50,20 +50,20 @@ def read_instance(instance_name, instance_path):
 
     with open(path, 'r') as f:
         lines = f.readlines()
-        lines[0] = lines[0].split()
-        instance['n_jobs'] = int(lines[0][0])
-        instance['n_machines'] = int(lines[0][1])
+        lines_0 = lines[0].split()
+        instance['n_jobs'] = int(lines_0[0])
+        instance['n_machines'] = int(lines_0[1])
         instance['jobs'] = [i for i in range(instance['n_jobs'])]
         instance['machines'] = [i+1 for i in range(instance['n_machines'])]
         instance['P'] = {i:dict() for i in instance['jobs']}
         instance['R'] = {i:dict() for i in instance['jobs']}
         instance['Q'] = {j: 0 for j in instance['jobs']}
         instance['D'] = {j: 0 for j in instance['jobs']}
-        instance['initial_solution'] = []
+        instance['heuristic_solution'] = []
         id_line = 1
 
+        # read jobs
         while id_line < len(lines) and len(lines[id_line].split()) > 0:
-            
             i = id_line - 1
             job = lines[id_line]
             job = job.split()
@@ -83,6 +83,57 @@ def read_instance(instance_name, instance_path):
                 pos+=1
             id_line += 1
 
+        id_line = instance['n_jobs'] + 2
+
+        # reading jobs inter-dependencies
+        if id_line < len(lines):
+            instance['U'] = {j: -1 for j in range(instance['n_jobs'])}
+            instance['V'] = {j: [] for j in range(instance['n_jobs'])}
+            for j in range(instance['n_jobs']):
+                dependency = int(lines[id_line])
+                if dependency != -1: # this job has dependency (this job produces a subitem for another job), otherwise it is a final product
+                    instance['U'][j] = dependency
+                    instance['V'][dependency].append(j)
+                id_line += 1
+            id_line += 1
+
+        # creating setup matrix
+        instance['O'] = {i: {j: {l: {h: {z: 0.0 for z in range(len(instance['P'][h]))} for h in range(instance['n_jobs'])} for l in range(len(instance['P'][j]))} for j in range(instance['n_jobs'])} for i in range(1, instance['n_machines']+1)}
+
+        # reading setup times
+        if id_line < len(lines):
+            for i in instance['O']:
+                for j in instance['O'][i]:
+                    for l in instance['O'][i][j]:
+                        setup_times = list(map(int, lines[id_line].split()))
+                        tmp = 0
+                        for h in instance['O'][i][j][l]:
+                            for z in instance['O'][i][j][l][h]:
+                                instance['O'][i][j][l][h][z] = setup_times[tmp]
+                                if setup_times[tmp] > instance['M']:
+                                    instance['M'] = setup_times[tmp]
+                                tmp += 1
+                        id_line += 1
+
+        
+        # read the starting times constraints
+        id_line += 1
+        if id_line < len(lines):
+            for j in instance['Q']:
+                instance['Q'][j] = int(lines[id_line].split()[0])
+                id_line += 1
+
+        id_line += 1
+
+
+        # read the deadlines
+        if id_line < len(lines):
+            for j in instance['jobs']:
+                instance['D'][j] = int(lines[id_line].split()[0])
+                id_line += 1
+
+
+        # creating idx for operations
         instance['Op_id'] = dict()
         n = 0
         for j in instance['jobs']:
@@ -91,6 +142,7 @@ def read_instance(instance_name, instance_path):
                 instance['Op_id'][j][l] = n
                 n += 1
         
+        # mapping operations idx
         instance['Op'] = dict()
         n = 0
         for j in instance['jobs']:
@@ -98,59 +150,19 @@ def read_instance(instance_name, instance_path):
                 instance['Op'][n] = (j,l)
                 n += 1
         
-        id_line = instance['n_jobs'] + 2
-
-        instance['O'] = {i: {j: {l: {h: {z: 0.0 for z in range(len(instance['P'][h]))} for h in range(instance['n_jobs'])} for l in range(len(instance['P'][j]))} for j in range(instance['n_jobs'])} for i in range(1, instance['n_machines']+1)}
-
-        if id_line < len(lines):
-            # read setup times
-            for i in instance['O']:
-                for j in instance['O'][i]:
-                    for l in instance['O'][i][j]:
-                        # print(f'line: {id_line}: {lines[id_line]}')
-                        setup_times = list(map(int, lines[id_line].split()))
-                        tmp = 0
-                        for h in instance['O'][i][j][l]:
-                            for z in instance['O'][i][j][l][h]:
-                                instance['O'][i][j][l][h][z] = setup_times[tmp]
-                                # print(f'machine: {machine}, job|op: {j}|{l}, job|op: {h}|{z}, setup_time: {setup_times[tmp]}')
-                                # d = dict(machine=machine+1, job1=j, op1=l, job2=h, op2=z, setup_times=instance['O'][machine][j][l][h][z])
-                                # df = pd.concat((df, pd.DataFrame(d, index=[0])), axis=0)
-                                if setup_times[tmp] > instance['M']:
-                                    instance['M'] = setup_times[tmp]
-                                tmp += 1
-                        id_line += 1
-            # instance['setup_times_dict'] = df
-
-        id_line += 1
-        if id_line < len(lines):
-            # read the starting times constraints
-            for j in instance['Q']:
-                instance['Q'][j] = int(lines[id_line].split()[0])
-                id_line += 1
-
-        id_line += 1
-        if id_line < len(lines):
-            # read the deadlines
-            for j in instance['jobs']:
-                instance['D'][j] = int(lines[id_line].split()[0])
-                id_line += 1
-
 
         # read initial solution if it exists
-        r = [filename.split('.')[0] for filename in os.listdir('./initial_solutions/') if not os.path.isdir(filename)]
+        r = [filename.split('.')[0] for filename in os.listdir('./results-heuristic/') if not os.path.isdir(filename)]
         if instance_name in r:
-            path = os.path.join('./initial_solutions/', instance_name + '.fjs')
+            path = os.path.join('./results-heuristic/', instance_name + '.fjs')
             with open(path, 'r') as f:
                 lines = f.readlines()
                 for line in lines:
                     line = line.split()
                     machine, start_time = map(int, line)
-                    instance['initial_solution'].append([machine, start_time])
-        # lines = map(int, lines[id_line].split())
-        # instance['initial_solution'].append([machine, start_time])
+                    instance['heuristic_solution'].append([machine, start_time])
 
     return instance
 
-path = './instances_modified/'
+path = './instances/'
 instances = read_instances(path)

@@ -34,23 +34,12 @@ class bcolors:
 save_output = True
 save_temp = False
 log_console = False
-# print("Gurobi version: ", gp.gurobi.version())
 
-# Environment
 print("Reading instances")
-path_instances_with_setup = './instances_with_setup/'
-path_instances_without_setup = './instances_without_setup/'
-path_instances_translated = './instances_translated/'
-path_instances_generated = './instances_generated/'
-path_instances_modified = './instances_modified/'
-
-all_instances = read_instances(path_instances_modified)
+all_instances = read_instances('./instances/')
 all_instances.sort(key=lambda x: x['name'])
-bminstances = list(filter(lambda x: x['name'] not in ['FTQL_modified', 'MetalMeca_modified', 'PlasticInjection_modified'], all_instances))
-rwinstances = list(filter(lambda x: x['name'] in ['FTQL_modified', 'MetalMeca_modified', 'PlasticInjection_modified'], all_instances))
-all_instances = bminstances + rwinstances
 
-print("Number of instances: ", len(all_instances))
+print("Total # of instances: ", len(all_instances))
 
 summary_path = f"results/csv/log/summary_results.csv"
 paths = ['./results/', 
@@ -82,7 +71,7 @@ for idx, instance in enumerate(all_instances):
     start_time = time()
 
     # Create empty model
-    model = gp.Model("F-JSSP-SDST")
+    model = gp.Model("F-JSSP-SDST-SC-DL-ID")
     instance['M'] *= 1e3
     
     print(f"Instance {idx+1}/{len(all_instances)}: {instance_name}")
@@ -98,13 +87,13 @@ for idx, instance in enumerate(all_instances):
 
 
     # # read initial solution
-    # if len(instance['initial_solution']) > 0:
-    #     id_inisol = 0
-    #     for j in y:
-    #         for l in y[j]:
-    #             y[j][l][instance['initial_solution'][id_inisol][0]].Start = 1
-    #             s[j][l][instance['initial_solution'][id_inisol][0]].Start = instance['initial_solution'][id_inisol][1]
-    #             id_inisol+=1
+    if len(instance['heuristic_solution']) > 0:
+        id_inisol = 0
+        for j in y:
+            for l in y[j]:
+                y[j][l][instance['heuristic_solution'][id_inisol][0]].Start = 1
+                s[j][l][instance['heuristic_solution'][id_inisol][0]].Start = instance['heuristic_solution'][id_inisol][1]
+                id_inisol+=1
     
 
     for j in instance['P']:
@@ -120,7 +109,6 @@ for idx, instance in enumerate(all_instances):
                 model.addConstr(s[j][l][i] <= instance['M']*y[j][l][i], name=f"start_time_job{j}_stage{l}_machine{i}_constraint1")
 
 
-    
     for j in instance['P']:
         for l in list(instance['P'][j].keys())[:-1]:
             # constraint 3
@@ -148,10 +136,22 @@ for idx, instance in enumerate(all_instances):
     for j in instance['P']:
         for l in instance['P'][j]:
             for i in instance['P'][j][l]:
-                # constraint 2
-                model.addConstr(s[j][l][i] >= instance['Q'][j]*y[j][l][i], name=f"initial_start_time_job{j}_stage0_machine{i}_constraint")
                 # constraint 10
-                model.addConstr(s[j][l][i] >= 0, name=f"positive_start_time_job{j}_stage{l}_machine{i}_constraint")
+                model.addConstr(s[j][l][i] >= 0, name=f"start_time_domain_job{j}_stage{l}_machine{i}_constraint")
+                # constraint 2
+                Q = 0
+                if instance['U'][j] != -1:
+                    Q = instance['Q'][instance['U'][j]]
+                else:
+                    Q = instance['Q'][j]
+                model.addConstr(s[j][l][i] >= Q*y[j][l][i], name=f"initial_start_time_job{j}_stage0_machine{i}_constraint")
+
+    # TODO: ADD THIS CONSTRAINT TO FORMALIZATION OF MODEL IN PAPER
+    for j in range(instance['n_jobs']):
+        if len(instance['V'][j]) > 0:
+            for v in instance['V'][j]:
+                v_last_op = list(instance['P'][v].keys())[-1]
+                model.addConstrs(s[j][0][i1] >= gp.quicksum(s[v][v_last_op][i2] + instance['P'][v][v_last_op][i2]*y[v][v_last_op][i2] for i2 in instance['P'][v][v_last_op]) for i1 in instance['P'][j][0])
 
     # Objective function
     Z = model.addVar(vtype=GRB.INTEGER, name="Z_FO")

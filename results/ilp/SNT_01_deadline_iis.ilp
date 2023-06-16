@@ -1,0 +1,31 @@
+\ Model F-JSSP-SDST-SC-DL-ID_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+Minimize
+ 
+Subject To
+ assignment_job0_stage0_constraint: y[job_0,_stage_0,_machine_1]
+   + y[job_0,_stage_0,_machine_2] = 1
+ assignment_job2_stage0_constraint: y[job_2,_stage_0,_machine_1]
+   + y[job_2,_stage_0,_machine_2] = 1
+ start_time_job0_stage0_machine1_constraint1:
+   - 65000 y[job_0,_stage_0,_machine_1] + startT[job_0,_stage_0,_machine_1]
+   <= 0
+ start_time_job0_stage0_machine2_constraint1:
+   - 65000 y[job_0,_stage_0,_machine_2] + startT[job_0,_stage_0,_machine_2]
+   <= 0
+ R53: - 21 y[job_2,_stage_0,_machine_1] - 65 y[job_2,_stage_0,_machine_2]
+   + startT[job_0,_stage_0,_machine_1] - startT[job_2,_stage_0,_machine_1]
+   - startT[job_2,_stage_0,_machine_2] >= 0
+ R54: - 21 y[job_2,_stage_0,_machine_1] - 65 y[job_2,_stage_0,_machine_2]
+   + startT[job_0,_stage_0,_machine_2] - startT[job_2,_stage_0,_machine_1]
+   - startT[job_2,_stage_0,_machine_2] >= 0
+Bounds
+ startT[job_0,_stage_0,_machine_1] free
+ startT[job_0,_stage_0,_machine_2] free
+Binaries
+ y[job_0,_stage_0,_machine_1] y[job_0,_stage_0,_machine_2]
+ y[job_2,_stage_0,_machine_1] y[job_2,_stage_0,_machine_2]
+Generals
+ startT[job_0,_stage_0,_machine_1] startT[job_0,_stage_0,_machine_2]
+ startT[job_2,_stage_0,_machine_1] startT[job_2,_stage_0,_machine_2]
+End

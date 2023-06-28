@@ -164,5 +164,8 @@ def read_instance(instance_name, instance_path):
 
     return instance
 
-# path = './instances/'
-# instances = read_instances(path)
+
+
+if __name__ == '__main__':
+    path = './instances/'
+    instances = read_instances(path)

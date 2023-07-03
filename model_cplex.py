@@ -6,7 +6,7 @@ import numpy as np
 import pdb
 
 import pandas as pd
-from instance_reading import *
+from instance_reading_fjs import *
 from solution_validation import *
 from plot_gantt import *
 import json
@@ -226,6 +226,10 @@ for idx, instance in enumerate(all_instances):
             for l in instance['P'][j]:
                 for i in instance['P'][j][l]:
                     if  y[j][l][i].x == 1:
+                        # if instance['U'][j] != -1:
+                        #     job = j
+                        # else:
+                        #     job = instance['U'][j]
                         d = dict(Job=f"{j}", Op=l, Start=date_start+pd.Timedelta(f"{s[j][l][i].x} minutes"), Finish=date_start+ pd.Timedelta(f"{s[j][l][i].x + instance['P'][j][l][i]}  minutes"), Start_f=s[j][l][i].x, Finish_f=s[j][l][i].x + instance['P'][j][l][i], Resource=f"Machine {str(i).rjust(2,'0')}")
                         timestamp_list.append(d)
 

@@ -1,0 +1,43 @@
+\ Model F-JSSP-SDST-SC-DL-ID_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+Minimize
+ 
+Subject To
+ assignment_job8_stage2_constraint: y[job_8,_stage_2,_machine_5]
+   + y[job_8,_stage_2,_machine_7] = 1
+ start_time_job8_stage0_constraint5: - 150 y[job_8,_stage_0,_machine_2]
+   - 150 y[job_8,_stage_0,_machine_3] - startT[job_8,_stage_0,_machine_2]
+   - startT[job_8,_stage_0,_machine_3] + startT[job_8,_stage_1,_machine_3]
+   + startT[job_8,_stage_1,_machine_4] >= 0
+ start_time_job8_stage1_constraint5: - 180 y[job_8,_stage_1,_machine_3]
+   - 220 y[job_8,_stage_1,_machine_4] - startT[job_8,_stage_1,_machine_3]
+   - startT[job_8,_stage_1,_machine_4] + startT[job_8,_stage_2,_machine_5]
+   + startT[job_8,_stage_2,_machine_7] >= 0
+ start_time_job8_stage2_constraint5: - 40 y[job_8,_stage_2,_machine_5]
+   - 50 y[job_8,_stage_2,_machine_7] - startT[job_8,_stage_2,_machine_5]
+   - startT[job_8,_stage_2,_machine_7] + startT[job_8,_stage_3,_machine_6]
+   + startT[job_8,_stage_3,_machine_8] >= 0
+ R2029: - 150 y[job_8,_stage_3,_machine_6]
+   - 170 y[job_8,_stage_3,_machine_8] + startT[job_8,_stage_0,_machine_2]
+   + startT[job_8,_stage_0,_machine_3] - startT[job_8,_stage_3,_machine_6]
+   - startT[job_8,_stage_3,_machine_8] >= 0
+Bounds
+ startT[job_8,_stage_0,_machine_2] free
+ startT[job_8,_stage_0,_machine_3] free
+ startT[job_8,_stage_1,_machine_3] free
+ startT[job_8,_stage_1,_machine_4] free
+ startT[job_8,_stage_2,_machine_5] free
+ startT[job_8,_stage_2,_machine_7] free
+ startT[job_8,_stage_3,_machine_6] free
+ startT[job_8,_stage_3,_machine_8] free
+Binaries
+ y[job_8,_stage_0,_machine_2] y[job_8,_stage_0,_machine_3]
+ y[job_8,_stage_1,_machine_3] y[job_8,_stage_1,_machine_4]
+ y[job_8,_stage_2,_machine_5] y[job_8,_stage_2,_machine_7]
+ y[job_8,_stage_3,_machine_6] y[job_8,_stage_3,_machine_8]
+Generals
+ startT[job_8,_stage_0,_machine_2] startT[job_8,_stage_0,_machine_3]
+ startT[job_8,_stage_1,_machine_3] startT[job_8,_stage_1,_machine_4]
+ startT[job_8,_stage_2,_machine_5] startT[job_8,_stage_2,_machine_7]
+ startT[job_8,_stage_3,_machine_6] startT[job_8,_stage_3,_machine_8]
+End

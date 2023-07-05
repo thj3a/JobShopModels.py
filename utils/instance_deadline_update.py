@@ -1,7 +1,7 @@
 import pyodbc
 import os
 import pandas as pd
-from instance_reading_fjs import *
+from utils.instance_reading_fjs import *
 
 def update_instance(db:str, 
                      dbs_folder:str, 

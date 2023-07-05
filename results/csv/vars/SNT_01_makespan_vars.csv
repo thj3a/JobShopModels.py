@@ -1,34 +1,26 @@
 name;value
-Z_FO;322.0
-startT[job:0, stage:0, machine:1];73.0
-startT[job:0, stage:0, machine:2];0.0
-startT[job:0, stage:1, machine:1];0.0
-startT[job:0, stage:1, machine:2];98.0
-startT[job:1, stage:0, machine:1];0.0
-startT[job:1, stage:0, machine:2];8.0
-startT[job:2, stage:0, machine:1];8.0
-startT[job:2, stage:0, machine:2];0.0
-x[job1|stage1:0|0, job2|stage2:0|0];0.0
-x[job1|stage1:0|0, job2|stage2:0|1];0.0
-x[job1|stage1:0|0, job2|stage2:1|0];0.0
-x[job1|stage1:0|0, job2|stage2:2|0];1.0
-x[job1|stage1:0|1, job2|stage2:0|0];0.0
-x[job1|stage1:0|1, job2|stage2:0|1];0.0
-x[job1|stage1:0|1, job2|stage2:1|0];1.0
-x[job1|stage1:0|1, job2|stage2:2|0];0.0
-x[job1|stage1:1|0, job2|stage2:0|0];0.0
-x[job1|stage1:1|0, job2|stage2:0|1];0.0
-x[job1|stage1:1|0, job2|stage2:1|0];0.0
-x[job1|stage1:1|0, job2|stage2:2|0];0.0
-x[job1|stage1:2|0, job2|stage2:0|0];0.0
-x[job1|stage1:2|0, job2|stage2:0|1];0.0
-x[job1|stage1:2|0, job2|stage2:1|0];0.0
-x[job1|stage1:2|0, job2|stage2:2|0];0.0
-y[job:0, stage:0, machine:1];1.0
-y[job:0, stage:0, machine:2];0.0
-y[job:0, stage:1, machine:1];0.0
-y[job:0, stage:1, machine:2];1.0
-y[job:1, stage:0, machine:1];0.0
-y[job:1, stage:0, machine:2];1.0
-y[job:2, stage:0, machine:1];1.0
-y[job:2, stage:0, machine:2];0.0
+Z_FO;30.0
+s[j0_l0_i0];1.0
+s[j0_l1_i1];4.0
+s[j0_l2_i2];6.0
+s[j0_l3_i1];9.0
+x[j1l10_0_j2l20_0];0.0
+x[j1l10_0_j2l20_1];0.0
+x[j1l10_0_j2l20_2];0.0
+x[j1l10_0_j2l20_3];0.0
+x[j1l10_1_j2l20_0];0.0
+x[j1l10_1_j2l20_1];0.0
+x[j1l10_1_j2l20_2];0.0
+x[j1l10_1_j2l20_3];0.0
+x[j1l10_2_j2l20_0];0.0
+x[j1l10_2_j2l20_1];0.0
+x[j1l10_2_j2l20_2];0.0
+x[j1l10_2_j2l20_3];0.0
+x[j1l10_3_j2l20_0];0.0
+x[j1l10_3_j2l20_1];1.0
+x[j1l10_3_j2l20_2];0.0
+x[j1l10_3_j2l20_3];0.0
+y[j0_l0_i0];1.0
+y[j0_l1_i1];1.0
+y[j0_l2_i2];1.0
+y[j0_l3_i1];1.0

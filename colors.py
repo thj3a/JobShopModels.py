@@ -1,0 +1,10 @@
+class bcolors:
+    red = '\033[91m'
+    green = '\033[92m'
+    yellow = '\033[93m'
+    blue = '\033[94m'
+    redback = '\033[41m'
+    blueback = '\033[44m'
+    orangeback = '\033[43m'
+    greenback = '\033[42m'
+    end = '\033[0m'

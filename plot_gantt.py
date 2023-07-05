@@ -25,16 +25,20 @@ def plot_gantt(timestamp, instance_name, path):
     jobs = list(map(int, timestamp.Job))
     Ws = list(map(int, (timestamp.Finish_f-timestamp.Start_f)))
     Ls = list(map(int, timestamp.Start_f))
-    ax.barh(y = timestamp.Resource, 
+    bars = ax.barh(y = timestamp.Resource, 
             width = Ws, 
             left = Ls, 
             color = [color_map[job] for job in jobs], 
-            label = timestamp['Job'].values)
+            label = timestamp['Job'].values,
+            edgecolor='k')
 
     ##### LEGEND #####
     legend_elements = [Patch(facecolor=color_map[int(job)], edgecolor='k', label=f'Job {job}') for job in sorted([str(v).rjust(2, '0') for v in timestamp.Job.unique()])]
     ax.legend(handles=legend_elements, ncol=math.ceil(len(timestamp.Job.unique())/20), bbox_to_anchor=(1.05, 1), loc='upper left')
-        
+    
+    for bars in ax.containers:
+        ax.bar_label(bars, timestamp.Op)
+    
     ##### TICKS #####
     # n_ranges = int(timestamp.Finish_f.max()/(timestamp.Finish_f - timestamp.Start_f).max())
     # xticks = np.arange(0, timestamp.Finish_f.max(), n_ranges)

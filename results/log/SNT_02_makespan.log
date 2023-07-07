@@ -1,0 +1,83 @@
+
+Gurobi 10.0.1 (win64) logging started Wed Jul  5 16:57:14 2023
+
+Set parameter LogFile to value "results/log/SNT_02_makespan.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 444 rows, 286 columns and 1945 nonzeros
+Model fingerprint: 0x5db15c0b
+Variable types: 0 continuous, 286 integer (255 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+03]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+03]
+Found heuristic solution: objective 246.0000000
+Presolve removed 46 rows and 107 columns
+Presolve time: 0.00s
+Presolved: 398 rows, 179 columns, 1806 nonzeros
+Variable types: 0 continuous, 179 integer (149 binary)
+Found heuristic solution: objective 215.0000000
+
+Root relaxation: objective 1.470000e+02, 52 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  147.00000    0   19  215.00000  147.00000  31.6%     -    0s
+H    0     0                     205.0000000  147.00000  28.3%     -    0s
+H    0     0                     187.0000000  147.00000  21.4%     -    0s
+     0     0  147.01608    0   38  187.00000  147.01608  21.4%     -    0s
+H    0     0                     184.0000000  147.01608  20.1%     -    0s
+     0     0  150.20241    0   33  184.00000  150.20241  18.4%     -    0s
+     0     0  155.39704    0   41  184.00000  155.39704  15.5%     -    0s
+     0     0  157.47291    0   41  184.00000  157.47291  14.4%     -    0s
+     0     0  157.47291    0   37  184.00000  157.47291  14.4%     -    0s
+     0     0  157.47291    0   36  184.00000  157.47291  14.4%     -    0s
+     0     0  157.47291    0   39  184.00000  157.47291  14.4%     -    0s
+     0     0  158.72118    0   37  184.00000  158.72118  13.7%     -    0s
+     0     0  158.97411    0   36  184.00000  158.97411  13.6%     -    0s
+     0     0  158.97411    0   37  184.00000  158.97411  13.6%     -    0s
+     0     0  159.44898    0   29  184.00000  159.44898  13.3%     -    0s
+     0     0  159.44898    0   32  184.00000  159.44898  13.3%     -    0s
+     0     0  159.44898    0   34  184.00000  159.44898  13.3%     -    0s
+     0     0  159.44898    0   34  184.00000  159.44898  13.3%     -    0s
+     0     0  159.71429    0   35  184.00000  159.71429  13.2%     -    0s
+     0     0  160.44898    0   35  184.00000  160.44898  12.8%     -    0s
+     0     0  161.10652    0   39  184.00000  161.10652  12.4%     -    0s
+     0     0  161.96721    0   37  184.00000  161.96721  12.0%     -    0s
+     0     0  161.96721    0   37  184.00000  161.96721  12.0%     -    0s
+     0     0  163.00000    0   38  184.00000  163.00000  11.4%     -    0s
+     0     0  163.00000    0   36  184.00000  163.00000  11.4%     -    0s
+     0     0  163.11765    0   35  184.00000  163.11765  11.3%     -    0s
+     0     0  164.00000    0   37  184.00000  164.00000  10.9%     -    0s
+     0     0  166.00000    0   35  184.00000  166.00000  9.78%     -    0s
+     0     0  166.00000    0   37  184.00000  166.00000  9.78%     -    0s
+     0     0  166.80000    0   39  184.00000  166.80000  9.35%     -    0s
+     0     0  168.27619    0   39  184.00000  168.27619  8.55%     -    0s
+     0     0  171.60000    0   37  184.00000  171.60000  6.74%     -    0s
+     0     0  171.60000    0   36  184.00000  171.60000  6.74%     -    0s
+     0     2  171.60000    0   33  184.00000  171.60000  6.74%     -    0s
+
+Cutting planes:
+  Learned: 35
+  Gomory: 13
+  Cover: 4
+  Implied bound: 1
+  MIR: 31
+  StrongCG: 1
+  Mod-K: 1
+
+Explored 344 nodes (2716 simplex iterations) in 0.22 seconds (0.16 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 5: 184 187 205 ... 246
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.840000000000e+02, best bound 1.840000000000e+02, gap 0.0000%
+Warning: constraint name "precedence between 0,2 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: constraint name "precedence between 0,2 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default constraint names used to write mps file

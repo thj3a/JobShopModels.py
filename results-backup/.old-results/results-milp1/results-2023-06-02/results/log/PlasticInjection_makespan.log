@@ -1,0 +1,93 @@
+
+Gurobi 10.0.1 (win64) logging started Fri May 19 14:41:30 2023
+
+Set parameter LogFile to value "results/log/PlasticInjection_makespan.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 1282 rows, 5062 columns and 4887 nonzeros
+Model fingerprint: 0x1a802dcd
+Variable types: 0 continuous, 5062 integer (4911 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 3e+06]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+07]
+Presolve removed 389 rows and 4544 columns
+Presolve time: 1.37s
+Presolved: 893 rows, 518 columns, 3815 nonzeros
+Variable types: 0 continuous, 518 integer (382 binary)
+Found heuristic solution: objective 147819.00000
+Found heuristic solution: objective 103178.00000
+
+Root relaxation: objective 7.608800e+04, 83 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 76088.0000    0   19 103178.000 76088.0000  26.3%     -    1s
+H    0     0                    83688.000000 76088.0000  9.08%     -    1s
+H    0     0                    83183.000000 76088.0000  8.53%     -    1s
+H    0     0                    82928.000000 76088.0000  8.25%     -    1s
+     0     0 76970.0000    0   33 82928.0000 76970.0000  7.18%     -    1s
+H    0     0                    82650.000000 76970.0000  6.87%     -    1s
+     0     0 76970.0000    0   32 82650.0000 76970.0000  6.87%     -    1s
+     0     0 76970.0000    0   35 82650.0000 76970.0000  6.87%     -    1s
+     0     0 76970.0000    0   36 82650.0000 76970.0000  6.87%     -    1s
+     0     0 76970.0000    0   30 82650.0000 76970.0000  6.87%     -    1s
+     0     0 76970.0000    0   36 82650.0000 76970.0000  6.87%     -    1s
+H    0     0                    82128.000000 76970.0000  6.28%     -    1s
+     0     0 76970.0000    0   24 82128.0000 76970.0000  6.28%     -    1s
+     0     0 76970.0000    0   26 82128.0000 76970.0000  6.28%     -    1s
+H    0     0                    81749.000000 76970.0000  5.85%     -    1s
+     0     0 76970.0000    0   40 81749.0000 76970.0000  5.85%     -    1s
+     0     0 76970.0000    0   46 81749.0000 76970.0000  5.85%     -    1s
+     0     0 76970.0000    0   33 81749.0000 76970.0000  5.85%     -    1s
+     0     0 76970.0000    0   28 81749.0000 76970.0000  5.85%     -    1s
+H    0     0                    81710.000000 76970.0000  5.80%     -    2s
+H 1118   647                    81629.000000 77573.6334  4.97%   6.8    3s
+H 2747  1191                    81351.000000 77920.0259  4.22%   5.4    3s
+  4237  1478 78529.4855   25   19 81351.0000 78301.2722  3.75%   6.2    5s
+H 4707  1599                    81298.000000 78301.2722  3.69%   6.1    5s
+ 36784 11739 79978.8768   28   28 81298.0000 79680.3481  1.99%   7.5   10s
+ 50392 16923 79801.0000   31   38 81298.0000 79801.0000  1.84%   7.8   26s
+ 59802 18176     cutoff   45      81298.0000 80102.0741  1.47%   8.1   30s
+ 89614 18337 80590.8690   50   17 81298.0000 80399.5658  1.11%   8.3   35s
+ 128518 23447 80748.2932   51   19 81298.0000 80538.0000  0.93%   8.2   40s
+ 165703 29416 80705.3197   45   17 81298.0000 80636.2249  0.81%   8.2   45s
+ 191428 32174     cutoff   58      81298.0000 80692.8310  0.74%   8.2   50s
+ 227128 34325 81166.5636   56   11 81298.0000 80768.4902  0.65%   8.2   55s
+ 254162 34549 81168.6563   48   27 81298.0000 80821.4787  0.59%   8.2   60s
+ 280958 33942     cutoff   55      81298.0000 80868.7006  0.53%   8.3   65s
+ 302545 32593 81121.6418   57   12 81298.0000 80904.9938  0.48%   8.2   70s
+ 318491 31176 81264.7382   61   13 81298.0000 80932.1635  0.45%   8.2   75s
+ 339066 28628 81284.5553   52   21 81298.0000 80970.3349  0.40%   8.2   80s
+ 355890 25633     cutoff   53      81298.0000 81001.4991  0.36%   8.1   85s
+ 373733 21906     cutoff   62      81298.0000 81039.5258  0.32%   8.1   90s
+ 393946 15723 81206.0858   57    9 81298.0000 81091.0000  0.25%   8.2   95s
+ 413956  5840 81249.8243   54   10 81298.0000 81179.3392  0.15%   8.2  100s
+
+Cutting planes:
+  Learned: 1
+  Implied bound: 2
+  Flow cover: 30
+  Relax-and-lift: 1
+
+Explored 423172 nodes (3453168 simplex iterations) in 101.66 seconds (36.23 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 10: 81298 81351 81629 ... 83688
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 8.129800000000e+04, best bound 8.129800000000e+04, gap 0.0000%
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: to let Gurobi read it back, use rlp format
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default variable names used to write mps file
+Warning: default constraint names used to write mps file
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: default variable names used to write solution file

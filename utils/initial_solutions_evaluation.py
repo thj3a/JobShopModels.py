@@ -6,8 +6,8 @@ import numpy as np
 import pdb
 
 import pandas as pd
-from model3_instances_reading import *
-from model3_solution_validation import *
+from utils.instance_reading_fjs import *
+from solution_validation import *
 from plot_gantt import *
 import json
 from time import time 

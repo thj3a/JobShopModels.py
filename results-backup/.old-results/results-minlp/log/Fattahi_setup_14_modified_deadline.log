@@ -1,0 +1,105 @@
+
+Gurobi 10.0.1 (win64) logging started Fri Jun  2 12:25:40 2023
+
+Set parameter LogFile to value "results/log/Fattahi_setup_14_modified_deadline.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 714 rows, 610 columns and 2806 nonzeros
+Model fingerprint: 0xfd1b723a
+Model has 1 quadratic constraint
+Variable types: 0 continuous, 610 integer (553 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+09]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 2e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+09]
+Warning: Model contains large matrix coefficients
+Warning: Model contains large rhs
+         Consider reformulating model or setting NumericFocus parameter
+         to avoid numerical issues.
+Presolve removed 147 rows and 376 columns
+Presolve time: 0.01s
+Presolved: 606 rows, 291 columns, 2589 nonzeros
+Presolved model has 38 SOS constraint(s)
+Variable types: 0 continuous, 291 integer (196 binary)
+
+Root relaxation: objective 1.976355e+03, 83 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 1976.35488    0   51          - 1976.35488      -     -    0s
+H    0     0                    3515.0000000 1976.35488  43.8%     -    0s
+     0     0 1981.00001    0   46 3515.00000 1981.00001  43.6%     -    0s
+H    0     0                    3392.0000000 1981.00001  41.6%     -    0s
+     0     0 2000.61663    0   52 3392.00000 2000.61663  41.0%     -    0s
+     0     0 2000.61663    0   53 3392.00000 2000.61663  41.0%     -    0s
+H    0     0                    3266.0000000 2000.61663  38.7%     -    0s
+     0     0 2019.94820    0   58 3266.00000 2019.94820  38.2%     -    0s
+     0     0 2020.50800    0   55 3266.00000 2020.50800  38.1%     -    0s
+     0     0 2020.50800    0   55 3266.00000 2020.50800  38.1%     -    0s
+     0     0 2020.73023    0   47 3266.00000 2020.73023  38.1%     -    0s
+     0     0 2020.73023    0   47 3266.00000 2020.73023  38.1%     -    0s
+     0     0 2020.73023    0   48 3266.00000 2020.73023  38.1%     -    0s
+     0     0 2033.59713    0   48 3266.00000 2033.59713  37.7%     -    0s
+     0     0 2035.73750    0   38 3266.00000 2035.73750  37.7%     -    0s
+     0     0 2035.73750    0   44 3266.00000 2035.73750  37.7%     -    0s
+     0     0 2046.10570    0   47 3266.00000 2046.10570  37.4%     -    0s
+     0     0 2046.10570    0   52 3266.00000 2046.10570  37.4%     -    0s
+     0     0 2046.10570    0   43 3266.00000 2046.10570  37.4%     -    0s
+     0     0 2054.00000    0   41 3266.00000 2054.00000  37.1%     -    0s
+     0     2 2054.00000    0   41 3266.00000 2054.00000  37.1%     -    0s
+H   36    24                    3169.0000000 2054.00000  35.2%  27.1    0s
+H   82    58                    3047.0000000 2054.00000  32.6%  19.0    0s
+H  640   383                    2997.0000000 2054.00000  31.5%   6.6    0s
+H  791   483                    2983.0000000 2054.00000  31.1%   6.4    0s
+H 1593   841                    2977.0000000 2090.70328  29.8%   5.5    0s
+H 1596   800                    2932.0000000 2090.70328  28.7%   5.5    0s
+H 1651   796                    2912.0000000 2161.00000  25.8%   7.7    1s
+H 1656   760                    2911.0000000 2161.00000  25.8%   8.7    1s
+H 1687   758                    2910.0000000 2161.00000  25.7%   8.9    1s
+H 1701   717                    2875.0000000 2161.00000  24.8%   8.9    1s
+H 1735   714                    2848.0000000 2161.00000  24.1%   9.0    1s
+H 1740   679                    2817.0000000 2161.00000  23.3%   9.0    1s
+H 1874   725                    2788.0000000 2161.00000  22.5%   8.9    1s
+ 81707 27802 infeasible   46      2788.00000 2253.00000  19.2%   5.0    5s
+*191351 55373              72    2769.0000000 2328.00000  15.9%   4.9    8s
+H198194 55356                    2745.0000000 2331.71150  15.1%   4.9    8s
+ 224772 59480 2599.76207   41   20 2745.00000 2346.23358  14.5%   5.0   10s
+ 351363 75728 2670.00000   42    9 2745.00000 2403.90906  12.4%   5.0   15s
+ 468872 83710 2618.97554   37   14 2745.00000 2448.74414  10.8%   5.1   20s
+ 591696 87348 2569.00000   48   10 2745.00000 2495.00000  9.11%   5.1   25s
+ 713068 88125 2678.13943   47    9 2745.00000 2530.00000  7.83%   5.1   30s
+*811587 82206              53    2741.0000000 2557.03896  6.71%   5.0   33s
+ 845914 78705 infeasible   49      2741.00000 2568.00000  6.31%   5.0   35s
+ 969634 58582 infeasible   53      2741.00000 2611.00000  4.74%   5.0   40s
+ 1109435 15544 2726.40466   47   15 2741.00000 2685.00000  2.04%   4.9   45s
+
+Cutting planes:
+  Learned: 2
+  Gomory: 7
+  Implied bound: 1
+  MIR: 3
+  Flow cover: 2
+
+Explored 1131968 nodes (5485601 simplex iterations) in 45.86 seconds (27.79 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 10: 2741 2745 2769 ... 2912
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.741000000000e+03, best bound 2.741000000000e+03, gap 0.0000%
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: to let Gurobi read it back, use rlp format
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default variable names used to write mps file
+Warning: default constraint names used to write mps file
+Warning: variable name "y[job:0, stage:0, machine:1]" has a space
+Warning: default variable names used to write solution file

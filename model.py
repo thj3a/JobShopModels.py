@@ -1,5 +1,5 @@
 import gurobipy as gp
-from gurobipy import GRB, Model, quicksum
+from gurobipy import GRB, Model, quicksum # type: ignore
 import sys
 import os
 import numpy as np
@@ -35,7 +35,7 @@ for idx, instance in enumerate(all_instances):
     start_time = time()
 
     # Create empty model
-    model = gp.Model("Model5")
+    model = Model("Model5")
     
     print(f"Instance {idx+1}/{len(all_instances)}: {instance_name}")
     instance.n = instance.n
@@ -56,11 +56,11 @@ for idx, instance in enumerate(all_instances):
     #             s[j][l][instance.heuristic_solution[id_inisol][0]].Start = instance.heuristic_solution[id_inisol][1]
     #             id_inisol+=1
     
-
+    test = quicksum([i for i in range(10)])
     for j in range(instance.n):
         for l in range(instance.L[j]):
             # constraint 1
-            model.addConstr(gp.quicksum(y[j][l][i] for i in instance.R[j][l]) == 1, name=f"assignment_job{j}_stage{l}_constraint")
+            model.addConstr(quicksum(y[j][l][i] for i in instance.R[j][l]) == 1, name=f"assignment_job{j}_stage{l}_constraint")
 
         
     for j in range(instance.n):
@@ -74,11 +74,11 @@ for idx, instance in enumerate(all_instances):
     #     for l in range(instance.L[j]):
     #         # TODO review the number of this constraint
     #         for u in instance.U[j][l]:
-    #             model.addConstr((gp.quicksum(s[j][u][i] for i in instance.R[j][u]) >= gp.quicksum(s[j][l][i] for i in instance.R[j][l]) + gp.quicksum(y[j][l][i]*(instance.P[j][l][i]) for i in instance.R[j][l])),
+    #             model.addConstr((quicksum(s[j][u][i] for i in instance.R[j][u]) >= quicksum(s[j][l][i] for i in instance.R[j][l]) + quicksum(y[j][l][i]*(instance.P[j][l][i]) for i in instance.R[j][l])),
     #                     name=f"start_time_job{j}_stage{l}_constraint5")
     #             # constraint 4
     #             for i in list(set(instance.R[j][l]) & set(instance.R[j][u])):
-    #                 model.addConstr((gp.quicksum(s[j][u][i] for i in instance.R[j][u]) >= gp.quicksum(s[j][l][i] for i in instance.R[j][l]) + gp.quicksum(y[j][l][i]*(instance.P[j][l][i]) for i in instance.R[j][l]) + instance.O[j][l][j][u][i] - instance.M*(2 - y[j][u][i] - y[j][l][i])), name=f"start_time_job{j}_stage{l}_machine{i}_constraint3")
+    #                 model.addConstr((quicksum(s[j][u][i] for i in instance.R[j][u]) >= quicksum(s[j][l][i] for i in instance.R[j][l]) + quicksum(y[j][l][i]*(instance.P[j][l][i]) for i in instance.R[j][l]) + instance.O[j][l][j][u][i] - instance.M*(2 - y[j][u][i] - y[j][l][i])), name=f"start_time_job{j}_stage{l}_machine{i}_constraint3")
         
 
     # MACHINE OVERLAP CONSTRAINT constraints 6 and 7
@@ -108,7 +108,7 @@ for idx, instance in enumerate(all_instances):
     for j in range(instance.n):
         for l in range(instance.L[j]):
             for u in instance.U[j][l]:
-                model.addConstr(gp.quicksum(s[j][u][i1] for i1 in instance.R[j][u]) >= gp.quicksum(s[j][l][i2] + instance.P[j][l][i2]*y[j][l][i2] for i2 in instance.R[j][l]))
+                model.addConstr(quicksum(s[j][u][i1] for i1 in instance.R[j][u]) >= quicksum(s[j][l][i2] + instance.P[j][l][i2]*y[j][l][i2] for i2 in instance.R[j][l]))
 
     # Objective function
     Z = model.addVar(vtype=GRB.INTEGER, name="Z_FO")
@@ -126,14 +126,14 @@ for idx, instance in enumerate(all_instances):
                         # instance.M += eps
                         model.addConstr(s[j][l][i] + instance.P[j][l][i]*y[j][l][i] >= instance.D[j] - instance.M * (1 - b[j][l][i]), name="auxiliaryOF_constraint")
                         model.addConstr(s[j][l][i] + instance.P[j][l][i]*y[j][l][i] <= instance.D[j] + instance.M *  b[j][l][i], name="auxiliaryOF_constraint")
-            model.addConstr(Z >= gp.quicksum((s[j][l][i] + instance.P[j][l][i] - instance.D[j])*b[j][l][i] for j in range(instance.n) for l in list(instance.P[j].keys())[-1:] for i in instance.R[j][l]), name="OF_constraint")
+            model.addConstr(Z >= quicksum((s[j][l][i] + instance.P[j][l][i] - instance.D[j])*b[j][l][i] for j in range(instance.n) for l in list(instance.P[j].keys())[-1:] for i in instance.R[j][l]), name="OF_constraint")
         
         case Objective.MAKESPAN:
             # Concise objective function that minimizes only the end times of the last operation of each job
-            # model.addConstr(Z == gp.quicksum(s[j][l][i] + instance.P[j][l][i]*y[j][l][i] for j in range(instance.n) for l in list(instance.P[j].keys())[-1:] for i in instance.R[j][l]), name="max_contraint")
+            # model.addConstr(Z == quicksum(s[j][l][i] + instance.P[j][l][i]*y[j][l][i] for j in range(instance.n) for l in list(instance.P[j].keys())[-1:] for i in instance.R[j][l]), name="max_contraint")
             
             # Exaggerated objective function that minimizes the processing time of all tasks
-            model.addConstr(Z >= gp.quicksum(s[j][l][i] + instance.P[j][l][i]*y[j][l][i] for j in range(instance.n) for l in range(instance.L[j]) for i in instance.R[j][l]), name="OF_constraint")
+            model.addConstr(Z >= quicksum(s[j][l][i] + instance.P[j][l][i]*y[j][l][i] for j in range(instance.n) for l in range(instance.L[j]) for i in instance.R[j][l]), name="OF_constraint")
         case _:
             raise ValueError("Objective not defined")
     

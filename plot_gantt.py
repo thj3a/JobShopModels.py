@@ -36,8 +36,9 @@ def plot_gantt(timestamp, instance_name, path):
     legend_elements = [Patch(facecolor=color_map[int(job)], edgecolor='k', label=f'Job {job}') for job in sorted([str(v).rjust(2, '0') for v in timestamp.Job.unique()])]
     ax.legend(handles=legend_elements, ncol=math.ceil(len(timestamp.Job.unique())/20), bbox_to_anchor=(1.05, 1), loc='upper left')
     
-    for bars in ax.containers:
-        ax.bar_label(bars, timestamp.Op)
+    ## uncomment this piece of code below to label the bars with the number of operation of each job ##
+    # for bars in ax.containers:
+    #     ax.bar_label(bars, timestamp.Op)
     
     ##### TICKS #####
     # n_ranges = int(timestamp.Finish_f.max()/(timestamp.Finish_f - timestamp.Start_f).max())
@@ -54,6 +55,7 @@ def plot_gantt(timestamp, instance_name, path):
     ax.set_ylabel('Resource')
     # ax.set_title(f'{instance_name} - Timestamp')
     ax.autoscale(enable=True, axis='both', tight=False)
+    ax.set_xlim(xmax=35000)
     # plt.show()
     plt.savefig(
                 os.path.join(path, f'{instance_name}'), 
@@ -78,13 +80,3 @@ def old_gantt_plot(timestamp, instance_name, path):
     # height=1000,)
 
     fig.write_image(os.path.join(path, f"{instance_name}_gantt.jpg"))
-
-# path = './heuristic_solutions/timestamp/'
-
-# for filename in os.listdir(path)[::2]:
-#     instance_name = "_".join(filter(lambda x: x not in ['modified', 'timestamp', 'makespan', 'deadline'], filename.split('.')[0].split('_'))) + "_modified"
-#     timestamp = pd.read_csv(os.path.join(path, filename), sep=';')
-#     plot_gantt(timestamp=timestamp, instance_name=instance_name, path='./heuristic_solutions/gantt')
-
-# timestamp = pd.read_csv('./results/csv/timestamp/PlasticInjection_makespan_timestamp.csv', sep=';')
-# plot_gantt(timestamp=timestamp, instance_name='PlasticInjection_makespan', path='./results/fig')

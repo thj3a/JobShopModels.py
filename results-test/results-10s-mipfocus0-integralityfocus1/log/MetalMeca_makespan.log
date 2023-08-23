@@ -1,0 +1,100 @@
+
+Gurobi 10.0.1 (win64) logging started Mon Jul 17 15:48:24 2023
+
+Set parameter LogFile to value "results-10s-mipfocus0-integralityfocus1/log/MetalMeca_makespan.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 18596 rows, 88112 columns and 88194 nonzeros
+Model fingerprint: 0x4e92a38f
+Variable types: 0 continuous, 88112 integer (87568 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+07]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+07]
+Presolve removed 949 rows and 82762 columns
+Presolve time: 0.19s
+Presolved: 17647 rows, 5350 columns, 77533 nonzeros
+Variable types: 0 continuous, 5350 integer (4807 binary)
+
+Root relaxation: objective 4.008600e+05, 2004 iterations, 0.02 seconds (0.05 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 400860.000    0  407          - 400860.000      -     -    0s
+     0     0 400860.246    0  574          - 400860.246      -     -    0s
+     0     0 403255.036    0  495          - 403255.036      -     -    0s
+     0     0 421144.908    0  534          - 421144.908      -     -    1s
+     0     0 424399.400    0  480          - 424399.400      -     -    1s
+     0     0 424399.400    0  482          - 424399.400      -     -    1s
+     0     0 424601.530    0  480          - 424601.530      -     -    1s
+     0     0 424856.101    0  504          - 424856.101      -     -    1s
+     0     0 424861.336    0  520          - 424861.336      -     -    1s
+     0     0 424861.336    0  520          - 424861.336      -     -    1s
+     0     0 425150.537    0  472          - 425150.537      -     -    1s
+     0     0 425150.621    0  503          - 425150.621      -     -    1s
+     0     0 425895.379    0  499          - 425895.379      -     -    1s
+     0     0 425899.579    0  494          - 425899.579      -     -    1s
+     0     0 425900.545    0  515          - 425900.545      -     -    1s
+     0     0 426372.869    0  515          - 426372.869      -     -    2s
+     0     0 426379.760    0  531          - 426379.760      -     -    2s
+     0     0 426409.702    0  530          - 426409.702      -     -    2s
+     0     0 426409.702    0  531          - 426409.702      -     -    2s
+     0     0 426710.217    0  536          - 426710.217      -     -    2s
+     0     0 426727.061    0  536          - 426727.061      -     -    2s
+     0     0 426727.061    0  534          - 426727.061      -     -    2s
+     0     0 426956.633    0  538          - 426956.633      -     -    2s
+     0     0 426956.633    0  537          - 426956.633      -     -    2s
+     0     0 426979.671    0  554          - 426979.671      -     -    2s
+     0     0 426986.619    0  557          - 426986.619      -     -    2s
+     0     0 426986.619    0  555          - 426986.619      -     -    2s
+     0     0 427135.128    0  550          - 427135.128      -     -    2s
+     0     0 427135.128    0  549          - 427135.128      -     -    3s
+     0     0 427205.198    0  550          - 427205.198      -     -    3s
+     0     0 427205.270    0  575          - 427205.270      -     -    3s
+     0     0 427279.391    0  582          - 427279.391      -     -    3s
+     0     0 427279.424    0  578          - 427279.424      -     -    3s
+     0     0 427328.389    0  569          - 427328.389      -     -    3s
+     0     0 427335.654    0  576          - 427335.654      -     -    3s
+     0     0 427336.978    0  583          - 427336.978      -     -    3s
+     0     0 427349.918    0  584          - 427349.918      -     -    3s
+H    0     0                    601188.00000 427349.918  28.9%     -    4s
+     0     0 427349.918    0  585 601188.000 427349.918  28.9%     -    4s
+     0     0 427388.620    0  574 601188.000 427388.620  28.9%     -    4s
+     0     0 427388.620    0  464 601188.000 427388.620  28.9%     -    4s
+     0     2 427388.620    0  464 601188.000 427388.620  28.9%     -    5s
+H   34    40                    593013.00000 428278.350  27.8%   196    8s
+H  115   119                    591265.00000 428391.721  27.5%   105    8s
+H  158   154                    584822.00000 428391.721  26.7%  87.1    9s
+H  198   195                    584588.00000 428391.721  26.7%  79.4    9s
+H  200   195                    584526.00000 428391.721  26.7%  79.9    9s
+H  202   195                    574323.00000 428391.721  25.4%  79.5    9s
+H  230   228                    571273.00000 428391.721  25.0%  73.6    9s
+H  233   228                    563439.00000 428391.721  24.0%  73.3    9s
+   536   545 451964.865   56  417 563439.000 428391.721  24.0%  46.5   10s
+
+Cutting planes:
+  Learned: 57
+  Gomory: 16
+  Implied bound: 139
+  MIR: 139
+  StrongCG: 1
+  Flow cover: 53
+  Mod-K: 1
+  RLT: 38
+  Relax-and-lift: 169
+
+Explored 574 nodes (36652 simplex iterations) in 10.11 seconds (8.24 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 9: 563439 571273 574323 ... 601188
+
+Time limit reached
+Best objective 5.634390000000e+05, best bound 4.283920000000e+05, gap 23.9683%
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default constraint names used to write mps file

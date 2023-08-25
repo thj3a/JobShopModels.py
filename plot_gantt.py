@@ -55,7 +55,7 @@ def plot_gantt(timestamp, instance_name, path):
     ax.set_ylabel('Resource')
     # ax.set_title(f'{instance_name} - Timestamp')
     ax.autoscale(enable=True, axis='both', tight=False)
-    ax.set_xlim(xmax=35000)
+    # ax.set_xlim(xmax=35000)
     # plt.show()
     plt.savefig(
                 os.path.join(path, f'{instance_name}'), 

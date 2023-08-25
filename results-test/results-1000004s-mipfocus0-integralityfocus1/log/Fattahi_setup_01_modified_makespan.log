@@ -1,0 +1,49 @@
+
+Gurobi 10.0.1 (win64) logging started Wed Aug 23 11:55:00 2023
+
+Set parameter LogFile to value "./results-test/results-1000004s-mipfocus0-integralityfocus1/log/Fattahi_setup_01_modified_makespan.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-12700, instruction set [SSE2|AVX|AVX2]
+Thread count: 12 physical cores, 20 logical processors, using up to 20 threads
+
+Optimize a model with 59 rows, 33 columns and 221 nonzeros
+Model fingerprint: 0xc3e3e72f
+Variable types: 8 continuous, 25 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+07]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+07]
+Found heuristic solution: objective 1212.0000000
+Presolve removed 12 rows and 12 columns
+Presolve time: 0.00s
+Presolved: 47 rows, 21 columns, 201 nonzeros
+Variable types: 8 continuous, 13 integer (12 binary)
+Found heuristic solution: objective 1211.0000000
+Root relaxation presolve removed 44 rows and 16 columns
+Root relaxation presolved: 3 rows, 5 columns, 9 nonzeros
+
+
+Root relaxation: objective 1.075000e+03, 2 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 1075.00000    0    1 1211.00000 1075.00000  11.2%     -    0s
+H    0     0                    1100.0000000 1075.00000  2.27%     -    0s
+H    0     0                    1087.0000000 1075.00000  1.10%     -    0s
+
+Cutting planes:
+  Learned: 1
+
+Explored 1 nodes (2 simplex iterations) in 0.01 seconds (0.00 work units)
+Thread count was 20 (of 20 available processors)
+
+Solution count 4: 1087 1100 1211 1212 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.087000000000e+03, best bound 1.087000000000e+03, gap 0.0000%
+Warning: constraint name "precedence between 0,1 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: constraint name "precedence between 0,1 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default constraint names used to write mps file

@@ -44,7 +44,7 @@ class Instance:
         self.rng.seed(self.seed)
 
     @classmethod
-    def generate(cls, name, path, n, m, l, var_l=True, seed=0):
+    def generate(cls, name, path, n, m, l, dependency, var_l=True, seed=0):
         instance = Instance()
         rng = instance.rng
 
@@ -57,7 +57,7 @@ class Instance:
 
         instance.n = n
         instance.m = m
-        instance.l = l
+        instance.l = int(l)
 
         if var_l:
             instance.L = {j: ceil(abs(rng.gauss())*instance.l) for j in range(instance.n)}
@@ -67,13 +67,15 @@ class Instance:
         instance.D = {j: rng.randint(5, 10) for j in range(instance.n)}
         instance.R = {j:{l: rng.sample(range(instance.m), k= ceil(instance.m/3)) for l in range(instance.L[j])} for j in range(instance.n)}
         instance.P = {j:{l:{i:rng.randint(2,5) for i in instance.R[j][l]} for l in range(instance.L[j])} for j in range(instance.n)}
-        instance.O = {j: {l: {h: {k: {i: rng.randint(1,3) for i in set(instance.R[j][l]) & set(instance.R[h][k])} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
+        proc_times = [instance.P[j][l][i] for j in instance.P for l in instance.P[j] for i in instance.P[j][l]]
+        instance.O = {j: {l: {h: {k: {i: rng.randint(1,5)*rng.randint(min(proc_times), max(proc_times)) for i in set(instance.R[j][l]) & set(instance.R[h][k])} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
         instance.Q = {j: {l: rng.randint(0,3) for l in range(instance.L[j])} for j in range(instance.n)}
         instance.U = {j: dict() for j in range(instance.n)}
-
-        # instance.create_barabasi_albert_dependency()
-        instance.create_random_uniform_tree_dependency()
-        # instance.specdep()
+        
+        if dependency == 'BAG':
+            instance.create_barabasi_albert_dependency()
+        if dependency == 'URT':
+            instance.create_random_uniform_tree_dependency()
 
         cls.to_json(instance)
         instance.plot_dep_graph()
@@ -99,7 +101,7 @@ class Instance:
     def from_mdb(cls, instance_path, instance_name):
         random.seed(0)
         conn_str = (r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};' +
-                'DBQ='+f'{instance_path};')
+                'DBQ='+f'{os.path.join(instance_path, instance_name)};')
         conn = pyodbc.connect(conn_str)
         
         # reading alternatives of production
@@ -126,23 +128,22 @@ class Instance:
         if initial_date.second == 1:
             initial_date -= pd.Timedelta(seconds=1)
 
-        i = Instance({'n': len(jobs),'m': len(machines), 'l': len(operacoes)/len(acabados), 'seed':0})
-        rng = i.rng
-        i.name = instance_name
-        i.path = './instances/'
-        i.M = 1_000
-        i.L = {j: -1 for j in range(i.n)}
-        i.U = {j: dict() for j in range(i.n)}
-        i.D = {j: -1 for j in range(i.n)}
-        i.Q = {j: dict() for j in range(i.n)}
-        i.R = {j: dict() for j in range(i.n)}
-        i.P = {j: dict() for j in range(i.n)}
-        pt_list = []
-        for j in range(i.n):
+        instance = Instance({'n': len(jobs),'m': len(machines), 'l': len(operacoes)/len(acabados), 'seed':0})
+        rng = instance.rng
+        instance.name = instance_name
+        instance.path = './instances/'
+        instance.M = 10_000_000
+        instance.L = {j: -1 for j in range(instance.n)}
+        instance.U = {j: dict() for j in range(instance.n)}
+        instance.D = {j: -1 for j in range(instance.n)}
+        instance.Q = {j: dict() for j in range(instance.n)}
+        instance.R = {j: dict() for j in range(instance.n)}
+        instance.P = {j: dict() for j in range(instance.n)}
+        for j in range(instance.n):
             item = jobs[j]
             df_entrega_job = entregas[entregas.CdItem == item]
             due_date = df_entrega_job.DtEntrega.tolist()[0]
-            i.D[j] = len(pd.bdate_range(start=initial_date, end=due_date))*8*60
+            instance.D[j] = len(pd.bdate_range(start=initial_date, end=due_date))*8*60
             job_quantities = df_entrega_job.QtEntrega.tolist()[0]
             
             def recursive_explosion(item, l, l_father):
@@ -161,27 +162,26 @@ class Instance:
                             df_restr = restricoes[restricoes.CdItemPai == item]
                             if len(df_restr) > 0:
                                 dtreceb = df_restr.DtReceb.tolist()[0]
-                                i.Q[j][l] = len(pd.bdate_range(start=initial_date, end=dtreceb))*8*60
+                                instance.Q[j][l] = len(pd.bdate_range(start=initial_date, end=dtreceb))*8*60
                             else:
                                 if len(restricoes) == 0:
-                                    i.Q[j][l] = rng.randint(0, 100)
+                                    instance.Q[j][l] = rng.randint(0, 100)
 
-                        i.R[j][l] = [machines.index(cod) for cod in df_alter_op.CdMaq.tolist()]
+                        instance.R[j][l] = [machines.index(cod) for cod in df_alter_op.CdMaq.tolist()]
                         
                         processing_times = [int(tmproc*job_quantities*60) for tmproc in df_alter_op.TempoPadrao.tolist()]
-                        i.P[j][l] = dict()
-                        for m, p in zip(i.R[j][l], processing_times):
-                            i.P[j][l][m] = p
-                            pt_list.append(p)
+                        instance.P[j][l] = dict()
+                        for m, p in zip(instance.R[j][l], processing_times):
+                            instance.P[j][l][m] = p
                         
 
-                        if (l not in i.U[j].keys()):
-                            i.U[j][l]=[]
+                        if (l not in instance.U[j].keys()):
+                            instance.U[j][l]=[]
 
                         if op > 0:
-                            i.U[j][l].append(l-1)
+                            instance.U[j][l].append(l-1)
                         elif l != l_father:
-                            i.U[j][l].append(l_father)                 
+                            instance.U[j][l].append(l_father)                 
                         
                         l+=1
 
@@ -195,20 +195,23 @@ class Instance:
                 return l
                 
             recursive_explosion(item, 0, 0)
-            i.L[j] = len(i.R[j])
+            instance.L[j] = len(instance.R[j])
 
-
-        i.O = {j: {l: {h: {k: {maq: ceil(rng.randint(1,10)*np.mean(pt_list)/100) for maq in set(i.R[j][l]) & set(i.R[h][k])} for k in range(i.L[h])} for h in range(i.n)} for l in range(i.L[j])} for j in range(i.n)}
+        proc_times = [instance.P[j][l][i] for j in instance.P for l in instance.P[j] for i in instance.P[j][l]]
+        # i.O = {j: {l: {h: {k: {maq: ceil(rng.randint(1,10)*np.mean(pt_list)/100) for maq in set(i.R[j][l]) & set(i.R[h][k])} for k in range(i.L[h])} for h in range(i.n)} for l in range(i.L[j])} for j in range(i.n)}
+        instance.O = {j: {l: {h: {k: {maq: rng.randint(1,5)*rng.randint(min(proc_times), max(proc_times)) for maq in range(len(machines))} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
 
 
         conn.close()
 
-        return i
+        return instance
 
     @classmethod
-    def to_json(cls, instance):
+    def to_json(cls, instance, path=None):
+        if not path:
+            path = instance.path
         json_data = json.dumps(instance, default=lambda o: o.__dict__, indent=4)
-        json.dump(json_data, open(instance.path+instance.name+'.json', 'w'))
+        json.dump(json_data, open(path+instance.name+'.json', 'w'))
     
     @classmethod
     def to_mdb(cls,
@@ -387,7 +390,7 @@ class Instance:
     def create_barabasi_albert_dependency(self,):
         G:nx.DiGraph
         for j in range(self.n):
-            G = nx.DiGraph(nx.barabasi_albert_graph(self.L[j], self.rng.randint(2, self.L[j]-1)))
+            G = nx.DiGraph(nx.barabasi_albert_graph(self.L[j], self.rng.randint(1, self.L[j]-1)))
             edges_to_remove = []
             for node in G.nodes():
                 for edge in G.out_edges(node):
@@ -474,13 +477,15 @@ class Instance:
 
         
 
-path = './instances'
-names = [f.split('.')[0] for f in os.listdir(path)]
 
 if __name__ == "__main__":
-    Instance.to_mdb('./mdb/', 'SNT_04', './instances/')
-    for name in names:
-        Instance.to_mdb('./mdb', name, './instances/')
-        # i = Instance.from_json(path,name)
-        # i.plot_dep_graph()
+    path = './instances-mdb/'
+    names = [f.split('.')[0] for f in os.listdir(path) if f.startswith('Fattahi')]
+    print(names)
+    for i, name in enumerate(names):
+        _instance = Instance.from_mdb(path, name)
+        idx = f'{i+1}'.rjust(2, '0')
+        ba = Instance.generate(f'BA_{idx}', './instances-json/instances-generated/', _instance.n, _instance.m, _instance.l, 'BAG', var_l=False, seed=0)
+        urt = Instance.generate(f'URT_{idx}', './instances-json/instances-generated/', _instance.n, _instance.m, _instance.l, 'URT', var_l=False, seed=0)
+        Instance.to_json(_instance, './instances-json/instances-benchmark/')
     print('Done.')

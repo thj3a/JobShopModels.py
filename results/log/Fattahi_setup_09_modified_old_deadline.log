@@ -1,0 +1,66 @@
+
+Gurobi 10.0.1 (win64) logging started Sun Aug 27 19:51:43 2023
+
+Set parameter LogFile to value "results//log/Fattahi_setup_09_modified_old_deadline.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 187 rows, 124 columns and 746 nonzeros
+Model fingerprint: 0x6057688e
+Model has 1 quadratic constraint
+Variable types: 18 continuous, 106 integer (105 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+06]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 4e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+06]
+Presolve removed 27 rows and 45 columns
+Presolve time: 0.00s
+Presolved: 167 rows, 85 columns, 735 nonzeros
+Variable types: 24 continuous, 61 integer (60 binary)
+
+Root relaxation: objective 0.000000e+00, 30 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.00000    0    6          -    0.00000      -     -    0s
+H    0     0                     963.0000000    0.00000   100%     -    0s
+H    0     0                     962.0000000    0.00000   100%     -    0s
+     0     0    0.00000    0    8  962.00000    0.00000   100%     -    0s
+     0     0    0.00000    0    7  962.00000    0.00000   100%     -    0s
+     0     0  455.00000    0    8  962.00000  455.00000  52.7%     -    0s
+H    0     0                     905.0000000  455.00000  49.7%     -    0s
+H    0     0                     850.0000000  455.00000  46.5%     -    0s
+     0     0  457.00000    0   14  850.00000  457.00000  46.2%     -    0s
+     0     0  465.00000    0   12  850.00000  465.00000  45.3%     -    0s
+     0     0  465.00000    0   15  850.00000  465.00000  45.3%     -    0s
+     0     0  465.00000    0   16  850.00000  465.00000  45.3%     -    0s
+     0     0  467.00000    0   15  850.00000  467.00000  45.1%     -    0s
+     0     0  467.00000    0   14  850.00000  467.00000  45.1%     -    0s
+     0     2  467.00000    0   13  850.00000  467.00000  45.1%     -    0s
+
+Cutting planes:
+  Learned: 40
+  Cover: 9
+  Implied bound: 13
+  MIR: 3
+  Flow cover: 18
+  Inf proof: 6
+  RLT: 7
+  Relax-and-lift: 3
+
+Explored 987 nodes (4976 simplex iterations) in 0.13 seconds (0.06 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 4: 850 905 962 963 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 8.500000000000e+02, best bound 8.500000000000e+02, gap 0.0000%
+Warning: constraint name "precedence between 0,1 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: constraint name "precedence between 0,1 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default constraint names used to write mps file

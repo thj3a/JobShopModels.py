@@ -1,0 +1,94 @@
+
+Gurobi 10.0.1 (win64) logging started Sat Aug 26 23:38:47 2023
+
+Set parameter LogFile to value "results//log/URT_13_makespan.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 621 rows, 433 columns and 2588 nonzeros
+Model fingerprint: 0x86197178
+Variable types: 54 continuous, 379 integer (378 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+06]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+06]
+Found heuristic solution: objective 137.0000000
+Presolve removed 75 rows and 174 columns
+Presolve time: 0.01s
+Presolved: 546 rows, 259 columns, 2488 nonzeros
+Variable types: 54 continuous, 205 integer (204 binary)
+Found heuristic solution: objective 136.0000000
+
+Root relaxation: objective 4.600000e+01, 81 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   46.00000    0    8  136.00000   46.00000  66.2%     -    0s
+H    0     0                     120.0000000   46.00000  61.7%     -    0s
+     0     0   46.00000    0    9  120.00000   46.00000  61.7%     -    0s
+H    0     0                     118.0000000   46.00000  61.0%     -    0s
+     0     0   47.00000    0   15  118.00000   47.00000  60.2%     -    0s
+H    0     0                     114.0000000   47.00000  58.8%     -    0s
+     0     0   47.00000    0   19  114.00000   47.00000  58.8%     -    0s
+H    0     0                     110.0000000   47.00000  57.3%     -    0s
+     0     0   47.00000    0   23  110.00000   47.00000  57.3%     -    0s
+     0     0   47.40377    0   27  110.00000   47.40377  56.9%     -    0s
+     0     0   47.40377    0   24  110.00000   47.40377  56.9%     -    0s
+     0     0   48.42500    0   19  110.00000   48.42500  56.0%     -    0s
+     0     0   48.42500    0   32  110.00000   48.42500  56.0%     -    0s
+     0     0   48.42500    0   33  110.00000   48.42500  56.0%     -    0s
+H    0     0                      97.0000000   49.00000  49.5%     -    0s
+     0     0   49.00000    0   14   97.00000   49.00000  49.5%     -    0s
+     0     0   49.00000    0   34   97.00000   49.00000  49.5%     -    0s
+     0     0   49.00000    0   20   97.00000   49.00000  49.5%     -    0s
+     0     0   49.00000    0   24   97.00000   49.00000  49.5%     -    0s
+     0     0   49.00000    0   19   97.00000   49.00000  49.5%     -    0s
+     0     0   49.00000    0   15   97.00000   49.00000  49.5%     -    0s
+     0     2   49.00000    0    7   97.00000   49.00000  49.5%     -    0s
+H  273   170                      95.0000000   49.00000  48.4%  19.1    1s
+H  274   170                      90.0000000   49.00000  45.6%  19.0    1s
+ 14503  6392   62.00000   44   11   90.00000   52.00000  42.2%   5.6    5s
+ 107682 50342 infeasible   55        90.00000   57.00000  36.7%   6.2   10s
+ 197676 80528   61.00000   55   17   90.00000   61.00000  32.2%   6.5   15s
+ 332323 120867   76.00000   44   13   90.00000   64.00000  28.9%   6.5   20s
+ 451688 152991   66.00000   50   15   90.00000   66.00000  26.7%   6.5   25s
+ 584971 187484   83.22344   38   13   90.00000   68.00000  24.4%   6.5   30s
+ 709401 213724   74.62500   54   12   90.00000   69.00000  23.3%   6.5   35s
+ 825725 235083   82.00000   50    9   90.00000   70.00000  22.2%   6.5   40s
+ 928307 251838   73.00000   45   13   90.00000   71.00000  21.1%   6.5   45s
+ 1048437 271000   83.00000   53   10   90.00000   72.00000  20.0%   6.5   50s
+ 1154297 285017   81.00000   52   11   90.00000   73.00000  18.9%   6.5   55s
+ 1258844 295054 infeasible   61        90.00000   74.00000  17.8%   6.5   60s
+ 1359322 303224 infeasible   47        90.00000   74.63636  17.1%   6.5   65s
+ 1453195 307692     cutoff   52        90.00000   75.00000  16.7%   6.5   70s
+ 1560855 313025 infeasible   53        90.00000   76.00000  15.6%   6.5   75s
+ 1617651 309117   84.00000   52   13   90.00000   76.21135  15.3%   6.6   80s
+ 1705257 305390 infeasible   59        90.00000   77.00000  14.4%   6.6   85s
+ 1811446 299302 infeasible   52        90.00000   78.00000  13.3%   6.6   90s
+ 1909160 291056   81.00000   59   10   90.00000   79.00000  12.2%   6.6   95s
+ 1995586 280591   80.00000   56    8   90.00000   79.97368  11.1%   6.7  100s
+ 2077989 267152   80.00000   48   12   90.00000   80.00000  11.1%   6.7  105s
+ 2161215 245261 infeasible   65        90.00000   81.00000  10.0%   6.7  110s
+ 2239800 215413 infeasible   44        90.00000   82.00000  8.89%   6.8  115s
+ 2319860 176967 infeasible   43        90.00000   84.00000  6.67%   6.8  120s
+ 2401087 132728 infeasible   54        90.00000   85.00000  5.56%   6.8  125s
+ 2489512 74695 infeasible   46        90.00000   87.00000  3.33%   6.8  130s
+
+Cutting planes:
+  MIR: 2
+  Flow cover: 2
+
+Explored 2591666 nodes (17482773 simplex iterations) in 135.02 seconds (55.08 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 9: 90 95 97 ... 137
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 9.000000000000e+01, best bound 9.000000000000e+01, gap 0.0000%
+Warning: constraint name "precedence between 0,1 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: constraint name "precedence between 0,1 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default constraint names used to write mps file

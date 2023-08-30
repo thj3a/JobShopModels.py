@@ -1,0 +1,44 @@
+
+Gurobi 10.0.1 (win64) logging started Sat Aug 26 21:38:13 2023
+
+Set parameter LogFile to value "results//log/URT_02_makespan.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 27 rows, 25 columns and 75 nonzeros
+Model fingerprint: 0x3df2e099
+Variable types: 4 continuous, 21 integer (20 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+06]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+06]
+Found heuristic solution: objective 90.0000000
+Presolve removed 20 rows and 19 columns
+Presolve time: 0.00s
+Presolved: 7 rows, 6 columns, 19 nonzeros
+Variable types: 3 continuous, 3 integer (2 binary)
+Found heuristic solution: objective 89.0000000
+
+Root relaxation: objective 3.500000e+01, 1 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   35.00000    0    1   89.00000   35.00000  60.7%     -    0s
+H    0     0                      59.0000000   52.00000  11.9%     -    0s
+H    0     0                      53.0000000   52.00000  1.89%     -    0s
+     0     0   52.00000    0    1   53.00000   52.00000  1.89%     -    0s
+
+Explored 1 nodes (1 simplex iterations) in 0.01 seconds (0.00 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 4: 53 59 89 90 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 5.300000000000e+01, best bound 5.300000000000e+01, gap 0.0000%
+Warning: constraint name "precedence between 1,0 to 0,1 if x_[j,l,h,z,i]=1" has a space
+Warning: constraint name "precedence between 1,0 to 0,1 if x_[j,l,h,z,i]=1" has a space
+Warning: default constraint names used to write mps file

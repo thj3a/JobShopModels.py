@@ -20,32 +20,34 @@ from instance import *
 if __name__ == "__main__":
     save_output = True
     save_temp = False
-    log_console = False
+    log_console = True
     testing = True
     disable_setup = False
 
-    instances_path = './instances-json/instances-generated/'
-    print("Reading instances")
-    all_instances = [Instance.from_json(instances_path, file.split('.')[0]) for file in os.listdir(instances_path)]
-    # all_instances = list(filter(lambda x: x.name=='MetalMeca', all_instances))
-
-    time_limit = 3600 # in seconds
+    time_limit_minutes = 60
     mip_focus = 0
     integrality_focus = 1
 
-    for (idx, instance), objective in itertools.product(enumerate(all_instances), [obj for obj in Objective][0:1]):
+    instances_path = './instances/json/generated/'
+
+    print("Reading instances")
+    # all_instances = [Instance.from_json(instances_path, file.split('.')[0]) for file in os.listdir(instances_path)]
+    # all_instances = list(filter(lambda x: x.name=='MetalMeca', all_instances))
+
+    all_instances = [Instance.from_json(instances_path, 'URT_20')]
+
+    for (idx, instance), objective in itertools.product(enumerate(all_instances), [obj for obj in Objective][1:]):
         start_time = time()
 
         instance_name = instance.name + '_' + objective.value
-
         # Create empty model
         model = Model("Model5")
         # model.params.OutputFlag = 0 # 0 to disable output
         model.params.LogToConsole = int(log_console) # 0 to disable console output
         # model.params.IntFeasTol = 1e-9
         model.params.MIPFocus = mip_focus # 0 - automatic | 1 - for feasible solutions | 2 - for optimality | 3 - for bound 
-        model.params.IntegralityFocus = integrality_focus
-        model.params.TimeLimit = time_limit
+        model.params.IntegralityFocus = integrality_focus # 0 - off | 1 - on
+        model.params.TimeLimit = time_limit_minutes*60 # to seconds
 
         # model.params.Presolve=2
         # model.params.Cuts=3 # 0 to 3, higher values, more aggressive cuts are made 
@@ -53,17 +55,17 @@ if __name__ == "__main__":
         # model.params.Symmetry=2
         # model.params.NoRelHeurTime=300
         # model.params.Heuristics=0.3
-        
-        instance.M = 1_000_000
 
-        results_name = f'results-{time_limit}s-mipfocus{mip_focus}-integralityfocus{integrality_focus}'
+        # results_name = f'results-{time_limit}s-mipfocus{mip_focus}-integralityfocus{integrality_focus}'
+        results_name = 'results/'
         if testing:
             results_name = './results-test/' + results_name
         create_paths(results_name)
 
         summary_path = f"{results_name}/csv/log/summary_results.csv"
 
-        # instance.M = int(1_000_000)
+        instance.M = int(1_000_000)
+
         print(f"Instance {idx+1}/{len(all_instances)}: {instance_name}")
         
         # Create variables
@@ -80,14 +82,16 @@ if __name__ == "__main__":
                             vtype=GRB.CONTINUOUS, name='s')
         
         # read initial solution
-        # if len(instance.heuristic_solution) > 0:
-        #     id_inisol = 0
-        #     for j in y:
-        #         for l in y[j]:
-        #             y[j][l][instance.heuristic_solution[id_inisol][0]].Start = 1
-        #             s[j][l][instance.heuristic_solution[id_inisol][0]].Start = instance.heuristic_solution[id_inisol][1]
-        #             id_inisol+=1
-        
+        instance.read_heuristic_solution('./instances/mdb/generated/')
+        if len(instance.A) > 0:
+            for j in instance.A:
+                if len(instance.A[j]) > 0:
+                    for l in instance.A[j]:
+                        if len(instance.A[j][l]) > 0:
+                            for i in instance.A[j][l]:
+                                y[j,l,i].Start = 1
+                                s[j,l,i].Start = instance.A[j][l][i]
+            
         
         if disable_setup:
             for j in instance.O:
@@ -230,7 +234,7 @@ if __name__ == "__main__":
                             #     job = j
                             # else:
                             #     job = instance.U[j]
-                            d = dict(Job=f"{j}", Op=l, Start=date_start+pd.Timedelta(f"{s[j,l,i].x} minutes"), Finish=date_start+ pd.Timedelta(f"{s[j,l,i].x + instance.P[j][l][i]}  minutes"), Start_f=s[j,l,i].x, Finish_f=s[j,l,i].x + instance.P[j][l][i], Resource=f"Machine {str(i).rjust(2,'0')}")
+                            d = dict(Job=f"{j}", Op=l, Start=date_start+pd.Timedelta(f"{int(s[j,l,i].x)} minutes"), Finish=date_start+ pd.Timedelta(f"{s[j,l,i].x + instance.P[j][l][i]}  minutes"), Start_f=s[j,l,i].x, Finish_f=s[j,l,i].x + instance.P[j][l][i], Resource=f"Machine {str(i).rjust(2,'0')}")
                             timestamp_list.append(d)
 
             timestamp = pd.DataFrame(timestamp_list)

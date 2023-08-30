@@ -1,0 +1,42 @@
+
+Gurobi 10.0.1 (win64) logging started Sat Aug 26 11:23:38 2023
+
+Set parameter LogFile to value "results//log/PlasticInjection_makespan.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 1954 rows, 6956 columns and 8507 nonzeros
+Model fingerprint: 0xcfe5c642
+Variable types: 197 continuous, 6759 integer (6758 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+07]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+07]
+Presolve removed 197 rows and 6013 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds (0.00 work units)
+Thread count was 1 (of 16 available processors)
+
+Solution count 0
+
+Model is infeasible
+Best objective -, best bound -, gap -
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default constraint names used to write mps file
+
+Computing Irreducible Inconsistent Subsystem (IIS)...
+
+           Constraints          |            Bounds           |  Runtime
+      Min       Max     Guess   |   Min       Max     Guess   |
+--------------------------------------------------------------------------
+        0      1954         -         0       198         -           0s
+        2         2         2         0         0         0           0s
+
+IIS computed: 2 constraints, 0 bounds
+IIS runtime: 0.03 seconds (0.00 work units)
+Warning: constraint name "precedence between 66,1 to 9,0 if x_[j,l,h,z,i]=1" has a space

@@ -1,0 +1,76 @@
+
+Gurobi 10.0.1 (win64) logging started Sat Aug 26 23:38:21 2023
+
+Set parameter LogFile to value "results//log/URT_11_makespan.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 270 rows, 286 columns and 1021 nonzeros
+Model fingerprint: 0x59b132cd
+Variable types: 30 continuous, 256 integer (255 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+06]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+06]
+Found heuristic solution: objective 105.0000000
+Presolve removed 55 rows and 167 columns
+Presolve time: 0.01s
+Presolved: 215 rows, 119 columns, 932 nonzeros
+Variable types: 30 continuous, 89 integer (88 binary)
+
+Root relaxation: objective 4.600000e+01, 41 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   46.00000    0    8  105.00000   46.00000  56.2%     -    0s
+     0     0   46.00001    0    8  105.00000   46.00001  56.2%     -    0s
+H    0     0                     104.0000000   46.00001  55.8%     -    0s
+     0     0   47.21256    0   10  104.00000   47.21256  54.6%     -    0s
+     0     0   49.08708    0   13  104.00000   49.08708  52.8%     -    0s
+H    0     0                     103.0000000   49.08708  52.3%     -    0s
+H    0     0                      96.0000000   49.08708  48.9%     -    0s
+     0     0   49.09424    0   19   96.00000   49.09424  48.9%     -    0s
+     0     0   49.12403    0   19   96.00000   49.12403  48.8%     -    0s
+     0     0   49.12501    0   19   96.00000   49.12501  48.8%     -    0s
+     0     0   49.12501    0   19   96.00000   49.12501  48.8%     -    0s
+     0     0   49.71656    0   20   96.00000   49.71656  48.2%     -    0s
+     0     0   50.00000    0    8   96.00000   50.00000  47.9%     -    0s
+H    0     0                      95.0000000   50.00000  47.4%     -    0s
+     0     0   50.00000    0   12   95.00000   50.00000  47.4%     -    0s
+     0     0   50.00000    0    4   95.00000   50.00000  47.4%     -    0s
+H    0     0                      94.0000000   50.00000  46.8%     -    0s
+H    0     0                      91.0000000   50.00000  45.1%     -    0s
+     0     0   50.00000    0    4   91.00000   50.00000  45.1%     -    0s
+     0     0   50.00000    0    7   91.00000   50.00000  45.1%     -    0s
+H    0     0                      87.0000000   50.00000  42.5%     -    0s
+     0     0   50.00000    0    8   87.00000   50.00000  42.5%     -    0s
+     0     0   50.00000    0    8   87.00000   50.00000  42.5%     -    0s
+     0     0   50.00000    0   13   87.00000   50.00000  42.5%     -    0s
+     0     0   50.00000    0    8   87.00000   50.00000  42.5%     -    0s
+     0     0   50.00000    0    8   87.00000   50.00000  42.5%     -    0s
+     0     2   50.00000    0    8   87.00000   50.00000  42.5%     -    0s
+H   29    19                      86.0000000   51.00000  40.7%  33.8    0s
+
+Cutting planes:
+  Learned: 108
+  Gomory: 3
+  Cover: 10
+  Implied bound: 26
+  MIR: 35
+  Flow cover: 91
+  Inf proof: 39
+
+Explored 14417 nodes (52668 simplex iterations) in 2.87 seconds (0.55 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 9: 86 87 91 ... 105
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 8.600000000000e+01, best bound 8.600000000000e+01, gap 0.0000%
+Warning: constraint name "precedence between 0,1 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: constraint name "precedence between 0,1 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default constraint names used to write mps file

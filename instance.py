@@ -26,6 +26,7 @@ class Instance:
     l: int # average number of operations per job
     L: dict # dict with the number of operations for each job
 
+    A: dict # dict with heuristic solution start times for each operation of job
     D: dict # deadlines for each job
     O: dict # setup times between operation l of job j and operation k of job h on machine i 
     P: dict # processing time of operation l of job j on machine i
@@ -64,14 +65,15 @@ class Instance:
         else:
             instance.L = {j: instance.l for j in range(instance.n)}
             
-        instance.D = {j: rng.randint(5, 10) for j in range(instance.n)}
+        
         instance.R = {j:{l: rng.sample(range(instance.m), k= ceil(instance.m/3)) for l in range(instance.L[j])} for j in range(instance.n)}
         instance.P = {j:{l:{i:rng.randint(2,5) for i in instance.R[j][l]} for l in range(instance.L[j])} for j in range(instance.n)}
         proc_times = [instance.P[j][l][i] for j in instance.P for l in instance.P[j] for i in instance.P[j][l]]
         instance.O = {j: {l: {h: {k: {i: rng.randint(1,5)*rng.randint(min(proc_times), max(proc_times)) for i in set(instance.R[j][l]) & set(instance.R[h][k])} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
         instance.Q = {j: {l: rng.randint(0,3) for l in range(instance.L[j])} for j in range(instance.n)}
         instance.U = {j: dict() for j in range(instance.n)}
-        
+        instance.D = {j: instance.L[j]*rng.randint(min(proc_times), max(proc_times)) for j in range(instance.n)}
+
         if dependency == 'BAG':
             instance.create_barabasi_albert_dependency()
         if dependency == 'URT':
@@ -83,6 +85,8 @@ class Instance:
         for j in range(instance.n):
             if instance.hascycle(instance.U[j]):
                 raise Exception(f"The job {j} has a cyclic graph.", instance.U[j])
+
+        
 
         return instance
 
@@ -139,11 +143,14 @@ class Instance:
         instance.Q = {j: dict() for j in range(instance.n)}
         instance.R = {j: dict() for j in range(instance.n)}
         instance.P = {j: dict() for j in range(instance.n)}
+        
+
         for j in range(instance.n):
             item = jobs[j]
             df_entrega_job = entregas[entregas.CdItem == item]
             due_date = df_entrega_job.DtEntrega.tolist()[0]
-            instance.D[j] = len(pd.bdate_range(start=initial_date, end=due_date))*8*60
+            # instance.D[j] = len(pd.bdate_range(start=initial_date, end=due_date))*8*60
+            instance.D[j] = int(pd.Timedelta(due_date - initial_date).total_seconds()/60)
             job_quantities = df_entrega_job.QtEntrega.tolist()[0]
             
             def recursive_explosion(item, l, l_father):
@@ -198,11 +205,28 @@ class Instance:
             instance.L[j] = len(instance.R[j])
 
         proc_times = [instance.P[j][l][i] for j in instance.P for l in instance.P[j] for i in instance.P[j][l]]
-        # i.O = {j: {l: {h: {k: {maq: ceil(rng.randint(1,10)*np.mean(pt_list)/100) for maq in set(i.R[j][l]) & set(i.R[h][k])} for k in range(i.L[h])} for h in range(i.n)} for l in range(i.L[j])} for j in range(i.n)}
+        
+        # instance.O = {j: {l: {h: {k: {maq: ceil(rng.randint(1,10)*np.mean(pt_list)/100) for maq in set(i.R[j][l]) & set(i.R[h][k])} for k in range(i.L[h])} for h in range(i.n)} for l in range(i.L[j])} for j in range(i.n)}
+        
+        instance.O = {j: {l: {h: {k: {maq: 0 for maq in set(instance.R[j][l]) & set(instance.R[h][k])} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
+        setup_times = pd.read_sql('select * from SETUPS', conn)
+        if len(setup_times) > 0:
+            
+            for row in setup_times.itertuples():
+                if '.' in row.ProdutoOutCod:
+                    jobOpOut = row.ProdutoOutCod.split('#')[0]
+                    jobOpIn = row.ProdutoInCod.split('#')[0]
+                    j = jobs.index(jobOpOut.split('.')[0])
+                    l = int(jobOpOut.split('.')[1])
+                    h = jobs.index(jobOpIn.split('.')[0])
+                    k = int(jobOpIn.split('.')[1])
+                    maq = machines.index(row.RecursoCod)
+                    instance.O[j][l][h][k][maq] = int(row.TempoSetupInverso*60)
+                    instance.O[h][k][j][l][maq] = int(row.Tempo*60)
+        
+
+
         instance.O = {j: {l: {h: {k: {maq: rng.randint(1,5)*rng.randint(min(proc_times), max(proc_times)) for maq in range(len(machines))} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
-
-
-        conn.close()
 
         return instance
 
@@ -215,13 +239,13 @@ class Instance:
     
     @classmethod
     def to_mdb(cls,
-                         dbs_folder:str, 
+                         path_write:str, 
                          instance_name:str, 
-                         instances_folder:str,
+                         path_read:str,
                          ):
-        instance_db_full_path = os.path.join(dbs_folder, instance_name+ '.mdb')
+        instance_db_full_path = os.path.join(path_write, instance_name+ '.mdb')
         if not os.path.exists(instance_db_full_path):
-            copyfile('./mdb/DataModel.mdb', instance_db_full_path)
+            copyfile('./instances/mdb/DataModel.mdb', instance_db_full_path)
 
         random.seed(0)
         # Connect to database 
@@ -231,7 +255,7 @@ class Instance:
         cursor = conn.cursor()
 
         # Read instance
-        instance = cls.from_json(instances_folder, instance_name)
+        instance = cls.from_json(path_read, instance_name)
         if len(string.ascii_uppercase) >= instance.n:
             jobs = [string.ascii_uppercase[job] for job in range(instance.n)]
         else:
@@ -334,7 +358,7 @@ class Instance:
             for l in instance.U[j]:
                 cursor.execute(f"INSERT INTO OPERACOES (CdItem, NuEstagio) VALUES ('{jobs[j]}.{l}', '1')")
                 conn.commit()
-                for i in instance.P[j][l]:
+                for i in set(instance.R[j][l]):
                     cursor.execute(f"INSERT INTO ALTERNATIVAS (CdItem, NuEstagio, Escopo, CdMaq, TempoPadrao, TaxaProd, TaxaProdUnid, ConsumoMaq, ClasseMaq, CdFerr) VALUES ('{jobs[j]}.{l}', '1', 'MAQ', '{str(i).rjust(2, '0')}', '{instance.P[j][l][i]/60}', '{instance.P[j][l][i]/60}', 'Horas/peca', '1', '1', '-1')")
                     conn.commit()
 
@@ -364,6 +388,39 @@ class Instance:
         
         conn.close()
         return 
+
+    def read_heuristic_solution(self, mdb_folder_path:str):
+
+        if not os.path.exists(os.path.join(mdb_folder_path, self.name+'.mdb')):
+            raise Exception(f"File {self.name} does not exist.")
+        conn_str = (r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};' +
+                'DBQ='+f'{os.path.join(mdb_folder_path, self.name)};')
+        conn = pyodbc.connect(conn_str)
+
+        alter = pd.read_sql('select * from ALTERNATIVAS', conn)
+        alter.sort_values(by=['CdItem', 'NuEstagio', 'CdMaq'], ascending=[True, False, True], inplace=True)
+
+        entregas = pd.read_sql('select * from Z_SIMU_ENTREGA', conn)
+
+        jobs = sorted(entregas.CdItem.unique().tolist())
+        machines = sorted(alter.CdMaq.unique().tolist())
+        
+        initial_date = pd.Timestamp(pd.read_sql('select DtHrIniSim from TAB_HORIZONTE', conn).iloc[0].values[0])
+        if initial_date.second == 1:
+            initial_date -= pd.Timedelta(seconds=1)
+
+        tasks = pd.read_sql('select * from REL_TAREFAS order by CdAtiv', conn)
+        if len(tasks) > 0:
+            self.A = {j: {l: dict() for l in range(self.L[j])} for j in range(self.n)}
+            for row in tasks.itertuples():
+                    if '.' in row.CdAtiv:
+                        jobOp = row.CdAtiv.split('#')[0]
+                        j = jobs.index(jobOp.split('.')[0])
+                        l = int(jobOp.split('.')[1])
+                        i = machines.index(row.CdMaq)
+                        task_date = pd.Timestamp(row.IniProc)
+                        self.A[j][l][i] = int((task_date - initial_date).total_seconds()/60)
+        conn.close()
 
     def create_random_uniform_tree_dependency(self,):
         G:nx.DiGraph
@@ -439,10 +496,12 @@ class Instance:
 
         return False
 
-    def plot_dep_graph(self):
+    def plot_dep_graph(self, path_write:str=None):
 
-
-        path = './results/graphs/'+self.name
+        if not path_write:
+            path = './results/graphs/'+self.name
+        else:
+            path = path_write+self.name
         if os.path.exists(path):
             # folder should be empty
             files = os.listdir(path)
@@ -479,13 +538,9 @@ class Instance:
 
 
 if __name__ == "__main__":
-    path = './instances-mdb/'
-    names = [f.split('.')[0] for f in os.listdir(path) if f.startswith('Fattahi')]
-    print(names)
-    for i, name in enumerate(names):
-        _instance = Instance.from_mdb(path, name)
-        idx = f'{i+1}'.rjust(2, '0')
-        ba = Instance.generate(f'BA_{idx}', './instances-json/instances-generated/', _instance.n, _instance.m, _instance.l, 'BAG', var_l=False, seed=0)
-        urt = Instance.generate(f'URT_{idx}', './instances-json/instances-generated/', _instance.n, _instance.m, _instance.l, 'URT', var_l=False, seed=0)
-        Instance.to_json(_instance, './instances-json/instances-benchmark/')
+
+    names = [file.split('.')[0] for file in os.listdir('./instances/json/generated/')]
+    for name in names:
+        Instance.to_mdb('./instances/test/', name, './instances/json/generated/')
+
     print('Done.')

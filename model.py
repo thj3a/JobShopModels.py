@@ -23,18 +23,20 @@ if __name__ == "__main__":
     log_console = True
     testing = True
     disable_setup = False
+    read_heuristic_solution = False
 
     time_limit_minutes = 60
     mip_focus = 0
     integrality_focus = 1
 
     instances_path = './instances/json/generated/'
+    heuristic_solution_path = './instances/mdb/generated/'
 
     print("Reading instances")
     # all_instances = [Instance.from_json(instances_path, file.split('.')[0]) for file in os.listdir(instances_path)]
     # all_instances = list(filter(lambda x: x.name=='MetalMeca', all_instances))
 
-    all_instances = [Instance.from_json(instances_path, 'URT_20')]
+    all_instances = [Instance.from_json(instances_path, 'URT_13')]
 
     for (idx, instance), objective in itertools.product(enumerate(all_instances), [obj for obj in Objective][1:]):
         start_time = time()
@@ -81,16 +83,17 @@ if __name__ == "__main__":
         s = model.addVars([(j,l,i) for j in range(instance.n) for l in range(instance.L[j]) for i in set(instance.R[j][l])],
                             vtype=GRB.CONTINUOUS, name='s')
         
-        # read initial solution
-        instance.read_heuristic_solution('./instances/mdb/generated/')
-        if len(instance.A) > 0:
-            for j in instance.A:
-                if len(instance.A[j]) > 0:
-                    for l in instance.A[j]:
-                        if len(instance.A[j][l]) > 0:
-                            for i in instance.A[j][l]:
-                                y[j,l,i].Start = 1
-                                s[j,l,i].Start = instance.A[j][l][i]
+        if read_heuristic_solution:
+            # read initial solution
+            instance.read_heuristic_solution(heuristic_solution_path)
+            if len(instance.A) > 0:
+                for j in instance.A:
+                    if len(instance.A[j]) > 0:
+                        for l in instance.A[j]:
+                            if len(instance.A[j][l]) > 0:
+                                for i in instance.A[j][l]:
+                                    y[j,l,i].Start = 1
+                                    s[j,l,i].Start = instance.A[j][l][i]
             
         
         if disable_setup:

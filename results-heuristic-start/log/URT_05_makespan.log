@@ -1,0 +1,51 @@
+
+Gurobi 10.0.1 (win64) logging started Sat Sep  9 14:28:31 2023
+
+Set parameter LogFile to value "results-heuristic-start//log/URT_05_makespan.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 52 rows, 49 columns and 170 nonzeros
+Model fingerprint: 0x53a516ab
+Variable types: 6 continuous, 43 integer (42 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+06]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+06]
+
+User MIP start produced solution with objective 619 (0.00s)
+Loaded user MIP start with objective 619
+
+Presolve removed 31 rows and 35 columns
+Presolve time: 0.02s
+Presolved: 21 rows, 14 columns, 60 nonzeros
+Variable types: 5 continuous, 9 integer (8 binary)
+Found heuristic solution: objective 618.0000000
+
+Root relaxation: objective 5.800000e+01, 7 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   58.00000    0    6  618.00000   58.00000  90.6%     -    0s
+H    0     0                     109.0000000   58.00000  46.8%     -    0s
+H    0     0                     101.0000000   58.00000  42.6%     -    0s
+     0     0  101.00000    0    5  101.00000  101.00000  0.00%     -    0s
+
+Cutting planes:
+  Implied bound: 4
+  Relax-and-lift: 3
+
+Explored 1 nodes (30 simplex iterations) in 0.04 seconds (0.00 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 4: 101 109 618 619 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.010000000000e+02, best bound 1.010000000000e+02, gap 0.0000%
+Warning: constraint name "precedence between 0,1 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: constraint name "precedence between 0,1 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default constraint names used to write mps file

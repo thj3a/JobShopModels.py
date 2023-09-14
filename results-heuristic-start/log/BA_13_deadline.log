@@ -1,0 +1,88 @@
+
+Gurobi 10.0.1 (win64) logging started Sat Sep  9 01:41:13 2023
+
+Set parameter LogFile to value "results-heuristic-start//log/BA_13_deadline.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 656 rows, 451 columns and 2653 nonzeros
+Model fingerprint: 0x7fafa1b3
+Model has 1 quadratic constraint
+Variable types: 54 continuous, 397 integer (396 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+06]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+01]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+06]
+
+Warning: Completing partial solution with 379 unfixed non-continuous variables out of 397
+User MIP start produced solution with objective 1076 (0.00s)
+Loaded user MIP start with objective 1076
+
+Presolve removed 81 rows and 168 columns
+Presolve time: 0.02s
+Presolved: 594 rows, 301 columns, 2647 nonzeros
+Variable types: 72 continuous, 229 integer (228 binary)
+
+Root relaxation: objective 0.000000e+00, 67 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.00000    0    4 1076.00000    0.00000   100%     -    0s
+H    0     0                      69.0000000    0.00000   100%     -    0s
+H    0     0                      65.0000000    0.00000   100%     -    0s
+H    0     0                      57.0000000    0.00000   100%     -    0s
+     0     0    0.00000    0    5   57.00000    0.00000   100%     -    0s
+     0     0    0.00000    0    3   57.00000    0.00000   100%     -    0s
+     0     0    0.00000    0    3   57.00000    0.00000   100%     -    0s
+H    0     0                      46.0000000    0.00000   100%     -    0s
+     0     0    0.00000    0    7   46.00000    0.00000   100%     -    0s
+     0     0    0.00000    0    9   46.00000    0.00000   100%     -    0s
+     0     0    0.00000    0   10   46.00000    0.00000   100%     -    0s
+     0     0    0.00000    0   13   46.00000    0.00000   100%     -    0s
+H    0     0                      45.0000000    0.00000   100%     -    0s
+     0     0    0.00000    0    2   45.00000    0.00000   100%     -    0s
+H    0     0                      37.0000000    0.00000   100%     -    0s
+     0     0    0.00000    0    6   37.00000    0.00000   100%     -    0s
+     0     0    0.00000    0    8   37.00000    0.00000   100%     -    0s
+     0     0    0.00000    0    9   37.00000    0.00000   100%     -    0s
+     0     0    0.00000    0    8   37.00000    0.00000   100%     -    0s
+     0     0    0.00000    0    8   37.00000    0.00000   100%     -    0s
+     0     2    0.00000    0    8   37.00000    0.00000   100%     -    0s
+H  149   144                      36.0000000    0.00000   100%  12.9    0s
+H 3185  1062                      34.0000000    0.00000   100%   4.3    0s
+H 3872  1085                      26.0000000    0.00000   100%   3.9    0s
+*10567  2696              71      22.0000000    0.00000   100%   7.1    2s
+*24523  6963              56      21.0000000    1.00000  95.2%   9.1    3s
+*29724  7986              61      20.0000000    1.00000  95.0%   9.8    3s
+ 42487 11945 infeasible   50        20.00000    1.00000  95.0%  11.9    5s
+*97864 20549              55      19.0000000    2.42857  87.2%  13.2    7s
+ 146027 25614    5.81250   47   17   19.00000    4.00000  78.9%  13.1   10s
+ 260515 30736   17.00000   60    4   19.00000    7.00000  63.2%  12.7   15s
+ 385608 28601 infeasible   51        19.00000   11.00000  42.1%  12.3   20s
+ 521011 18577 infeasible   58        19.00000   14.00000  26.3%  11.7   25s
+
+Cutting planes:
+  Learned: 4
+  Gomory: 3
+  Lift-and-project: 1
+  Cover: 1
+  Implied bound: 16
+  MIR: 2
+  Flow cover: 9
+
+Explored 619512 nodes (7013117 simplex iterations) in 28.64 seconds (20.36 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 10: 19 19 20 ... 45
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.900000000000e+01, best bound 1.900000000000e+01, gap 0.0000%
+Warning: constraint name "precedence between 0,2 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: constraint name "precedence between 0,2 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default constraint names used to write mps file

@@ -17,13 +17,16 @@ from colors import *
 from utils import *
 from instance import *
 
+import warnings
+warnings.filterwarnings('ignore')
+
 if __name__ == "__main__":
     save_output = True
     save_temp = False
-    log_console = True
-    testing = True
+    log_console = False
+    testing = False
     disable_setup = False
-    read_heuristic_solution = False
+    read_heuristic_solution = True
 
     time_limit_minutes = 60
     mip_focus = 0
@@ -31,19 +34,22 @@ if __name__ == "__main__":
 
     instances_path = './instances/json/generated/'
     heuristic_solution_path = './instances/mdb/generated/'
+    results_name = 'results-heuristic-start/'
 
     print("Reading instances")
-    # all_instances = [Instance.from_json(instances_path, file.split('.')[0]) for file in os.listdir(instances_path)]
-    # all_instances = list(filter(lambda x: x.name=='MetalMeca', all_instances))
-
-    all_instances = [Instance.from_json(instances_path, 'URT_13')]
-
-    for (idx, instance), objective in itertools.product(enumerate(all_instances), [obj for obj in Objective][1:]):
+    all_instances = [Instance.from_json(instances_path, file.split('.')[0]) for file in os.listdir(instances_path)]
+    # all_instances = list(filter(lambda x: x.name.endswith('URT_20'), all_instances))
+    # all_instances = [Instance.from_json(instances_path, 'URT_18')]
+    
+    running_list = list(itertools.product(all_instances, [obj for obj in Objective]))
+    running_list = running_list[69:]
+    for idx, (instance, objective) in enumerate(running_list):
         start_time = time()
 
         instance_name = instance.name + '_' + objective.value
         # Create empty model
-        model = Model("Model5")
+        model = Model("JobShopModel")
+        model.params.Seed = 1
         # model.params.OutputFlag = 0 # 0 to disable output
         model.params.LogToConsole = int(log_console) # 0 to disable console output
         # model.params.IntFeasTol = 1e-9
@@ -59,7 +65,7 @@ if __name__ == "__main__":
         # model.params.Heuristics=0.3
 
         # results_name = f'results-{time_limit}s-mipfocus{mip_focus}-integralityfocus{integrality_focus}'
-        results_name = 'results/'
+        
         if testing:
             results_name = './results-test/' + results_name
         create_paths(results_name)
@@ -68,7 +74,7 @@ if __name__ == "__main__":
 
         instance.M = int(1_000_000)
 
-        print(f"Instance {idx+1}/{len(all_instances)}: {instance_name}")
+        print(f"Instance {idx+1}/{len(running_list)}: {instance_name}")
         
         # Create variables
         print("     Creating variables and constraints")

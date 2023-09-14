@@ -33,7 +33,7 @@ class Instance:
     Q: dict # minimum starting time for each job j 
     R: dict # set of resources that can process operation l of job j
     U: dict # output edges for each vertex which represents an operation l of a job j 
-    # V: dict # input edges for each vertex which represents an operation l of a job j 
+    V: dict # input edges for each vertex which represents an operation l of a job j 
 
     heuristic_solution: list 
 
@@ -139,6 +139,7 @@ class Instance:
         instance.M = 10_000_000
         instance.L = {j: -1 for j in range(instance.n)}
         instance.U = {j: dict() for j in range(instance.n)}
+        instance.V = {j: dict() for j in range(instance.n)}
         instance.D = {j: -1 for j in range(instance.n)}
         instance.Q = {j: dict() for j in range(instance.n)}
         instance.R = {j: dict() for j in range(instance.n)}
@@ -230,20 +231,16 @@ class Instance:
 
         return instance
 
-    @classmethod
-    def to_json(cls, instance, path=None):
+    def to_json(self, path=None) -> None:
         if not path:
-            path = instance.path
-        json_data = json.dumps(instance, default=lambda o: o.__dict__, indent=4)
-        json.dump(json_data, open(path+instance.name+'.json', 'w'))
+            path = self.path
+        json_data = json.dumps(self, default=lambda o: o.__dict__, indent=4)
+        json.dump(json_data, open(path+self.name+'.json', 'w'))
     
-    @classmethod
-    def to_mdb(cls,
+    def to_mdb(self,
                          path_write:str, 
-                         instance_name:str, 
-                         path_read:str,
-                         ):
-        instance_db_full_path = os.path.join(path_write, instance_name+ '.mdb')
+                         ) -> None:
+        instance_db_full_path = os.path.join(path_write, self.name+ '.mdb')
         if not os.path.exists(instance_db_full_path):
             copyfile('./instances/mdb/DataModel.mdb', instance_db_full_path)
 
@@ -254,14 +251,11 @@ class Instance:
         conn = pyodbc.connect(conn_str)
         cursor = conn.cursor()
 
-        # Read instance
-        instance = cls.from_json(path_read, instance_name)
-        if len(string.ascii_uppercase) >= instance.n:
-            jobs = [string.ascii_uppercase[job] for job in range(instance.n)]
+        if len(string.ascii_uppercase) >= self.n:
+            jobs = [string.ascii_uppercase[job] for job in range(self.n)]
         else:
-            list_jobs = list(''.join(i) for i in  itertools.product(string.ascii_uppercase, string.ascii_uppercase))
-            jobs = [list_jobs[job] for job in range(instance.n)]
-
+            letters_list = list(''.join(letters) for letters in itertools.product(string.ascii_uppercase, string.ascii_uppercase))
+            jobs = [letters_list[job] for job in range(self.n)]
 
         # Write items
         cursor.execute("DELETE * FROM ACABADO;")
@@ -270,31 +264,34 @@ class Instance:
         cursor.execute("DELETE * FROM COMPRADO")
         conn.commit()
 
-        for j in range(instance.n):
+        for j in range(self.n):
             cursor.execute(f"INSERT INTO ACABADO (CdItem) VALUES ('{jobs[j]}');")
             cursor.execute(f"INSERT INTO ITEM (CdItem, CdTpItem, CdUnid) VALUES ('{jobs[j]}', '1', '-1');")
 
             conn.commit()
 
-        for j in range(instance.n):
-            ops_ini = set(range(instance.L[j]))
-            for l in range(instance.L[j]):
+        for j in range(self.n):
+            ops_ini = set(range(self.L[j]))
+            for l in range(self.L[j]):
                 cursor.execute(f"INSERT INTO ITEM (CdItem, CdTpItem, CdUnid) VALUES ('{jobs[j]}.{l}', '2', '-1');")
-                ops_ini -= set(instance.U[j][l])
+                ops_ini -= set(self.U[j][l])
+                
 
-            for l in instance.U[j]:
-                for k in instance.U[j][l]:
-                    cursor.execute(f"INSERT INTO ITEM_ESTRU (CdItemPai, CdItemFil, QtComp) VALUES ('{jobs[j]}.{k}', '{jobs[j]}.{l}', '1')")
+            for l in self.U[j]:
+                for k in self.U[j][l]:
+                    qtd_comp = len(self.U[j][l])
+                    cursor.execute(f"INSERT INTO ITEM_ESTRU (CdItemPai, CdItemFil, QtComp) VALUES ('{jobs[j]}.{k}', '{jobs[j]}.{l}', '{1/qtd_comp}')")
+
                 if l in ops_ini:
                     cursor.execute(f"INSERT INTO ITEM (CdItem, CdTpItem, CdUnid) VALUES ('MAT_{jobs[j]}.{l}', '3', '-1');")
                     cursor.execute(f"INSERT INTO COMPRADO (CdItem, FgCtrlDem) VALUES ('MAT_{jobs[j]}.{l}', '1')")
                     cursor.execute(f"INSERT INTO ITEM_ESTRU (CdItemPai, CdItemFil, QtComp) VALUES ('{jobs[j]}.{l}', 'MAT_{jobs[j]}.{l}', '1')")
-                if len(instance.U[j][l])==0:
+                if len(self.U[j][l])==0:
                     cursor.execute(f"INSERT INTO ITEM_ESTRU (CdItemPai, CdItemFil, QtComp) VALUES ('{jobs[j]}', '{jobs[j]}.{l}', '1')")
 
         cursor.execute("DELETE * FROM TAB_HORIZONTE")
         conn.commit()
-        cursor.execute(f"INSERT INTO TAB_HORIZONTE (Ordem, DtHrIniEntregasImp, DtHrFimEntregasImp, DtHrIniEntregasSim, DtHrFimEntregasSim, DtHrIniSim, DtHrFimSim, TmMinSim, TmMaxSim, TmMaxSemCarreg, PassoIni, FgAtraso, FgHoraPgto) VALUES ('1', '01/01/2022', '31/12/2022', '01/01/2022', '31/12/2022', '03/11/2022 00:02:00', '03/11/2022 23:59:59', '7884000', '15768000', '15768000', '60', '0', '0')")
+        cursor.execute(f"INSERT INTO TAB_HORIZONTE (Ordem, DtHrIniEntregasImp, DtHrFimEntregasImp, DtHrIniEntregasSim, DtHrFimEntregasSim, DtHrIniSim, DtHrFimSim, TmMinSim, TmMaxSim, TmMaxSemCarreg, PassoIni, FgAtraso, FgHoraPgto) VALUES ('1', '01/11/2022', '28/11/2022', '01/11/2022', '28/11/2022', '03/11/2022 00:02:00', '28/11/2022 23:59:59', '7884000', '15768000', '15768000', '3600', '0', '0')")
         conn.commit()
 
         initial_time = pd.to_datetime('03/11/2022 00:02:00', dayfirst=True)
@@ -309,19 +306,19 @@ class Instance:
         cursor.execute(f"INSERT INTO EXT_COMPRA (CdCompra, DsCompra, CdEmpresa, DtCompra) VALUES ('1', '-1', 'EMP01', '01/11/2022')")
 
         z = 1
-        for j in instance.Q:
-            ops_ini = set(range(instance.L[j]))
-            for l in range(instance.L[j]):
-                ops_ini -= set(instance.U[j][l])
+        for j in range(self.n):
+            ops_ini = set(range(self.L[j]))
+            for l in range(self.L[j]):
+                ops_ini -= set(self.U[j][l])
 
-            for l in range(instance.L[j]):
+            for l in range(self.L[j]):
                 if l in ops_ini:
                     data = initial_time
-                    if isinstance(instance.Q[j], int):
-                        data += pd.Timedelta(minutes=instance.Q[j])
+                    if isinstance(self.Q[j], int):
+                        data += pd.Timedelta(minutes=self.Q[j])
                     else:
-                        if l in instance.Q[j].keys():
-                            data += pd.Timedelta(minutes=instance.Q[j][l])
+                        if l in self.Q[j].keys():
+                            data += pd.Timedelta(minutes=self.Q[j][l])
                     
                     d = data.strftime('%d/%m/%Y')
                     h = data.strftime('%H:%M:%S')
@@ -333,7 +330,7 @@ class Instance:
         cursor.execute("DELETE * FROM EXT_PLANO_MESTRE")
         conn.commit()
         for j, job in enumerate(jobs):
-            deadline = initial_time + pd.Timedelta(minutes=instance.D[j])
+            deadline = initial_time + pd.Timedelta(minutes=self.D[j])
             cursor.execute(f"INSERT INTO EXT_PLANO_MESTRE (CdItem, DtEntrega, QtEntrega) VALUES ('{job}', '{deadline}', '1');")
             conn.commit()
 
@@ -343,7 +340,7 @@ class Instance:
         conn.commit()
         cursor.execute(f"INSERT INTO MAQUINA (CdMaq, CdCal, FgIlimit, QtCapac) VALUES ('999', 'HORARIO 1', '0', '-1');")
         conn.commit()
-        for i in range(instance.m):
+        for i in range(self.m):
             cursor.execute(f"INSERT INTO MAQUINA (CdMaq, CdCal, FgIlimit, QtCapac) VALUES ('{str(i).rjust(2, '0')}', 'HORARIO 1', '0', '-1');")
             conn.commit()
 
@@ -351,28 +348,28 @@ class Instance:
         cursor.execute("DELETE * FROM OPERACOES;")
         cursor.execute("DELETE * FROM ALTERNATIVAS;")
         conn.commit()
-        for j in instance.U:
+        for j in self.U:
             cursor.execute(f"INSERT INTO OPERACOES (CdItem, NuEstagio) VALUES ('{jobs[j]}', '1')")
             cursor.execute(f"INSERT INTO ALTERNATIVAS (CdItem, NuEstagio, Escopo, CdMaq, TempoPadrao, TaxaProd, TaxaProdUnid, ConsumoMaq, ClasseMaq, CdFerr) VALUES ('{jobs[j]}', '1', 'MAQ', '999', '0', '0', 'Horas/peca', '1', '1', '-1')")
             conn.commit()
-            for l in instance.U[j]:
+            for l in self.U[j]:
                 cursor.execute(f"INSERT INTO OPERACOES (CdItem, NuEstagio) VALUES ('{jobs[j]}.{l}', '1')")
                 conn.commit()
-                for i in set(instance.R[j][l]):
-                    cursor.execute(f"INSERT INTO ALTERNATIVAS (CdItem, NuEstagio, Escopo, CdMaq, TempoPadrao, TaxaProd, TaxaProdUnid, ConsumoMaq, ClasseMaq, CdFerr) VALUES ('{jobs[j]}.{l}', '1', 'MAQ', '{str(i).rjust(2, '0')}', '{instance.P[j][l][i]/60}', '{instance.P[j][l][i]/60}', 'Horas/peca', '1', '1', '-1')")
+                for i in set(self.R[j][l]):
+                    cursor.execute(f"INSERT INTO ALTERNATIVAS (CdItem, NuEstagio, Escopo, CdMaq, TempoPadrao, TaxaProd, TaxaProdUnid, ConsumoMaq, ClasseMaq, CdFerr) VALUES ('{jobs[j]}.{l}', '1', 'MAQ', '{str(i).rjust(2, '0')}', '{self.P[j][l][i]/60}', '{self.P[j][l][i]/60}', 'Horas/peca', '1', '1', '-1')")
                     conn.commit()
 
         # Write setups
         cursor.execute("DELETE * FROM SETUPS")
         conn.commit()
         # instance.O[j][l][h][k][i]
-        n_jobs = instance.n
-        for j in instance.O:
-            for l in instance.O[j]:
-                for h in instance.O[j][l]:
-                    for k in instance.O[j][l][h]:
-                        for i in instance.O[j][l][h][k]:
-                            cursor.execute(f"INSERT INTO SETUPS (Ordem, EscopoProdutoIn, ProdutoInCod, EscopoProdutoOut, ProdutoOutCod, EscopoRecurso, RecursoCod, Tempo, TempoSetupInverso) VALUES ('1', 'ATIV', '{jobs[h]}.{k}#1', 'ATIV', '{jobs[j]}.{l}#1', 'MAQ', '{str(i).rjust(2, '0')}', '{instance.O[j][l][h][k][i]/60}', '{instance.O[h][k][j][l][i]/60}')")
+        n_jobs = self.n
+        for j in self.O:
+            for l in self.O[j]:
+                for h in self.O[j][l]:
+                    for k in self.O[j][l][h]:
+                        for i in self.O[j][l][h][k]:
+                            cursor.execute(f"INSERT INTO SETUPS (Ordem, EscopoProdutoIn, ProdutoInCod, EscopoProdutoOut, ProdutoOutCod, EscopoRecurso, RecursoCod, Tempo, TempoSetupInverso) VALUES ('1', 'ATIV', '{jobs[h]}.{k}#1', 'ATIV', '{jobs[j]}.{l}#1', 'MAQ', '{str(i).rjust(2, '0')}', '{self.O[j][l][h][k][i]/60}', '{self.O[h][k][j][l][i]/60}')")
                             # cursor.execute(f"INSERT INTO SETUPS (Ordem, EscopoProdutoIn, ProdutoInCod, EscopoProdutoOut, ProdutoOutCod, EscopoRecurso, RecursoCod, Tempo, TempoSetupInverso) VALUES ('1', 'ATIV', '{jobs[j]}#{l+1}', 'ATIV', '{jobs[h]}#{k+1}', 'MAQ', '{str(i).rjust(2, '0')}', '{instance.O[h][k][j][l][i]/60}', '{instance.O[j][l][h][k][i]/60}')")
                             conn.commit()
 
@@ -518,7 +515,7 @@ class Instance:
             G.add_nodes_from(range(self.L[j]))
 
             # Add edges.
-            G.add_edges_from([(l, d) for l in self.U[j] for d in self.U[j][l]])
+            G.add_edges_from([(l, d) for l in self.U[j] for d in self.U[j][l] if len(self.U[j][l])>0])
 
             # Draw the graph
             pos = nx.spring_layout(G, )  # Graph layout
@@ -534,13 +531,27 @@ class Instance:
             plt.savefig(full_path)  # Save the figure
             plt.close()
 
+    def create_V(self,):
+        self.V = {j: dict() for j in range(self.n)}
+        for j in range(self.n):
+            for l in range(self.L[j]):
+                self.V[j][l] = []
+
+        for j in self.U:
+            for l in self.U[j]:
+                for k in self.U[j][l]:
+                    self.V[j][k] += [l]
+
         
 
 
 if __name__ == "__main__":
 
     names = [file.split('.')[0] for file in os.listdir('./instances/json/generated/')]
+    # names = list(filter(lambda x: x=='BA_20', names))
     for name in names:
-        Instance.to_mdb('./instances/test/', name, './instances/json/generated/')
-
+        _instance = Instance.from_json('./instances/json/generated/', name)
+        # _instance.plot_dep_graph('./results/graphs/')
+        _instance.to_mdb('./instances/test/')
+        print(f'Instance {_instance.name} done.')
     print('Done.')

@@ -1,0 +1,56 @@
+
+Gurobi 10.0.1 (win64) logging started Sat Sep 16 16:57:05 2023
+
+Set parameter LogFile to value "./results-heuristic-start//log/Fattahi_setup_02_modified_old_deadline.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 43 rows, 32 columns and 137 nonzeros
+Model fingerprint: 0x12b3ce03
+Model has 1 quadratic constraint
+Variable types: 6 continuous, 26 integer (25 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+06]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 4e+02]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+06]
+
+User MIP start did not produce a new incumbent solution
+User MIP start violates constraint initial_start_time_job0_stage0_machine0_constraint by 226.000000000
+
+Presolve removed 17 rows and 16 columns
+Presolve time: 0.00s
+Presolved: 30 rows, 18 columns, 104 nonzeros
+Variable types: 8 continuous, 10 integer (9 binary)
+Found heuristic solution: objective 445.0000000
+
+Root relaxation: objective 0.000000e+00, 8 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.00000    0    3  445.00000    0.00000   100%     -    0s
+Another try with MIP start
+H    0     0                     379.0000000  171.00000  54.9%     -    0s
+     0     0  171.00000    0    2  379.00000  171.00000  54.9%     -    0s
+
+Cutting planes:
+  Learned: 2
+  Implied bound: 2
+  RLT: 1
+  Relax-and-lift: 1
+
+Explored 1 nodes (10 simplex iterations) in 0.00 seconds (0.00 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 2: 379 445 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.790000000000e+02, best bound 3.790000000000e+02, gap 0.0000%
+Warning: constraint name "precedence between 0,1 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: constraint name "precedence between 0,1 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default constraint names used to write mps file

@@ -32,9 +32,11 @@ class Instance:
     P: dict # processing time of operation l of job j on machine i
     Q: dict # minimum starting time for each job j 
     R: dict # set of resources that can process operation l of job j
-    U: dict # output edges for each vertex which represents an operation l of a job j 
+    U: dict # output edges for each vertex which represents an operation l of a job j
     V: dict # input edges for each vertex which represents an operation l of a job j 
 
+    proc_times: list
+    setup_times: list
     heuristic_solution: list 
 
     rng: random.Random
@@ -99,6 +101,9 @@ class Instance:
                                             parse_int=int,
                                             ))
             # instance.plot_dep_graph()
+            instance.proc_times = [x for j in instance.P for l in instance.P[j] for x in instance.P[j][l].values()]
+            instance.setup_times = [x for j in instance.O for l in instance.O[j] for h in instance.O[j][l] for k in instance.O[j][l][h] for x in instance.O[j][l][h][k].values()]
+        
             return instance
         
     @classmethod
@@ -224,10 +229,11 @@ class Instance:
                     maq = machines.index(row.RecursoCod)
                     instance.O[j][l][h][k][maq] = int(row.TempoSetupInverso*60)
                     instance.O[h][k][j][l][maq] = int(row.Tempo*60)
-        
+        else:
+            instance.O = {j: {l: {h: {k: {maq: rng.randint(1,5)*rng.randint(min(proc_times), max(proc_times)) for maq in range(len(machines))} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
 
-
-        instance.O = {j: {l: {h: {k: {maq: rng.randint(1,5)*rng.randint(min(proc_times), max(proc_times)) for maq in range(len(machines))} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
+        instance.proc_times = [x for j in instance.P for l in instance.P[j] for x in instance.P[j][l].values()]
+        instance.setup_times = [x for j in instance.O for l in instance.O[j] for h in instance.O[j][l] for k in instance.O[j][l][h] for x in instance.O[j][l][h][k].values()]
 
         return instance
 
@@ -542,15 +548,15 @@ class Instance:
                 for k in self.U[j][l]:
                     self.V[j][k] += [l]
 
-        
+
 
 
 if __name__ == "__main__":
+    folder_instances = './instances/json/realworld/'
+    names = [file.split('.')[0] for file in os.listdir(folder_instances)]
 
-    names = [file.split('.')[0] for file in os.listdir('./instances/json/generated/')]
-    # names = list(filter(lambda x: x=='BA_20', names))
     for name in names:
-        _instance = Instance.from_json('./instances/json/generated/', name)
+        _instance = Instance.from_json(folder_instances, name)
         # _instance.plot_dep_graph('./results/graphs/')
         _instance.to_mdb('./instances/test/')
         print(f'Instance {_instance.name} done.')

@@ -1,0 +1,50 @@
+
+Gurobi 10.0.1 (win64) logging started Fri Oct  6 16:53:13 2023
+
+Set parameter LogFile to value "./results//log/URT_04_makespan_heurTrue.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 44 rows, 49 columns and 129 nonzeros
+Model fingerprint: 0x55fec0bd
+Variable types: 0 continuous, 49 integer (42 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+07]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+07]
+
+User MIP start did not produce a new incumbent solution
+User MIP start violates constraint initial_start_time_job0_stage0_machine0_constraint by 1.000000000
+
+Found heuristic solution: objective 93.0000000
+Presolve removed 31 rows and 39 columns
+Presolve time: 0.00s
+Presolved: 13 rows, 10 columns, 34 nonzeros
+Variable types: 0 continuous, 10 integer (4 binary)
+
+Root relaxation: objective 4.800000e+01, 4 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   48.00000    0    4   93.00000   48.00000  48.4%     -    0s
+H    0     0                      87.0000000   66.00000  24.1%     -    0s
+H    0     0                      77.0000000   66.00000  14.3%     -    0s
+     0     0   77.00000    0    2   77.00000   77.00000  0.00%     -    0s
+
+Cutting planes:
+  Implied bound: 4
+
+Explored 1 nodes (13 simplex iterations) in 0.04 seconds (0.00 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 3: 77 87 93 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 7.700000000000e+01, best bound 7.700000000000e+01, gap 0.0000%
+Warning: constraint name "precedence between 0,0 to 1,0 if x_[0,0,1,0,1]=0, i.e. 1,0 before 0,0" has a space
+Warning: constraint name "precedence between 0,0 to 1,0 if x_[0,0,1,0,1]=0, i.e. 1,0 before 0,0" has a space
+Warning: default constraint names used to write mps file

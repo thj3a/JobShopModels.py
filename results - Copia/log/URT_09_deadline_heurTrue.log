@@ -1,0 +1,57 @@
+
+Gurobi 10.0.1 (win64) logging started Fri Oct  6 18:53:36 2023
+
+Set parameter LogFile to value "./results//log/URT_09_deadline_heurTrue.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 103 rows, 103 columns and 351 nonzeros
+Model fingerprint: 0xf8f3a1ba
+Model has 1 quadratic constraint
+Variable types: 0 continuous, 103 integer (93 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+07]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 5e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+07]
+
+User MIP start did not produce a new incumbent solution
+User MIP start violates constraint initial_start_time_job1_stage0_machine2_constraint by 1.000000000
+
+Presolve removed 60 rows and 77 columns
+Presolve time: 0.00s
+Presolved: 43 rows, 26 columns, 124 nonzeros
+Variable types: 0 continuous, 26 integer (18 binary)
+
+Root relaxation: objective 5.400000e+01, 10 iterations, 0.00 seconds (0.00 work units)
+Another try with MIP start
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+H    0     0                     136.0000000   54.00000  60.3%     -    0s
+     0     0   54.00000    0    7  136.00000   54.00000  60.3%     -    0s
+H    0     0                     112.0000000   54.00000  51.8%     -    0s
+     0     0   70.00000    0    8  112.00000   70.00000  37.5%     -    0s
+
+Cutting planes:
+  Implied bound: 1
+  MIR: 3
+  StrongCG: 2
+  RLT: 3
+  Relax-and-lift: 4
+
+Explored 1 nodes (31 simplex iterations) in 0.05 seconds (0.00 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 2: 112 136 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.120000000000e+02, best bound 1.120000000000e+02, gap 0.0000%
+Warning: constraint name "precedence between 0,0 to 0,1 if x_[0,0,0,1,1]=0, i.e. 0,1 before 0,0" has a space
+Warning: constraint name "precedence between 0,0 to 0,1 if x_[0,0,0,1,1]=0, i.e. 0,1 before 0,0" has a space
+Warning: default constraint names used to write mps file

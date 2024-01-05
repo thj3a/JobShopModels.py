@@ -1,0 +1,80 @@
+
+Gurobi 10.0.1 (win64) logging started Thu Oct  5 12:31:54 2023
+
+Set parameter LogFile to value "./results//log/BA_11_makespan_heurFalse.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 266 rows, 286 columns and 1001 nonzeros
+Model fingerprint: 0x7c87ae30
+Variable types: 0 continuous, 286 integer (255 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+07]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+07]
+Found heuristic solution: objective 142.0000000
+Presolve removed 56 rows and 171 columns
+Presolve time: 0.00s
+Presolved: 210 rows, 115 columns, 897 nonzeros
+Variable types: 0 continuous, 115 integer (85 binary)
+Found heuristic solution: objective 140.0000000
+
+Root relaxation: objective 3.800000e+01, 52 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   38.00000    0    3  140.00000   38.00000  72.9%     -    0s
+H    0     0                     139.0000000   38.00000  72.7%     -    0s
+H    0     0                     110.0000000   38.00000  65.5%     -    0s
+     0     0   39.00000    0   16  110.00000   39.00000  64.5%     -    0s
+H    0     0                     106.0000000   39.00000  63.2%     -    0s
+     0     0   39.17918    0   33  106.00000   39.17918  63.0%     -    0s
+     0     0   41.11925    0   26  106.00000   41.11925  61.2%     -    0s
+H    0     0                     105.0000000   41.11925  60.8%     -    0s
+H    0     0                      92.0000000   41.11925  55.3%     -    0s
+     0     0   41.13407    0   32   92.00000   41.13407  55.3%     -    0s
+     0     0   41.15862    0   32   92.00000   41.15862  55.3%     -    0s
+     0     0   41.53385    0   39   92.00000   41.53385  54.9%     -    0s
+     0     0   41.53385    0   36   92.00000   41.53385  54.9%     -    0s
+     0     0   42.30829    0   27   92.00000   42.30829  54.0%     -    0s
+     0     0   42.57079    0   34   92.00000   42.57079  53.7%     -    0s
+     0     0   42.57079    0   34   92.00000   42.57079  53.7%     -    0s
+     0     0   43.01151    0   35   92.00000   43.01151  53.2%     -    0s
+     0     0   43.01151    0   36   92.00000   43.01151  53.2%     -    0s
+     0     0   43.03068    0   33   92.00000   43.03068  53.2%     -    0s
+     0     0   43.03123    0   36   92.00000   43.03123  53.2%     -    0s
+     0     0   43.03123    0   30   92.00000   43.03123  53.2%     -    0s
+     0     0   43.03123    0   34   92.00000   43.03123  53.2%     -    0s
+     0     0   43.03123    0   33   92.00000   43.03123  53.2%     -    0s
+     0     0   43.03123    0   29   92.00000   43.03123  53.2%     -    0s
+H    0     0                      87.0000000   43.03123  50.5%     -    0s
+     0     0   43.03123    0   22   87.00000   43.03123  50.5%     -    0s
+     0     0   43.03123    0   33   87.00000   43.03123  50.5%     -    0s
+     0     0   43.03123    0   30   87.00000   43.03123  50.5%     -    0s
+     0     0   43.03123    0   22   87.00000   43.03123  50.5%     -    0s
+     0     2   43.10082    0   22   87.00000   43.10082  50.5%     -    0s
+H   38    39                      81.0000000   46.58226  42.5%  23.9    0s
+
+Cutting planes:
+  Learned: 51
+  Gomory: 36
+  MIR: 70
+  StrongCG: 12
+  Flow cover: 165
+  Zero half: 3
+  RLT: 5
+
+Explored 17952 nodes (69388 simplex iterations) in 1.13 seconds (0.60 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 9: 81 87 92 ... 142
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 8.100000000000e+01, best bound 8.100000000000e+01, gap 0.0000%
+Warning: constraint name "precedence between 0,0 to 0,2 if x_[0,0,0,2,3]=0, i.e. 0,2 before 0,0" has a space
+Warning: constraint name "precedence between 0,0 to 0,2 if x_[0,0,0,2,3]=0, i.e. 0,2 before 0,0" has a space
+Warning: default constraint names used to write mps file

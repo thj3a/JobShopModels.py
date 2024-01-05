@@ -1,3 +1,5 @@
 # pycache
 *.pyc
 .\__pycache__
+# zip files
+*.zip

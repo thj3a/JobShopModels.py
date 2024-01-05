@@ -1,0 +1,52 @@
+
+Gurobi 10.0.1 (win64) logging started Sat Jul 15 19:00:31 2023
+
+Set parameter LogFile to value "results-1000001s-mipfocus0-integralityfocus1/log/MetalMeca_deadline.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 18677 rows, 88153 columns and 88357 nonzeros
+Model fingerprint: 0x09b7eaf7
+Model has 1 quadratic constraint
+Variable types: 0 continuous, 88153 integer (87609 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+08]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 2e+04]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+08]
+Presolve removed 948 rows and 82761 columns
+Presolve time: 0.20s
+Presolved: 17771 rows, 5433 columns, 77903 nonzeros
+Variable types: 0 continuous, 5433 integer (4848 binary)
+
+Root relaxation: objective 0.000000e+00, 1655 iterations, 0.03 seconds (0.05 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.00000    0   81          -    0.00000      -     -    0s
+     0     0    0.00000    0  167          -    0.00000      -     -    1s
+     0     0    0.00000    0  199          -    0.00000      -     -    1s
+
+Cutting planes:
+  Learned: 48
+  Cover: 1
+  Implied bound: 10
+  Flow cover: 6
+  RLT: 3
+  Relax-and-lift: 16
+
+Explored 1 nodes (6761 simplex iterations) in 1.47 seconds (1.21 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 0
+
+Solve interrupted
+Best objective -, best bound 0.000000000000e+00, gap -
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: constraint name "precedence between 1,0 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default constraint names used to write mps file

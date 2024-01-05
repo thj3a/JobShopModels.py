@@ -1,0 +1,54 @@
+
+Gurobi 10.0.1 (win64) logging started Wed Aug 23 14:53:00 2023
+
+Set parameter LogFile to value "./results-test/results-3600s-mipfocus0-integralityfocus1/log/BA_04_makespan.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: 12th Gen Intel(R) Core(TM) i7-12700, instruction set [SSE2|AVX|AVX2]
+Thread count: 12 physical cores, 20 logical processors, using up to 20 threads
+
+Optimize a model with 64 rows, 49 columns and 230 nonzeros
+Model fingerprint: 0x77ffc74c
+Variable types: 6 continuous, 43 integer (42 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+06]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+06]
+Found heuristic solution: objective 140.0000000
+Presolve removed 33 rows and 30 columns
+Presolve time: 0.00s
+Presolved: 31 rows, 19 columns, 88 nonzeros
+Variable types: 6 continuous, 13 integer (12 binary)
+
+Root relaxation: objective 5.900000e+01, 11 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   59.00000    0    5  140.00000   59.00000  57.9%     -    0s
+H    0     0                     106.0000000   59.00000  44.3%     -    0s
+     0     0   63.00002    0    7  106.00000   63.00002  40.6%     -    0s
+     0     0   71.00000    0    6  106.00000   71.00000  33.0%     -    0s
+     0     0   80.00000    0    5  106.00000   80.00000  24.5%     -    0s
+     0     0   85.00000    0    9  106.00000   85.00000  19.8%     -    0s
+     0     0   98.00000    0    7  106.00000   98.00000  7.55%     -    0s
+     0     0   98.00000    0    8  106.00000   98.00000  7.55%     -    0s
+     0     0   98.00000    0    9  106.00000   98.00000  7.55%     -    0s
+
+Cutting planes:
+  Implied bound: 6
+  MIR: 8
+  RLT: 3
+  Relax-and-lift: 7
+
+Explored 1 nodes (89 simplex iterations) in 0.02 seconds (0.00 work units)
+Thread count was 20 (of 20 available processors)
+
+Solution count 2: 106 140 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.060000000000e+02, best bound 1.060000000000e+02, gap 0.0000%
+Warning: constraint name "precedence between 0,1 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: constraint name "precedence between 0,1 to 0,0 if x_[j,l,h,z,i]=1" has a space
+Warning: default constraint names used to write mps file

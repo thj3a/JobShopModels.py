@@ -1,0 +1,79 @@
+
+Gurobi 10.0.1 (win64) logging started Fri Oct  6 18:53:34 2023
+
+Set parameter LogFile to value "./results//log/URT_08_deadline_heurTrue.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 183 rows, 124 columns and 658 nonzeros
+Model fingerprint: 0x88b1a730
+Model has 1 quadratic constraint
+Variable types: 0 continuous, 124 integer (105 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+07]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 7e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+07]
+
+User MIP start did not produce a new incumbent solution
+User MIP start violates constraint initial_start_time_job0_stage0_machine3_constraint by 2.000000000
+
+Presolve removed 43 rows and 51 columns
+Presolve time: 0.00s
+Presolved: 147 rows, 79 columns, 625 nonzeros
+Variable types: 0 continuous, 79 integer (54 binary)
+
+Root relaxation: objective 0.000000e+00, 24 iterations, 0.00 seconds (0.00 work units)
+Another try with MIP start
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.00000    0    6          -    0.00000      -     -    0s
+H    0     0                      98.0000000    0.00000   100%     -    0s
+H    0     0                      56.0000000    0.00000   100%     -    0s
+H    0     0                      43.0000000    0.00000   100%     -    0s
+     0     0    0.00000    0    2   43.00000    0.00000   100%     -    0s
+H    0     0                      41.0000000    0.00000   100%     -    0s
+H    0     0                      36.0000000    0.00000   100%     -    0s
+H    0     0                      35.0000000    0.00000   100%     -    0s
+H    0     0                      33.0000000    0.00000   100%     -    0s
+H    0     0                      29.0000000    0.00000   100%     -    0s
+     0     0    0.00000    0    9   29.00000    0.00000   100%     -    0s
+     0     0    0.00000    0    9   29.00000    0.00000   100%     -    0s
+     0     0    0.00000    0    2   29.00000    0.00000   100%     -    0s
+     0     0    9.00000    0    1   29.00000    9.00000  69.0%     -    0s
+     0     0   11.00000    0    3   29.00000   11.00000  62.1%     -    0s
+     0     0   11.37817    0   13   29.00000   11.37817  60.8%     -    0s
+     0     0   12.20804    0   15   29.00000   12.20804  57.9%     -    0s
+     0     0   12.74237    0   17   29.00000   12.74237  56.1%     -    0s
+     0     0   12.74237    0   18   29.00000   12.74237  56.1%     -    0s
+     0     0   15.45455    0   17   29.00000   15.45455  46.7%     -    0s
+     0     0   15.47385    0   24   29.00000   15.47385  46.6%     -    0s
+     0     0   20.08333    0   24   29.00000   20.08333  30.7%     -    0s
+     0     0   20.08333    0   24   29.00000   20.08333  30.7%     -    0s
+     0     0   20.08333    0   24   29.00000   20.08333  30.7%     -    0s
+
+Cutting planes:
+  Learned: 1
+  Cover: 1
+  MIR: 2
+  StrongCG: 1
+  Flow cover: 1
+  Mod-K: 1
+  RLT: 5
+
+Explored 1 nodes (367 simplex iterations) in 0.37 seconds (0.02 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 8: 29 33 35 ... 98
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.900000000000e+01, best bound 2.900000000000e+01, gap 0.0000%
+Warning: constraint name "precedence between 0,0 to 0,1 if x_[0,0,0,1,1]=0, i.e. 0,1 before 0,0" has a space
+Warning: constraint name "precedence between 0,0 to 0,1 if x_[0,0,0,1,1]=0, i.e. 0,1 before 0,0" has a space
+Warning: default constraint names used to write mps file

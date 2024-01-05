@@ -1,0 +1,21 @@
+\ Model JobShopModel_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+Minimize
+ 
+Subject To
+ assignment_job30_stage0_constraint: y[30,0,20] = 1
+ assignment_job37_stage0_constraint: y[37,0,20] = 1
+ precedence_between_30,0_to_37,0_if_x_[30,0,37,0,20]=0,_i.e._37,0_before_30,0:
+   - 1e+07 y[30,0,20] - 1e+07 y[37,0,20] + 1e+07 x[30,0,37,0] - s[30,0,20]
+   + s[37,0,20] >= -9.673363e+06
+ precedence_between_37,0_to_30,0_if_x_[30,0,37,0,20]=1,_i.e._30,0_before_37,0:
+   - 1e+07 y[30,0,20] - 1e+07 y[37,0,20] - 1e+07 x[30,0,37,0] + s[30,0,20]
+   - s[37,0,20] >= -2.4933097e+07
+Bounds
+ s[30,0,20] free
+ s[37,0,20] free
+Binaries
+ y[30,0,20] y[37,0,20] x[30,0,37,0]
+Generals
+ s[30,0,20] s[37,0,20]
+End

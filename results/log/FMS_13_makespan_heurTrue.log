@@ -1,0 +1,98 @@
+
+Gurobi 10.0.1 (win64) logging started Sun Oct  8 10:20:40 2023
+
+Set parameter LogFile to value "./results//log/FMS_13_makespan_heurTrue.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 466 rows, 421 columns and 1972 nonzeros
+Model fingerprint: 0xea49777e
+Variable types: 0 continuous, 421 integer (372 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+07]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+07]
+
+Warning: Completing partial solution with 385 unfixed non-continuous variables out of 421
+User MIP start did not produce a new incumbent solution
+User MIP start violates constraint initial_start_time_job0_stage0_machine2_constraint by 420.000000000
+
+Presolve removed 55 rows and 220 columns
+Presolve time: 0.00s
+Presolved: 411 rows, 201 columns, 1867 nonzeros
+Variable types: 0 continuous, 201 integer (153 binary)
+
+Root relaxation: objective 4.867000e+03, 84 iterations, 0.00 seconds (0.00 work units)
+Another try with MIP start
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+H    0     0                    9931.0000000 4867.00000  51.0%     -    0s
+     0     0 4867.00000    0   26 9931.00000 4867.00000  51.0%     -    0s
+H    0     0                    9779.0000000 4867.00000  50.2%     -    0s
+H    0     0                    9286.0000000 4942.00000  46.8%     -    0s
+H    0     0                    9282.0000000 4942.00000  46.8%     -    0s
+H    0     0                    9142.0000000 4942.00000  45.9%     -    0s
+H    0     0                    9071.0000000 4942.00000  45.5%     -    0s
+     0     0 4942.00000    0   27 9071.00000 4942.00000  45.5%     -    0s
+     0     0 4942.00000    0   40 9071.00000 4942.00000  45.5%     -    0s
+     0     0 4942.00000    0   44 9071.00000 4942.00000  45.5%     -    0s
+     0     0 4942.00000    0   45 9071.00000 4942.00000  45.5%     -    0s
+     0     0 4942.00000    0   45 9071.00000 4942.00000  45.5%     -    0s
+     0     0 4942.05172    0   41 9071.00000 4942.05172  45.5%     -    0s
+     0     0 4942.53955    0   43 9071.00000 4942.53955  45.5%     -    0s
+     0     0 4942.53955    0   44 9071.00000 4942.53955  45.5%     -    0s
+     0     0 4942.63180    0   44 9071.00000 4942.63180  45.5%     -    0s
+H    0     0                    8410.0000000 4942.63180  41.2%     -    0s
+     0     0 4944.00000    0   47 8410.00000 4944.00000  41.2%     -    0s
+     0     0 4944.00000    0   44 8410.00000 4944.00000  41.2%     -    0s
+     0     0 4944.00000    0   44 8410.00000 4944.00000  41.2%     -    0s
+     0     0 4944.00000    0   49 8410.00000 4944.00000  41.2%     -    0s
+     0     0 4944.48369    0   49 8410.00000 4944.48369  41.2%     -    0s
+     0     0 4945.00000    0   49 8410.00000 4945.00000  41.2%     -    0s
+     0     0 4945.00000    0   49 8410.00000 4945.00000  41.2%     -    0s
+     0     2 4945.00000    0   49 8410.00000 4945.00000  41.2%     -    0s
+H  599   484                    7989.0000000 4945.00000  38.1%   4.5    1s
+H 1935  1048                    7975.0000000 5001.23542  37.3%   0.7    1s
+H10559  4897                    7495.0000000 5039.40708  32.8%   3.5    2s
+*41490 19434              56    7454.0000000 5468.26250  26.6%   4.0    3s
+ 45118 20632 7299.00000   46   66 7454.00000 5484.59020  26.4%   4.0    5s
+ 86504 22542     cutoff   73      7454.00000 5644.26103  24.3%   5.0   10s
+ 192250 42770 6125.16375   61   26 7454.00000 6104.92139  18.1%   5.2   15s
+*219738 47555              75    7412.0000000 6176.13130  16.7%   5.2   16s
+H220078 43641                    7315.0000000 6178.93422  15.5%   5.2   16s
+ 296837 54915 infeasible   68      7315.00000 6329.56267  13.5%   5.2   20s
+ 389399 64500     cutoff   61      7315.00000 6480.05053  11.4%   5.3   25s
+ 471589 68876 infeasible   74      7315.00000 6594.33595  9.85%   5.3   30s
+ 556731 71363 7091.00000   64    9 7315.00000 6695.19814  8.47%   5.3   35s
+ 649100 70770 6797.71337   71   12 7315.00000 6785.77433  7.23%   5.3   40s
+H671222 63583                    7247.0000000 6806.14374  6.08%   5.3   41s
+ 733289 59086 6874.07953   61   20 7247.00000 6871.35200  5.18%   5.2   45s
+ 813661 50333     cutoff   63      7247.00000 6960.18135  3.96%   5.2   50s
+ 892004 39240     cutoff   62      7247.00000 7043.00000  2.81%   5.2   55s
+ 955301 28161 7184.00000   69    5 7247.00000 7105.30719  1.96%   5.2   60s
+ 1020900  9695     cutoff   70      7247.00000 7187.00000  0.83%   5.2   65s
+
+Cutting planes:
+  Learned: 1
+  Gomory: 12
+  Implied bound: 2
+  MIR: 11
+  Flow cover: 14
+  RLT: 3
+  Relax-and-lift: 1
+
+Explored 1037148 nodes (5357205 simplex iterations) in 66.13 seconds (15.25 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 10: 7247 7315 7412 ... 9142
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 7.247000000000e+03, best bound 7.247000000000e+03, gap 0.0000%
+Warning: constraint name "precedence between 0,0 to 0,1 if x_[0,0,0,1,3]=0, i.e. 0,1 before 0,0" has a space
+Warning: constraint name "precedence between 0,0 to 0,1 if x_[0,0,0,1,3]=0, i.e. 0,1 before 0,0" has a space
+Warning: default constraint names used to write mps file

@@ -1,0 +1,42 @@
+
+Gurobi 10.0.1 (win64) logging started Thu Oct  5 12:31:31 2023
+
+Set parameter LogFile to value "./results//log/BA_01_deadline_heurTrue.log"
+Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
+
+CPU model: AMD Ryzen 7 3700X 8-Core Processor, instruction set [SSE2|AVX|AVX2]
+Thread count: 8 physical cores, 16 logical processors, using up to 16 threads
+
+Optimize a model with 32 rows, 27 columns and 83 nonzeros
+Model fingerprint: 0x45181ef8
+Model has 1 quadratic constraint
+Variable types: 0 continuous, 27 integer (22 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+07]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 4e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+07]
+
+User MIP start did not produce a new incumbent solution
+User MIP start violates constraint initial_start_time_job0_stage0_machine1_constraint by 2.000000000
+
+Presolve removed 24 rows and 20 columns
+Presolve time: 0.00s
+Presolved: 8 rows, 7 columns, 21 nonzeros
+Variable types: 0 continuous, 7 integer (2 binary)
+Found heuristic solution: objective 41.0000000
+Found heuristic solution: objective 39.0000000
+Found heuristic solution: objective 28.0000000
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds (0.00 work units)
+Thread count was 16 (of 16 available processors)
+
+Solution count 3: 28 39 41 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.800000000000e+01, best bound 2.800000000000e+01, gap 0.0000%
+Warning: constraint name "precedence between 0,0 to 0,1 if x_[0,0,0,1,1]=0, i.e. 0,1 before 0,0" has a space
+Warning: constraint name "precedence between 0,0 to 0,1 if x_[0,0,0,1,1]=0, i.e. 0,1 before 0,0" has a space
+Warning: default constraint names used to write mps file

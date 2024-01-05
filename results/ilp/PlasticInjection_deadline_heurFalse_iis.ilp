@@ -1,0 +1,14 @@
+\ Model JobShopModel_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+Minimize
+ 
+Subject To
+ auxiliaryOF_constraint: 1.00518e+07 y[30,0,20] + s[30,0,20] - 1e+07 C7014
+   <= 960
+ assignment_job30_stage0_constraint: y[30,0,20] = 1
+Bounds
+Binaries
+ y[30,0,20] C7014
+Generals
+ s[30,0,20]
+End

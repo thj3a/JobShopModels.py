@@ -16,6 +16,8 @@ cycler==0.11.0
 debugpy==1.6.7
 decorator==5.1.1
 defusedxml==0.7.1
+docplex==2.27.239
+exceptiongroup==1.2.1
 executing==1.2.0
 fastjsonschema==2.17.1
 fonttools==4.39.4
@@ -51,6 +53,7 @@ nbclient==0.8.0
 nbconvert==7.4.0
 nbformat==5.8.0
 nest-asyncio==1.5.6
+networkx==3.3
 notebook==6.5.4
 notebook_shim==0.2.3
 numpy==1.24.3
@@ -60,6 +63,7 @@ pandas==2.0.2
 pandocfilters==1.5.0
 param==1.13.0
 parso==0.8.3
+pexpect==4.9.0
 pickleshare==0.7.5
 Pillow==9.5.0
 platformdirs==3.5.1
@@ -67,6 +71,7 @@ plotly==5.14.1
 prometheus-client==0.17.0
 prompt-toolkit==3.0.38
 psutil==5.9.5
+ptyprocess==0.7.0
 pure-eval==0.2.2
 pycparser==2.21
 pyct==0.5.0
@@ -77,8 +82,6 @@ pyrsistent==0.19.3
 python-dateutil==2.8.2
 python-json-logger==2.0.7
 pytz==2023.3
-pywin32==306
-pywinpty==2.0.10
 PyYAML==6.0
 pyzmq==25.1.0
 qtconsole==5.4.3

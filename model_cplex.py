@@ -134,7 +134,7 @@ if __name__ == "__main__":
         if save_output:
             model.export(f"{results_name}/lp/{instance_name}.lp")
             model.export(f"{results_name}/mps/{instance_name}.mps")
-            solution.export_as_mst(f"{results_name}/json/{instance_name}.json")
+            solution.export_as_mst(path=f"{results_name}/json/", base_name=f"{instance_name}", use_full_path=True, use_mst_format=True)
 
         if solution:
             print(f"     {bcolors.blueback}Optimal Solution found{bcolors.end}")

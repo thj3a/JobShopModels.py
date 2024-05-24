@@ -76,21 +76,13 @@ if __name__ == "__main__":
         
         # Create variables
         print("     Creating variables and constraints")
-        
-
-        for j in range(instance.n):
-            print(instance.L)
-            for l in range(instance.L[j]):
-                for i in set(instance.R[j][l]):
-                    print(f"         Creating variable for job {j}, stage {l}, machine {i}")
-        
+               
         y = model.addVars([(j,l,i) for j in range(instance.n) for l in range(instance.L[j]) for i in set(instance.R[j][l])],
                             vtype=GRB.BINARY, name='y')
         x = model.addVars([(j,l,h,k) for j in range(instance.n) for l in range(instance.L[j]) for h in range(instance.n) for k in range(instance.L[h])],
                             vtype=GRB.BINARY, name='x')
         s = model.addVars([(j,l,i) for j in range(instance.n) for l in range(instance.L[j]) for i in set(instance.R[j][l])],
                             vtype=GRB.CONTINUOUS, name='s')
-            
             
             
         #### MATHEMATICAL MODEL ####

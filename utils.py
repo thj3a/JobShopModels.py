@@ -1,7 +1,8 @@
 import os
 
 def create_paths(results_name):
-    paths = [f'./{results_name}/', 
+    paths = [
+         f'{results_name}/', 
          f'./{results_name}/csv', 
          f'./{results_name}/csv/vars', 
          f'./{results_name}/csv/log', 
@@ -16,7 +17,8 @@ def create_paths(results_name):
          f'./{results_name}/txt/vars', 
          f'./{results_name}/txt/log', 
          f'./{results_name}/sol', 
-         f'./{results_name}/rlp']
+         f'./{results_name}/rlp'
+        ]
 
     for path in paths:
         if not os.path.exists(path):

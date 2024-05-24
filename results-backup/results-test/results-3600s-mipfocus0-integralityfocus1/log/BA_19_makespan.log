@@ -1,9 +1,0 @@
-
-Gurobi 10.0.1 (win64) logging started Wed Aug 23 19:54:28 2023
-
-Set parameter LogFile to value "./results-test/results-3600s-mipfocus0-integralityfocus1/log/BA_19_makespan.log"
-Gurobi Optimizer version 10.0.1 build v10.0.1rc0 (win64)
-
-CPU model: 12th Gen Intel(R) Core(TM) i7-12700, instruction set [SSE2|AVX|AVX2]
-Thread count: 12 physical cores, 20 logical processors, using up to 20 threads
-

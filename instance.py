@@ -80,6 +80,8 @@ class Instance:
             instance.create_barabasi_albert_dependency()
         if dependency == 'URT':
             instance.create_random_uniform_tree_dependency()
+        if dependency == 'GNR':
+            instance.create_growing_network_with_redirection()
 
         cls.to_json(instance)
         instance.plot_dep_graph()
@@ -466,6 +468,15 @@ class Instance:
             for node in G.nodes():
                 self.U[j][node] = []
                 for edge in G.out_edges(node):   
+                    self.U[j][node].append(edge[1])
+
+    def create_growing_network_with_redirection(self,):
+        p = 0.5
+        for j in range(self.n):
+            G = nx.gnr_graph(self.L[j], p, seed=self.seed)
+            for node in G.nodes():
+                self.U[j][node] = []
+                for edge in G.out_edges(node):
                     self.U[j][node].append(edge[1])
 
     def create_specific_dependency(self,):

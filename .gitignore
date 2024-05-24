@@ -3,3 +3,5 @@
 .\__pycache__
 # zip files
 *.zip
+
+model_cplex.py

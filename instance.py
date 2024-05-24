@@ -38,6 +38,8 @@ class Instance:
     proc_times: list
     setup_times: list
     heuristic_solution: list 
+    
+    dependency_p: int
 
     rng: random.Random
 
@@ -46,8 +48,21 @@ class Instance:
         self.rng = random.Random()
         self.rng.seed(self.seed)
 
+    
+    def json_pairs_hook(pairs):
+        """
+        Convert keys represented as strings containing integers to actual integers.
+        """
+        result = {}
+        for key, value in pairs:
+            if key.isdigit():
+                result[int(key)] = value
+            else:
+                result[key] = value
+        return result
+
     @classmethod
-    def generate(cls, name, path, n, m, l, dependency, var_l=True, seed=0):
+    def generate(cls, name, path, n, m, l, dependency, dependency_var, var_l=True, seed=0):
         instance = Instance()
         rng = instance.rng
 
@@ -61,6 +76,7 @@ class Instance:
         instance.n = n
         instance.m = m
         instance.l = int(l)
+        instance.dependency_p = dependency_var
 
         if var_l:
             instance.L = {j: ceil(abs(rng.gauss())*instance.l) for j in range(instance.n)}
@@ -97,11 +113,9 @@ class Instance:
     @classmethod
     def from_json(cls, instance_path, instance_name):
         with open(os.path.join(instance_path, instance_name+'.json'), 'r', newline='') as instance_file:
-            json_data = json.load(instance_file)
-            instance = Instance(json.loads(json_data,
-                                           object_hook=lambda d: {int(k) if k.lstrip('-').isdigit() else k: v for k, v in d.items()},
-                                            parse_int=int,
-                                            ))
+            
+            json_data = json.load(instance_file, object_pairs_hook=Instance.json_pairs_hook)
+            instance = Instance(json_data)
             # instance.plot_dep_graph()
             instance.proc_times = [x for j in instance.P for l in instance.P[j] for x in instance.P[j][l].values()]
             instance.setup_times = [x for j in instance.O for l in instance.O[j] for h in instance.O[j][l] for k in instance.O[j][l][h] for x in instance.O[j][l][h][k].values()]
@@ -243,7 +257,8 @@ class Instance:
         if not path:
             path = self.path
         json_data = json.dumps(self, default=lambda o: o.__dict__, indent=4)
-        json.dump(json_data, open(path+self.name+'.json', 'w'))
+        with open(path+self.name+'.json', 'w') as file:
+            file.write(json_data)
     
     def to_mdb(self,
                          path_write:str, 
@@ -450,9 +465,10 @@ class Instance:
                     self.U[j][node].append(edge[1])
 
     def create_barabasi_albert_dependency(self,):
+        
         G:nx.DiGraph
         for j in range(self.n):
-            G = nx.DiGraph(nx.barabasi_albert_graph(self.L[j], self.rng.randint(1, self.L[j]-1)))
+            G = nx.DiGraph(nx.barabasi_albert_graph(n=self.L[j], m=self.dependency_p))
             edges_to_remove = []
             for node in G.nodes():
                 for edge in G.out_edges(node):
@@ -471,9 +487,8 @@ class Instance:
                     self.U[j][node].append(edge[1])
 
     def create_growing_network_with_redirection(self,):
-        p = 0.5
         for j in range(self.n):
-            G = nx.gnr_graph(self.L[j], p, seed=self.seed)
+            G = nx.gnr_graph(self.L[j], 1/(1+self.dependency_p), seed=self.seed)
             for node in G.nodes():
                 self.U[j][node] = []
                 for edge in G.out_edges(node):
@@ -516,13 +531,19 @@ class Instance:
             path = './results/graphs/'+self.name
         else:
             path = path_write+self.name
+            
         if os.path.exists(path):
             # folder should be empty
             files = os.listdir(path)
             for file in files:
                 os.remove(os.path.join(path,file))
-        else:
-            os.mkdir(path)
+        
+        if not os.path.exists(path):
+            folders = path.split('/')
+            for i in range(1, len(folders)):
+                folder = '/'.join(folders[:i+1])
+                if not os.path.exists(folder):
+                    os.mkdir(folder)
         
         for j in range(self.n):
             # Creates a directed graph object
@@ -560,15 +581,29 @@ class Instance:
                     self.V[j][k] += [l]
 
 
-
-
 if __name__ == "__main__":
-    folder_instances = './instances/json/realworld/'
-    names = [file.split('.')[0] for file in os.listdir(folder_instances)]
-
-    for name in names:
-        _instance = Instance.from_json(folder_instances, name)
-        # _instance.plot_dep_graph('./results/graphs/')
-        _instance.to_mdb('./instances/test/')
-        print(f'Instance {_instance.name} done.')
+    
+    instances_folder = './instances/'
+    results = './results/'
+    
+    if not os.path.exists(instances_folder):
+        os.mkdir(instances_folder)
+    if not os.path.exists(results):
+        os.mkdir(results)
+        
+    for type in ['BAG', 'GNR']:
+        for p in [1, 2, 3, 4]:
+            for l in [5, 10, 15]:
+                for i in range(5):
+                    name = f'{type}_{str(l).rjust(2, "0")}_p{p}_{i+1}'
+                    instance = Instance().generate(name=name, path=instances_folder, n=5, m=3, l=l, dependency=type, dependency_var=p, var_l=False)
+                    print(f'Instance {name} created.')
+                    
+    for type in ['URT']:
+        for l in [5, 10, 15]:
+            for i in range(5):
+                name = f'{type}_{str(l).rjust(2, "0")}_{i+1}'
+                instance = Instance().generate(name=name, path=instances_folder, n=5, m=3, l=l, dependency=type, dependency_var=p, var_l=False)
+                print(f'Instance {name} created.')
+                
     print('Done.')

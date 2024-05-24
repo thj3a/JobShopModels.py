@@ -24,25 +24,23 @@ if __name__ == "__main__":
     save_output = True
     save_temp = False
     log_console = False
-    testing = False
-    disable_setup = False
-    read_heuristic_solution = False
 
     time_limit_minutes = 60
     mip_focus = 0
     integrality_focus = 1
 
-    instances_path = './instances/json/realworld/'
-    heuristic_solution_path = './instances/mdb/realworld/'
+    instances_path = './instances/'
+
     results_name = './results/'
 
-    if testing:
-        results_name = './results-test/' + results_name
-
     print("Reading instances")
-    all_instances = [Instance.from_json(instances_path, file.split('.')[0]) for file in os.listdir(instances_path)]
-    # all_instances = list(filter(lambda x: x.name == "PlasticInjection", all_instances))
+    # bag = list(filter(lambda x: 'BAG' in x.name, [Instance.from_json(instances_path, file.split('.')[0]) for file in os.listdir(instances_path)]))[:1]
+    # urt = list(filter(lambda x: 'URT' in x.name, [Instance.from_json(instances_path, file.split('.')[0]) for file in os.listdir(instances_path)]))[:1]
+    # gnr = list(filter(lambda x: 'GNR' in x.name, [Instance.from_json(instances_path, file.split('.')[0]) for file in os.listdir(instances_path)]))[:1]
+    # all_instances = bag + urt + gnr
 
+    all_instances = [Instance.from_json(instances_path, file.split('.')[0]) for file in os.listdir(instances_path)]
+    
     running_list = list(itertools.product(all_instances, [obj for obj in Objective]))
 
     for idx, (instance, objective) in enumerate(running_list):
@@ -78,36 +76,23 @@ if __name__ == "__main__":
         
         # Create variables
         print("     Creating variables and constraints")
+        
+
+        for j in range(instance.n):
+            print(instance.L)
+            for l in range(instance.L[j]):
+                for i in set(instance.R[j][l]):
+                    print(f"         Creating variable for job {j}, stage {l}, machine {i}")
+        
         y = model.addVars([(j,l,i) for j in range(instance.n) for l in range(instance.L[j]) for i in set(instance.R[j][l])],
                             vtype=GRB.BINARY, name='y')
         x = model.addVars([(j,l,h,k) for j in range(instance.n) for l in range(instance.L[j]) for h in range(instance.n) for k in range(instance.L[h])],
                             vtype=GRB.BINARY, name='x')
         s = model.addVars([(j,l,i) for j in range(instance.n) for l in range(instance.L[j]) for i in set(instance.R[j][l])],
                             vtype=GRB.CONTINUOUS, name='s')
-        
-        if read_heuristic_solution:
-            # read initial solution
-            instance.read_heuristic_solution(heuristic_solution_path)
-            if len(instance.A) > 0:
-                for j in instance.A:
-                    if len(instance.A[j]) > 0:
-                        for l in instance.A[j]:
-                            if len(instance.A[j][l]) > 0:
-                                for i in instance.A[j][l]:
-                                    y[j,l,i].Start = 1
-                                    s[j,l,i].Start = instance.A[j][l][i]
             
-        
-        if disable_setup:
-            for j in instance.O:
-                for l in instance.O[j]:
-                    for h in instance.O[j][l]:
-                        for k in instance.O[j][l][h]:
-                            for i in instance.O[j][l][h][k]:
-                                instance.O[j][l][h][k][i] = 0
-
-
-
+            
+            
         #### MATHEMATICAL MODEL ####
 
 
@@ -133,15 +118,15 @@ if __name__ == "__main__":
                                 model.addConstr(s[j,l,i] + instance.P[j][l][i]*y[j,l,i] >= instance.D[j] - instance.M * (1 - b[j,l,i]), name="auxiliaryOF_constraint")
         # EQUATIONS .14
                                 model.addConstr(s[j,l,i] + instance.P[j][l][i]*y[j,l,i] <= instance.D[j] + instance.M *  b[j,l,i], name="auxiliaryOF_constraint")
+        # EQUATIONS .15
+                for j in range(instance.n):
+                    for l in range(instance.L[j]):
+                        for i in set(instance.R[j][l]):
+                            if len(instance.U[j][l])==0:
+                                        model.addConstr(b[j,l,i] >= 0)
             case _:
                 raise ValueError("Objective not defined")
         
-        for j in range(instance.n):
-            for l in range(instance.L[j]):
-                for i in set(instance.R[j][l]):
-                    if len(instance.U[j][l])==0:
-        # EQUATIONS .15
-                                model.addConstr(b[j,l,i] >= 0)
 
         model.setObjective(Z, GRB.MINIMIZE)
 

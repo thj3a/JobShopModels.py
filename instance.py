@@ -86,9 +86,10 @@ class Instance:
         
         instance.R = {j:{l: rng.sample(range(instance.m), k= ceil(instance.m/3)) for l in range(instance.L[j])} for j in range(instance.n)}
         instance.P = {j:{l:{i:rng.randint(2,5) for i in instance.R[j][l]} for l in range(instance.L[j])} for j in range(instance.n)}
+        # instance.P = {j:{l:{i:abs(ceil(rng.gauss(20, 20))) for i in instance.R[j][l]} for l in range(instance.L[j])} for j in range(instance.n)}
         proc_times = [instance.P[j][l][i] for j in instance.P for l in instance.P[j] for i in instance.P[j][l]]
         instance.O = {j: {l: {h: {k: {i: rng.randint(1,5)*rng.randint(min(proc_times), max(proc_times)) for i in set(instance.R[j][l]) & set(instance.R[h][k])} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
-        instance.Q = {j: {l: rng.randint(0,3) for l in range(instance.L[j])} for j in range(instance.n)}
+        instance.Q = {j: {l: abs(ceil(rng.gauss(20, 20)/3)) for l in range(instance.L[j])} for j in range(instance.n)}
         instance.U = {j: dict() for j in range(instance.n)}
         instance.D = {j: instance.L[j]*rng.randint(min(proc_times), max(proc_times)) for j in range(instance.n)}
 
@@ -488,7 +489,7 @@ class Instance:
 
     def create_growing_network_with_redirection(self,):
         for j in range(self.n):
-            G = nx.gnr_graph(self.L[j], 1/(1+self.dependency_p), seed=self.seed)
+            G = nx.gnr_graph(self.L[j], 1/(1+self.dependency_p))
             for node in G.nodes():
                 self.U[j][node] = []
                 for edge in G.out_edges(node):
@@ -582,7 +583,7 @@ class Instance:
 
 
 if __name__ == "__main__":
-    
+    random.seed(1)
     instances_folder = './instances/'
     results = './results/'
     
@@ -592,8 +593,8 @@ if __name__ == "__main__":
         os.mkdir(results)
         
     for type in ['BAG', 'GNR']:
-        for p in [1, 2, 3, 4]:
-            for l in [5, 10, 15]:
+        for l in [5, 10, 15]:
+            for p in [1, 2, 3, 4]:
                 for i in range(5):
                     name = f'{type}_{str(l).rjust(2, "0")}_p{p}_{i+1}'
                     instance = Instance().generate(name=name, path=instances_folder, n=5, m=3, l=l, dependency=type, dependency_var=p, var_l=False)

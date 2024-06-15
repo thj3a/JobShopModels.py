@@ -85,11 +85,12 @@ class Instance:
             
         
         instance.R = {j:{l: rng.sample(range(instance.m), k= ceil(instance.m/3)) for l in range(instance.L[j])} for j in range(instance.n)}
-        instance.P = {j:{l:{i:rng.randint(2,5) for i in instance.R[j][l]} for l in range(instance.L[j])} for j in range(instance.n)}
-        # instance.P = {j:{l:{i:abs(ceil(rng.gauss(20, 20))) for i in instance.R[j][l]} for l in range(instance.L[j])} for j in range(instance.n)}
+        # instance.P = {j:{l:{i:rng.randint(2,5) for i in instance.R[j][l]} for l in range(instance.L[j])} for j in range(instance.n)}
+        instance.P = {j:{l:{i:abs(ceil(rng.gauss(20, 20))) for i in instance.R[j][l]} for l in range(instance.L[j])} for j in range(instance.n)}
         proc_times = [instance.P[j][l][i] for j in instance.P for l in instance.P[j] for i in instance.P[j][l]]
-        instance.O = {j: {l: {h: {k: {i: rng.randint(1,5)*rng.randint(min(proc_times), max(proc_times)) for i in set(instance.R[j][l]) & set(instance.R[h][k])} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
-        instance.Q = {j: {l: abs(ceil(rng.gauss(20, 20)/3)) for l in range(instance.L[j])} for j in range(instance.n)}
+        # instance.O = {j: {l: {h: {k: {i: rng.randint(1,5)*rng.randint(min(proc_times), max(proc_times)) for i in set(instance.R[j][l]) & set(instance.R[h][k])} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
+        instance.O = {j: {l: {h: {k: {i: abs(ceil(rng.gauss(10, 20)/5))*rng.randint(min(proc_times), max(proc_times)) for i in set(instance.R[j][l]) & set(instance.R[h][k])} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
+        instance.Q = {j: {l: abs(ceil(rng.gauss(5, 20)/3)) for l in range(instance.L[j])} for j in range(instance.n)}
         instance.U = {j: dict() for j in range(instance.n)}
         instance.D = {j: instance.L[j]*rng.randint(min(proc_times), max(proc_times)) for j in range(instance.n)}
 

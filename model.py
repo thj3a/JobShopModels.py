@@ -40,7 +40,8 @@ if __name__ == "__main__":
     # all_instances = bag + urt + gnr
 
     all_instances = [Instance.from_json(instances_path, file.split('.')[0]) for file in os.listdir(instances_path)]
-    
+    all_instances = sorted(all_instances, key=lambda x: x.name.split('_')[1])
+    print([instance.name for instance in all_instances])
     running_list = list(itertools.product(all_instances, [obj for obj in Objective]))
 
     for idx, (instance, objective) in enumerate(running_list):

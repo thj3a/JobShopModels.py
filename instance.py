@@ -100,6 +100,8 @@ class Instance:
             instance.create_random_uniform_tree_dependency()
         if dependency == 'GNR':
             instance.create_growing_network_with_redirection()
+        if dependency == 'UAG':
+            instance.create_uniform_attatchment_dependency()
 
         cls.to_json(instance)
         instance.plot_dep_graph()
@@ -444,6 +446,15 @@ class Instance:
                         self.A[j][l][i] = int((task_date - initial_date).total_seconds()/60)
         conn.close()
 
+    def create_uniform_attatchment_dependency(self,):
+        for j in range(self.n):
+            for l in range(self.L[j]):
+                self.U[j][l] = []
+                if l >= self.dependency_p:
+                    self.U[j][l] += sorted(random.sample(range(l), k=self.dependency_p))
+                elif l > 0:
+                    self.U[j][l] += sorted(random.sample(range(l), k=l))
+
     def create_random_uniform_tree_dependency(self,):
         G:nx.DiGraph
         for j in range(self.n):
@@ -588,24 +599,22 @@ if __name__ == "__main__":
     instances_folder = './instances/'
     results = './results/'
     
+    lenghts = [10, 15, 20, 25, 30]
+    types = ['BAG', 'GNR', 'UAG']
+    parameters = [2, 3, 4, 5]
+    
     if not os.path.exists(instances_folder):
         os.mkdir(instances_folder)
     if not os.path.exists(results):
         os.mkdir(results)
         
-    for type in ['BAG', 'GNR']:
-        for l in [5, 10, 15]:
-            for p in [1, 2, 3, 4]:
+    for type in types:
+        for l in lenghts:
+            for p in parameters:
                 for i in range(5):
                     name = f'{type}_{str(l).rjust(2, "0")}_p{p}_{i+1}'
                     instance = Instance().generate(name=name, path=instances_folder, n=5, m=3, l=l, dependency=type, dependency_var=p, var_l=False)
                     print(f'Instance {name} created.')
                     
-    for type in ['URT']:
-        for l in [5, 10, 15]:
-            for i in range(5):
-                name = f'{type}_{str(l).rjust(2, "0")}_{i+1}'
-                instance = Instance().generate(name=name, path=instances_folder, n=5, m=3, l=l, dependency=type, dependency_var=p, var_l=False)
-                print(f'Instance {name} created.')
                 
     print('Done.')

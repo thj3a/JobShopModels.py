@@ -3,5 +3,6 @@
 .\__pycache__
 # zip files
 *.zip
+results/graphs/*
 
 model_cplex.py

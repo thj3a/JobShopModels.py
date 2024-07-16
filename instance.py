@@ -64,6 +64,8 @@ class Instance:
     @classmethod
     def generate(cls, name, path, n, m, l, dependency, dependency_var, var_l=True, seed=0):
         instance = Instance()
+        instance.seed = seed
+        instance.rng.seed(seed)
         rng = instance.rng
 
         # instance.name = 'SNT_04'
@@ -87,9 +89,12 @@ class Instance:
         instance.R = {j:{l: rng.sample(range(instance.m), k= ceil(instance.m/3)) for l in range(instance.L[j])} for j in range(instance.n)}
         # instance.P = {j:{l:{i:rng.randint(2,5) for i in instance.R[j][l]} for l in range(instance.L[j])} for j in range(instance.n)}
         instance.P = {j:{l:{i:abs(ceil(rng.gauss(20, 20))) for i in instance.R[j][l]} for l in range(instance.L[j])} for j in range(instance.n)}
-        proc_times = [instance.P[j][l][i] for j in instance.P for l in instance.P[j] for i in instance.P[j][l]]
         # instance.O = {j: {l: {h: {k: {i: rng.randint(1,5)*rng.randint(min(proc_times), max(proc_times)) for i in set(instance.R[j][l]) & set(instance.R[h][k])} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
-        instance.O = {j: {l: {h: {k: {i: abs(ceil(rng.gauss(10, 20)/5))*rng.randint(min(proc_times), max(proc_times)) for i in set(instance.R[j][l]) & set(instance.R[h][k])} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
+        instance.O = {j: {l: {h: {k: {i: abs(ceil(rng.gauss(10, 20)/5)) for i in set(instance.R[j][l]) & set(instance.R[h][k])} for k in range(instance.L[h])} for h in range(instance.n)} for l in range(instance.L[j])} for j in range(instance.n)}
+        
+        proc_times = [instance.P[j][l][i] for j in instance.P for l in instance.P[j] for i in instance.P[j][l]]
+        setup_times = [instance.O[j][l][h][k][i] for j in instance.P for l in instance.P[j] for h in instance.P for k in instance.P[h] for i in list(set(instance.R[j][l]) & set(instance.R[h][k]))]
+        
         instance.Q = {j: {l: abs(ceil(rng.gauss(5, 20)/3)) for l in range(instance.L[j])} for j in range(instance.n)}
         instance.U = {j: dict() for j in range(instance.n)}
         instance.D = {j: instance.L[j]*rng.randint(min(proc_times), max(proc_times)) for j in range(instance.n)}
@@ -99,9 +104,11 @@ class Instance:
         if dependency == 'URT':
             instance.create_random_uniform_tree_dependency()
         if dependency == 'GNR':
-            instance.create_growing_network_with_redirection()
+            instance.create_growing_network_with_redirection_dependency()
         if dependency == 'UAG':
             instance.create_uniform_attatchment_dependency()
+        if dependency == 'RRG':
+            instance.create_random_regular_graphs_dependency()
 
         cls.to_json(instance)
         instance.plot_dep_graph()
@@ -446,14 +453,7 @@ class Instance:
                         self.A[j][l][i] = int((task_date - initial_date).total_seconds()/60)
         conn.close()
 
-    def create_uniform_attatchment_dependency(self,):
-        for j in range(self.n):
-            for l in range(self.L[j]):
-                self.U[j][l] = []
-                if l >= self.dependency_p:
-                    self.U[j][l] += sorted(random.sample(range(l), k=self.dependency_p))
-                elif l > 0:
-                    self.U[j][l] += sorted(random.sample(range(l), k=l))
+    
 
     def create_random_uniform_tree_dependency(self,):
         G:nx.DiGraph
@@ -477,35 +477,71 @@ class Instance:
                 for edge in G.out_edges(node):   
                     self.U[j][node].append(edge[1])
 
-    def create_barabasi_albert_dependency(self,):
-        
-        G:nx.DiGraph
+    def create_growing_network_with_redirection_dependency(self,):
         for j in range(self.n):
-            G = nx.DiGraph(nx.barabasi_albert_graph(n=self.L[j], m=self.dependency_p))
-            edges_to_remove = []
+            G = nx.gnr_graph(self.L[j], 1/(self.dependency_p))
+            
             for node in G.nodes():
-                for edge in G.out_edges(node):
+                self.U[j][node] = []
+                
+            for node in G.nodes():
+                for edge in G.out_edges(node):   
                     u, v = edge
                     if u > v:
-                        edges_to_remove.append((u,v))
-
-            for node in edges_to_remove:
-                u, v = node
-                G.remove_edge(u,v)
-
-            G = G.reverse()
-            for node in G.nodes():
-                self.U[j][node] = []
-                for edge in G.out_edges(node):   
-                    self.U[j][node].append(edge[1])
-
-    def create_growing_network_with_redirection(self,):
+                        self.U[j][u].append(v)
+                    else:
+                        self.U[j][v].append(u)
+       
+       
+    def create_barabasi_albert_dependency(self,):
         for j in range(self.n):
-            G = nx.gnr_graph(self.L[j], 1/(1+self.dependency_p))
-            for node in G.nodes():
+            G = nx.DiGraph(nx.barabasi_albert_graph(n=self.L[j], m=self.dependency_p))
+            
+            self.create_U(j, G)
+    
+    
+    def create_uniform_attatchment_dependency(self,):
+        
+        # G = nx.DiGraph()
+
+        # # Add nodes
+        # G.add_nodes_from(range(self.L[j]))
+
+        # # Add edges.
+        # G.add_edges_from([(l, k) for l in self.U[j] for k in self.U[j][l] if len(self.U[j][l])>0])
+    
+        
+        for j in range(self.n):
+            for l in range(self.L[j]):
+                self.U[j][l] = []
+                if l >= self.dependency_p:
+                    self.U[j][l] += sorted(random.sample(range(l), k=self.dependency_p))
+                elif l > 0:
+                    self.U[j][l] += sorted(random.sample(range(l), k=l))
+             
+             
+    def create_random_regular_graphs_dependency(self,):
+        for j in range(self.n):
+            G = nx.DiGraph(nx.random_regular_graph(self.dependency_p*2, self.L[j]))
+            self.create_U(j, G)
+            
+            
+    def create_U(self, j:int, G: nx.DiGraph):
+        for node in G.nodes():
                 self.U[j][node] = []
-                for edge in G.out_edges(node):
-                    self.U[j][node].append(edge[1])
+                
+        for node in G.nodes():
+            for edge in G.out_edges(node):   
+                u, v = edge
+                if u > v:
+                    self.U[j][u].append(v)
+                else:
+                    self.U[j][v].append(u)
+        
+        for l in self.U[j]:
+            self.U[j][l] = list(set(self.U[j][l]))
+            
+            
 
     def create_specific_dependency(self,):
         self.U = {j: {0: [1,2], 1:[2], 2:[3], 3:[]} for j in range(self.n)}
@@ -599,22 +635,28 @@ if __name__ == "__main__":
     instances_folder = './instances/'
     results = './results/'
     
-    lenghts = [10, 15, 20, 25, 30]
-    types = ['BAG', 'GNR', 'UAG']
-    parameters = [2, 3, 4, 5]
+    lenghts = [15, 20, 25, 30]
+    types = ['BAG', 'UAG', 'RRG']
     
+    parameters = [2, 3, 4, 5]
+
     if not os.path.exists(instances_folder):
         os.mkdir(instances_folder)
     if not os.path.exists(results):
         os.mkdir(results)
-        
+    
+    
     for type in types:
         for l in lenghts:
             for p in parameters:
+                print('---------------')
                 for i in range(5):
                     name = f'{type}_{str(l).rjust(2, "0")}_p{p}_{i+1}'
-                    instance = Instance().generate(name=name, path=instances_folder, n=5, m=3, l=l, dependency=type, dependency_var=p, var_l=False)
+                    instance = Instance().generate(name=name, path=instances_folder, n=5, m=3, l=l, dependency=type, dependency_var=p, var_l=False, seed=i)
                     print(f'Instance {name} created.')
                     
-                
+                    for j in instance.U:
+                        print(f'  -- Job: {j} | total degree: {np.sum([len(instance.U[j][l])*2 for l in instance.U[j]])}')
+                        # for l in instance.U[j]:
+                        #     print(f'instance.U[j][l]: {instance.U[j][l]}')
     print('Done.')
